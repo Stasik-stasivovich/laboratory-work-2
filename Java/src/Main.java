@@ -7,5 +7,6 @@ public class Main {
         System.out.printf("Hello and welcomeasdasdsdad!");
 
         for (int i = 1; i <= 5; i++) System.out.println("1");
+
     }
 }
