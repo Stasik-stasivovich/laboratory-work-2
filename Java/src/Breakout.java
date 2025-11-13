@@ -31,15 +31,14 @@ public class Breakout extends GraphicsProgram {
     private int playerHealth = PLAYER_STARTHP;
     private boolean gameOver;
 
-    private GOval ball ;
+    private GOval ball;
     private RandomGenerator random = RandomGenerator.getInstance();
 
     private GObject collision;
 
-    public void run(){
-       setSize(WIDTH,HEIGHT);
+    public void run() {
+        setSize(WIDTH, HEIGHT);
         addMouseListeners();
-        levels();
         while (true) {
             startProgram();
         }
@@ -72,6 +71,7 @@ public class Breakout extends GraphicsProgram {
         //levels();
         // тут пишеш
     }
+
     private void levels() {
 
         GCompound level1 = Create_Level.create_Level(800, 600, 1);
@@ -79,11 +79,11 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void waitForChoiseResult() {
-        while(isChoisedResult)pause(100);
+        while (isChoisedResult) pause(100);
     }
 
     private void waitForChoiseLevel() {
-        while (isChoisedLevel)pause(100);
+        while (isChoisedLevel) pause(100);
     }
 
     private void setup() {
@@ -91,29 +91,25 @@ public class Breakout extends GraphicsProgram {
         gameOver = false;
         playerHealth = PLAYER_STARTHP;
 
-        ball = new GOval(getWidth()/2-BALL_RADIUS,
+        ball = new GOval(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                ,BALL_RADIUS*2,BALL_RADIUS*2);
+                , BALL_RADIUS * 2, BALL_RADIUS * 2);
         add(ball);
 
-        /*
-        Отут рівень додаєш який вибрали
-         */
-
-
+        levels();
 
 
     }
 
     private void startGame() {
-        while(!gameOver){
+        while (!gameOver) {
             moveBall();
-            if (checkIfOutOfBound()){
-                ball.setLocation(getWidth()/2-BALL_RADIUS,getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20);
-                vx=0;
-                vy=0;
-                playerHealth -- ;
-                if (playerHealth <= 0){
+            if (checkIfOutOfBound()) {
+                ball.setLocation(getWidth() / 2 - BALL_RADIUS, getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20);
+                vx = 0;
+                vy = 0;
+                playerHealth--;
+                if (playerHealth <= 0) {
                     gameOver = true;
                 }
 
@@ -127,36 +123,35 @@ public class Breakout extends GraphicsProgram {
     }
 
     private boolean checkIfOutOfBound() {
-        return ball.getY()+BALL_RADIUS*2>getHeight();
+        return ball.getY() + BALL_RADIUS * 2 > getHeight();
     }
 
     private void moveBall() {
-        ball.move(vx,vy);
-        if (ball.getX()>getWidth()-2*BALL_RADIUS || ball.getX()<=0) vx = - vx;
-        if (ball.getY()<0)vy=-vy;
+        ball.move(vx, vy);
+        if (ball.getX() > getWidth() - 2 * BALL_RADIUS || ball.getX() <= 0) vx = -vx;
+        if (ball.getY() < 0) vy = -vy;
     }
 
 
     public void mouseClicked(MouseEvent e) {
-        if (isChoisedResult){
+        if (isChoisedResult) {
             // отут логіка кнопок
             // потім не забуть поміняти
             // isChoisedResult = false;
         }
-        if (isChoisedLevel){}
+        if (isChoisedLevel) {
+        }
 
-        if (!gameOver && vx==0){
+        if (!gameOver && vx == 0) {
 
-            vy = - random.nextInt(5,MAX_VY);
-            vx = random.nextInt(5,MAX_VX);
-            if (random.nextBoolean(0.5)) vx = - vx;
+            vy = -random.nextInt(5, MAX_VY);
+            vx = random.nextInt(5, MAX_VX);
+            if (random.nextBoolean(0.5)) vx = -vx;
         }
     }
 
 
-
-
-    public static void  main(String[] args) {
+    public static void main(String[] args) {
         Breakout game = new Breakout();
         game.start(args);
     }

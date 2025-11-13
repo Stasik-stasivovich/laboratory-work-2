@@ -8,7 +8,7 @@ public class Brick extends GRect {
     private Color color_of_brick;
 
     public Brick(double x, double y, double width_of_brick_parameter, double height_of_brick_parameter) {
-super( width_of_brick_parameter, height_of_brick_parameter);
+        super( width_of_brick_parameter, height_of_brick_parameter);
         this.width_of_brick = width_of_brick_parameter;
         this.height_of_brick = height_of_brick_parameter;
         this.setColor(color_of_brick);
