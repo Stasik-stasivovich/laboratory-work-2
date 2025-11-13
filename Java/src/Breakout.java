@@ -73,8 +73,8 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void levels() {
-
-        GCompound level1 = Create_Level.create_Level(800, 600, 1);
+//рівень 1
+        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 1);
         add(level1);
     }
 
@@ -95,7 +95,7 @@ public class Breakout extends GraphicsProgram {
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
                 , BALL_RADIUS * 2, BALL_RADIUS * 2);
         add(ball);
-
+        //рівні гри
         levels();
 
 
