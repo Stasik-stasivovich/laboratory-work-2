@@ -3,7 +3,7 @@ import acm.graphics.GObject;
 import acm.graphics.GOval;
 import acm.program.GraphicsProgram;
 import acm.util.RandomGenerator;
-import java.awt.*;
+
 import java.awt.event.MouseEvent;
 
 public class Breakout extends GraphicsProgram {
@@ -37,8 +37,9 @@ public class Breakout extends GraphicsProgram {
     private GObject collision;
 
     public void run(){
-        setSize(WIDTH,HEIGHT);
+       setSize(WIDTH,HEIGHT);
         addMouseListeners();
+        levels();
         while (true) {
             startProgram();
         }
@@ -67,7 +68,14 @@ public class Breakout extends GraphicsProgram {
     private void showChoiseMenu() {
         removeAll();
         isChoisedLevel = true;
+
+        //levels();
         // тут пишеш
+    }
+    private void levels() {
+
+        GCompound level1 = Create_Level.create_Level(800, 600, 1);
+        add(level1);
     }
 
     private void waitForChoiseResult() {
