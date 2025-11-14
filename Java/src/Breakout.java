@@ -94,6 +94,7 @@ public class Breakout extends GraphicsProgram {
         ball = new GOval(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
                 , BALL_RADIUS * 2, BALL_RADIUS * 2);
+        ball.setFilled(true);
         add(ball);
         //рівні гри
         levels();
