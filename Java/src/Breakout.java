@@ -31,7 +31,7 @@ public class Breakout extends GraphicsProgram {
     private int playerHealth = PLAYER_STARTHP;
     private boolean gameOver;
 
-    private GOval ball;
+    private BallLinkedList ballLinkedList = new BallLinkedList();
     private RandomGenerator random = RandomGenerator.getInstance();
 
     private GObject collision;
@@ -91,11 +91,11 @@ public class Breakout extends GraphicsProgram {
         gameOver = false;
         playerHealth = PLAYER_STARTHP;
 
-        ball = new GOval(getWidth() / 2 - BALL_RADIUS,
+        ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                , BALL_RADIUS * 2, BALL_RADIUS * 2);
-        ball.setFilled(true);
-        add(ball);
+                , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
+
+        add(ballLinkedList.head.ball);
         //рівні гри
         levels();
 
@@ -105,16 +105,9 @@ public class Breakout extends GraphicsProgram {
     private void startGame() {
         while (!gameOver) {
             moveBall();
-            if (checkIfOutOfBound()) {
-                ball.setLocation(getWidth() / 2 - BALL_RADIUS, getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20);
-                vx = 0;
-                vy = 0;
-                playerHealth--;
-                if (playerHealth <= 0) {
-                    gameOver = true;
-                }
+            checkOutOfBaunds();
 
-            }// це я потім зроблю
+            // це я потім зроблю
             /*collision = checkForCollision();
             if(collision != null){
                 changeDirectory();
@@ -123,14 +116,50 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
-    private boolean checkIfOutOfBound() {
-        return ball.getY() + BALL_RADIUS * 2 > getHeight();
+    private void checkOutOfBaunds() {
+        BallNode temp = ballLinkedList.get(0);
+        BallNode prev = ballLinkedList.get(0);
+        while (temp != null) {
+            if (checkIfOutOfBound(temp.ball)) {
+                remove(temp.ball);
+                if (prev == temp){
+                    ballLinkedList.head = ballLinkedList.head.next;
+                }
+                else{
+                    prev.next = temp.next;
+                }
+            }
+            else{
+                prev = temp;
+            }
+            temp = temp.next;
+        }
+
+        if (ballLinkedList.isEmpty()){
+            ballLinkedList.add(new Ball (getWidth() / 2 - BALL_RADIUS,
+                    getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
+                    , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
+            add(ballLinkedList.head.ball);
+
+            playerHealth--;
+        }
+
+
+    }
+
+    private boolean checkIfOutOfBound(Ball ball) {
+        return ball.getY()  > getHeight();
     }
 
     private void moveBall() {
-        ball.move(vx, vy);
-        if (ball.getX() > getWidth() - 2 * BALL_RADIUS || ball.getX() <= 0) vx = -vx;
-        if (ball.getY() < 0) vy = -vy;
+        BallNode temp = ballLinkedList.get(0);
+        while (temp != null) {
+            temp.ball.move(temp.ball.getVx(), temp.ball.getVy());
+            if (temp.ball.getX() < 0 || temp.ball.getX() + BALL_RADIUS * 2 >= getWidth())
+                temp.ball.setVx(-1 * temp.ball.getVx());
+            if (temp.ball.getY() < 0) temp.ball.setVy(-1 * temp.ball.getVy());
+            temp = temp.next;
+        }
     }
 
 
@@ -143,11 +172,10 @@ public class Breakout extends GraphicsProgram {
         if (isChoisedLevel) {
         }
 
-        if (!gameOver && vx == 0) {
-
-            vy = -random.nextInt(5, MAX_VY);
-            vx = random.nextInt(5, MAX_VX);
-            if (random.nextBoolean(0.5)) vx = -vx;
+        if (!gameOver && ballLinkedList.head.next == null && ballLinkedList.head.ball.getVx()==0) {
+            ballLinkedList.head.ball.setVx(random.nextInt(5, MAX_VX));
+            ballLinkedList.head.ball.setVy(-random.nextInt(5, MAX_VY));
+            if (random.nextBoolean()) ballLinkedList.head.ball.setVx(-1 * ballLinkedList.head.ball.getVx());
         }
     }
 
