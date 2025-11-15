@@ -1,9 +1,11 @@
 import acm.graphics.GCompound;
 import acm.graphics.GObject;
 import acm.graphics.GOval;
+import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
 import acm.util.RandomGenerator;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class Breakout extends GraphicsProgram {
@@ -35,6 +37,10 @@ public class Breakout extends GraphicsProgram {
     private RandomGenerator random = RandomGenerator.getInstance();
 
     private GObject collision;
+
+
+    //ракетка
+    private GRect racket;
 
     public void run() {
         setSize(WIDTH, HEIGHT);
@@ -74,8 +80,10 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 1);
+        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 1, 1);
         add(level1);
+        //рівень 2
+
     }
 
     private void waitForChoiseResult() {
@@ -93,14 +101,26 @@ public class Breakout extends GraphicsProgram {
 
         ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                , BALL_RADIUS * 2, BALL_RADIUS * 2, 10, -10));
+                , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
 
         add(ballLinkedList.head.ball);
         //рівні гри
         levels();
+        racket();
+
+    }
+
+    //ракетка
+    private void racket() {
+
+        racket = new GRect((double) getWidth() / 2 - (0.186 * getWidth() / 2), 0.85 * getHeight(), 0.2 * getWidth(), 0.025 * getHeight());
+        racket.setColor(Color.BLACK);
+        racket.setFilled(true);
+        add(racket, (double) getWidth() / 2 - (0.186 * getWidth() / 2), 0.85 * getHeight());
 
 
     }
+
 
     private void startGame() {
         while (!gameOver) {
@@ -116,27 +136,26 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+
     private void checkOutOfBaunds() {
         BallNode temp = ballLinkedList.get(0);
         BallNode prev = ballLinkedList.get(0);
         while (temp != null) {
             if (checkIfOutOfBound(temp.ball)) {
                 remove(temp.ball);
-                if (prev == temp){
+                if (prev == temp) {
                     ballLinkedList.head = ballLinkedList.head.next;
-                }
-                else{
+                } else {
                     prev.next = temp.next;
                 }
-            }
-            else{
+            } else {
                 prev = temp;
             }
             temp = temp.next;
         }
 
-        if (ballLinkedList.isEmpty()){
-            ballLinkedList.add(new Ball (getWidth() / 2 - BALL_RADIUS,
+        if (ballLinkedList.isEmpty()) {
+            ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
                     getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
                     , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
             add(ballLinkedList.head.ball);
@@ -148,7 +167,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     private boolean checkIfOutOfBound(Ball ball) {
-        return ball.getY()  > getHeight();
+        return ball.getY() > getHeight();
     }
 
     private void moveBall() {
@@ -172,7 +191,7 @@ public class Breakout extends GraphicsProgram {
         if (isChoisedLevel) {
         }
 
-        if (!gameOver && ballLinkedList.head.next == null && ballLinkedList.head.ball.getVx()==0) {
+        if (!gameOver && ballLinkedList.head.next == null && ballLinkedList.head.ball.getVx() == 0) {
             ballLinkedList.head.ball.setVx(random.nextInt(5, MAX_VX));
             ballLinkedList.head.ball.setVy(-random.nextInt(5, MAX_VY));
             if (random.nextBoolean()) ballLinkedList.head.ball.setVx(-1 * ballLinkedList.head.ball.getVx());
@@ -180,18 +199,15 @@ public class Breakout extends GraphicsProgram {
     }
 
 
-
-
-
-    private void addBall(){
-        ballLinkedList.add(new Ball (getWidth() / 2 - BALL_RADIUS,
+    private void addBall() {
+        ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                , BALL_RADIUS * 2, BALL_RADIUS * 2, random.nextBoolean() ? random.nextInt(5,MAX_VX) : -1 *random.nextInt(5,MAX_VX), -1 * random.nextInt(5,MAX_VY)));
+                , BALL_RADIUS * 2, BALL_RADIUS * 2, random.nextBoolean() ? random.nextInt(5, MAX_VX) : -1 * random.nextInt(5, MAX_VX), -1 * random.nextInt(5, MAX_VY)));
         add(ballLinkedList.tail.ball);
 
     }
 
-    private void doubleBalls(){
+    private void doubleBalls() {
         BallNode temp = ballLinkedList.get(0);
         BallLinkedList newBalls = new BallLinkedList();
 
@@ -204,11 +220,27 @@ public class Breakout extends GraphicsProgram {
 
             temp = temp.next;
         }
-        if (newBalls.isEmpty())return;
+        if (newBalls.isEmpty()) return;
         ballLinkedList.tail.next = newBalls.head;
         ballLinkedList.tail = newBalls.tail;
 
     }
+
+
+    //рух ракетки разом з мишкою
+    public void mouseMoved(MouseEvent e) {
+        double x = e.getX() - 0.2 * getWidth() / 2;
+        if (x < 0)
+            x = 0;
+        if (x + 0.2 * getWidth() > getWidth())
+            x = getWidth() - 0.2 * getWidth();
+
+        if (racket != null) {
+            racket.setLocation(x, racket.getY());
+        }
+    }
+
+    ;
 
 
     public static void main(String[] args) {
