@@ -13,13 +13,12 @@ public class Breakout extends GraphicsProgram {
     private static final int HEIGHT = 600;
     private static final int BRICK_HEALTH = 1;
     private static final int BALL_RADIUS = 10;
-    private int vx = 0;
-    private int vy = 0;
+    private static final int DELAY = 25;
 
-    private static final int DELAY = 50;
-
-    private static final int MAX_VX = 15;
-    private static final int MAX_VY = 10;
+    private static final int MAX_VX = 10;
+    private static final int MAX_VY = 15;
+    private static final int MIN_VX = 3;
+    private static final int MIN_VY = 3;
     private static final int PADDLE_WIDTH = 60;
     private static final int PADDLE_HEIGHT = 10;
     private static final int PADDLE_Y_OFFSET = 20;
@@ -124,6 +123,7 @@ public class Breakout extends GraphicsProgram {
 
     private void startGame() {
         while (!gameOver) {
+            addBall();
             moveBall();
             checkOutOfBaunds();
 
@@ -192,21 +192,21 @@ public class Breakout extends GraphicsProgram {
         }
 
         if (!gameOver && ballLinkedList.head.next == null && ballLinkedList.head.ball.getVx() == 0) {
-            ballLinkedList.head.ball.setVx(random.nextInt(5, MAX_VX));
-            ballLinkedList.head.ball.setVy(-random.nextInt(5, MAX_VY));
+            ballLinkedList.head.ball.setVx(random.nextInt(MIN_VX, MAX_VX));
+            ballLinkedList.head.ball.setVy(-random.nextInt(MIN_VY, MAX_VY));
             if (random.nextBoolean()) ballLinkedList.head.ball.setVx(-1 * ballLinkedList.head.ball.getVx());
         }
     }
 
-
+    // метод що додає нову кульку
     private void addBall() {
         ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                , BALL_RADIUS * 2, BALL_RADIUS * 2, random.nextBoolean() ? random.nextInt(5, MAX_VX) : -1 * random.nextInt(5, MAX_VX), -1 * random.nextInt(5, MAX_VY)));
+                , BALL_RADIUS * 2, BALL_RADIUS * 2, random.nextBoolean() ? random.nextInt(MIN_VX, MAX_VX) : -1 * random.nextInt(MIN_VX, MAX_VX), -1 * random.nextInt(MIN_VY, MAX_VY)));
         add(ballLinkedList.tail.ball);
 
     }
-
+    // метод що подвоює всі кульки
     private void doubleBalls() {
         BallNode temp = ballLinkedList.get(0);
         BallLinkedList newBalls = new BallLinkedList();
