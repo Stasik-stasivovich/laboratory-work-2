@@ -93,7 +93,7 @@ public class Breakout extends GraphicsProgram {
 
         ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
+                , BALL_RADIUS * 2, BALL_RADIUS * 2, 10, -10));
 
         add(ballLinkedList.head.ball);
         //рівні гри
@@ -177,6 +177,37 @@ public class Breakout extends GraphicsProgram {
             ballLinkedList.head.ball.setVy(-random.nextInt(5, MAX_VY));
             if (random.nextBoolean()) ballLinkedList.head.ball.setVx(-1 * ballLinkedList.head.ball.getVx());
         }
+    }
+
+
+
+
+
+    private void addBall(){
+        ballLinkedList.add(new Ball (getWidth() / 2 - BALL_RADIUS,
+                getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
+                , BALL_RADIUS * 2, BALL_RADIUS * 2, random.nextBoolean() ? random.nextInt(5,MAX_VX) : -1 *random.nextInt(5,MAX_VX), -1 * random.nextInt(5,MAX_VY)));
+        add(ballLinkedList.tail.ball);
+
+    }
+
+    private void doubleBalls(){
+        BallNode temp = ballLinkedList.get(0);
+        BallLinkedList newBalls = new BallLinkedList();
+
+        while (temp != null) {
+
+            Ball newBall = new Ball(temp.ball);
+            newBall.setVx(-1 * newBall.getVx());
+            add(newBall);
+            newBalls.add(newBall);
+
+            temp = temp.next;
+        }
+        if (newBalls.isEmpty())return;
+        ballLinkedList.tail.next = newBalls.head;
+        ballLinkedList.tail = newBalls.tail;
+
     }
 
 
