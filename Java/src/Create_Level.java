@@ -27,6 +27,13 @@ public class Create_Level {
             //метод 2 рівня
             build_level_2(level, getWidth, getHeight,health);
         }
+        // 3 рівень
+        if (what_level == 3) {
+            //метод 3 рівня
+            build_level_3(level, getWidth, getHeight,health);
+        }
+
+
         //повернення GCompound level
         return level;
     }
@@ -114,15 +121,15 @@ public class Create_Level {
     }
 
 
-    /**    ДОРОБИТИ!!!! КОМЕНТАРІ МОЖЛИВО НЕ ПРАВИЛЬНІ
+    /**
      *
-     * @param level
-     * @param getWidth
-     * @param getHeight
-     * @param health_parameter
+     *       @param level  - рівень 2.
+     *       @param getWidth  - довжина екрану getWidth отримана з класу Breakout
+     *       @param getHeight - висота екрану getHeight отримана з класу Breakout
+     *       @param health_parameter - здоров'я цеглинки
      *
      *
-     * variables:
+     *       variables:
      *         double step_x = 0.005 * getWidth; - відстань між цеглинками по довжині (X)
      *         double step_y = 0.005 * getHeight; - відстань між цеглинками по висоті (Y)
      *         int brick_in_piramide = 3; - кількість блоків про довжині
@@ -178,7 +185,50 @@ public class Create_Level {
         }
 
 
+    private static void build_level_3(GCompound level, double getWidth, double getHeight, int health_parameter){
+        double step_x = 0.005 * getWidth;
+        double step_y = 0.005 * getHeight;
+        int brick_in_piramide = 10;
+        int y_brick_in_piramide = brick_in_piramide;
+        double width_of_brick = ((getWidth - (brick_in_piramide * step_x)) / brick_in_piramide);
+        double height_of_brick = (getHeight / 3) / brick_in_piramide;
+        double x_of_brick = 0;
+
+
+
+        for (int y = 0; y < y_brick_in_piramide; y++) {
+            for (int x = 0; x < brick_in_piramide; x++) {
+
+                Brick brick3 = new Brick(width_of_brick, height_of_brick, health_parameter);
+
+                if (y % 2 == 0)
+                    brick3.setColor_of_brick(Color.BLUE);
+
+                else
+                    brick3.setColor_of_brick(Color.YELLOW);
+                level.add(brick3);
+
+                brick3.setLocation(x_of_brick+ x*(width_of_brick+step_x), 1+ y*(height_of_brick+step_y));
+
+            }
+            brick_in_piramide--;
+            x_of_brick += (step_x + width_of_brick)/2;
+
+
+        }
+
+
+// створення Glabel - назва рівня "Рівень 3"
+        GLabel level_name_1 = new GLabel("Рівень 3", 0, getHeight);
+        level_name_1.setFont(new Font("PT Serif", Font.BOLD, (int) height_of_brick / 2));
+        level.add(level_name_1);
+
+
+
+
     }
+
+}
 
 
 
