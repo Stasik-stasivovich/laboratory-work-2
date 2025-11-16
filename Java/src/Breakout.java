@@ -79,7 +79,7 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 3, 10);
+        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 4, 10);
         add(level1);
         //рівень 2
 
