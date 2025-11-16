@@ -79,7 +79,7 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 1, 1);
+        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 4, 10);
         add(level1);
         //рівень 2
 
@@ -112,10 +112,10 @@ public class Breakout extends GraphicsProgram {
     //ракетка
     private void racket() {
 
-        racket = new GRect((double) getWidth() / 2 - (0.186 * getWidth() / 2), 0.85 * getHeight(), 0.2 * getWidth(), 0.025 * getHeight());
+        racket = new GRect((double) getWidth() / 2 - (0.186 * getWidth() / 2) ,getHeight()- PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
         racket.setColor(Color.BLACK);
         racket.setFilled(true);
-        add(racket, (double) getWidth() / 2 - (0.186 * getWidth() / 2), 0.85 * getHeight());
+        add(racket, (double) getWidth() / 2 - ((double) PADDLE_WIDTH / 2), getHeight()- PADDLE_Y_OFFSET);
 
 
     }
@@ -123,7 +123,7 @@ public class Breakout extends GraphicsProgram {
 
     private void startGame() {
         while (!gameOver) {
-            addBall();
+           // addBall();
             moveBall();
             checkOutOfBaunds();
 
@@ -229,11 +229,11 @@ public class Breakout extends GraphicsProgram {
 
     //рух ракетки разом з мишкою
     public void mouseMoved(MouseEvent e) {
-        double x = e.getX() - 0.2 * getWidth() / 2;
+        double x = e.getX() - (double) PADDLE_WIDTH / 2;
         if (x < 0)
             x = 0;
-        if (x + 0.2 * getWidth() > getWidth())
-            x = getWidth() - 0.2 * getWidth();
+        if (x + PADDLE_WIDTH > getWidth())
+            x = getWidth() - PADDLE_WIDTH;
 
         if (racket != null) {
             racket.setLocation(x, racket.getY());
