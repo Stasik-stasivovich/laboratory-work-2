@@ -81,7 +81,7 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        level = Create_Level.create_Level(getWidth(), getHeight(), 4, 1);
+        level = Create_Level.create_Level(getWidth(), getHeight(), 1, 2);
         add(level);
         //рівень 2
 
@@ -227,7 +227,10 @@ public class Breakout extends GraphicsProgram {
             temp.ball.move(temp.ball.getVx(), temp.ball.getVy());
             if (temp.ball.getX() < 0 || temp.ball.getX() + BALL_RADIUS * 2 >= getWidth())
                 temp.ball.setVx(-1 * temp.ball.getVx());
-            if (temp.ball.getY() < 0) temp.ball.setVy(-1 * temp.ball.getVy());
+            if (temp.ball.getY() < 0) {
+                temp.ball.setVy(Math.abs(temp.ball.getVy()));
+                temp.ball.setLocation(temp.ball.getX(), 0);
+            }
             temp = temp.next;
         }
     }
