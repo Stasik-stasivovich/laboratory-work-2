@@ -1,7 +1,7 @@
 import acm.graphics.GCompound;
 import acm.graphics.GObject;
-import acm.graphics.GOval;
 import acm.graphics.GRect;
+import acm.graphics.GRectangle;
 import acm.program.GraphicsProgram;
 import acm.util.RandomGenerator;
 
@@ -13,18 +13,18 @@ public class Breakout extends GraphicsProgram {
     private static final int HEIGHT = 600;
     private static final int BRICK_HEALTH = 1;
     private static final int BALL_RADIUS = 10;
-    private static final int DELAY = 25;
+    private static final int DELAY = 20;
 
-    private static final int MAX_VX = 10;
-    private static final int MAX_VY = 15;
-    private static final int MIN_VX = 3;
-    private static final int MIN_VY = 3;
+    private static final int MAX_VX = 8;
+    private static final int MAX_VY = 8;
+    private static final int MIN_VX = 5;
+    private static final int MIN_VY = 5;
     private static final int PADDLE_WIDTH = 60;
     private static final int PADDLE_HEIGHT = 10;
     private static final int PADDLE_Y_OFFSET = 20;
 
     private boolean isChoisedLevel = false;
-    private int level = -1;
+
     private boolean isChoisedResult = false;
 
     private static final int PLAYER_STARTHP = 2;
@@ -35,7 +35,9 @@ public class Breakout extends GraphicsProgram {
     private BallLinkedList ballLinkedList = new BallLinkedList();
     private RandomGenerator random = RandomGenerator.getInstance();
 
-    private GObject collision;
+    private GObject collider;
+
+    private GCompound level;
 
 
     //ракетка
@@ -79,8 +81,8 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        GCompound level1 = Create_Level.create_Level(getWidth(), getHeight(), 4, 10);
-        add(level1);
+        level = Create_Level.create_Level(getWidth(), getHeight(), 4, 1);
+        add(level);
         //рівень 2
 
     }
@@ -105,17 +107,17 @@ public class Breakout extends GraphicsProgram {
         add(ballLinkedList.head.ball);
         //рівні гри
         levels();
-        racket();
+        createRacket();
 
     }
 
     //ракетка
-    private void racket() {
+    private void createRacket() {
 
-        racket = new GRect((double) getWidth() / 2 - (0.186 * getWidth() / 2) ,getHeight()- PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
+        racket = new GRect((double) getWidth() / 2 - (0.186 * getWidth() / 2), getHeight() - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
         racket.setColor(Color.BLACK);
         racket.setFilled(true);
-        add(racket, (double) getWidth() / 2 - ((double) PADDLE_WIDTH / 2), getHeight()- PADDLE_Y_OFFSET);
+        level.add(racket, (double) getWidth() / 2 - ((double) PADDLE_WIDTH / 2), getHeight() - PADDLE_Y_OFFSET);
 
 
     }
@@ -123,17 +125,66 @@ public class Breakout extends GraphicsProgram {
 
     private void startGame() {
         while (!gameOver) {
-           // addBall();
+            // addBall();
             moveBall();
             checkOutOfBaunds();
-
-            // це я потім зроблю
-            /*collision = checkForCollision();
-            if(collision != null){
-                changeDirectory();
-            }*/
+            checkCollision();
             pause(DELAY);
         }
+
+    }
+
+    private void checkCollision() {
+        BallNode temp = ballLinkedList.head;
+        while (temp != null) {
+            collider = checkCollider(temp.ball);
+            if (collider != null) {
+                resolveCollision(collider, temp.ball);
+            }
+            collider = null;
+            temp = temp.next;
+
+        }
+    }
+
+    private void resolveCollision(GObject collider, Ball ball) {
+        if (collider == racket) {
+            ball.setVy(-1 * Math.abs(ball.getVy()));
+        }
+        if (collider.getClass() == Brick.class) {
+            GRectangle bound1 = ball.getBounds();
+            GRectangle bound2 = collider.getBounds();
+            GRectangle overlap = bound1.intersection(bound2);
+            if (overlap.getHeight() > overlap.getWidth()) { //якщо ввійшов більше по висоті значить бокове зіткнення
+                ball.setVx(-1 * ball.getVx());
+                ball.move(ball.getVx() > 0 ? overlap.getWidth() : -1 * overlap.getWidth(),0);
+            } else if (overlap.getHeight() < overlap.getWidth()) { // якщо більше по ширині значить горизонтальне зіткнення
+                ball.setVy(-1 * ball.getVy());
+                ball.move(0,ball.getVy()>0 ? overlap.getHeight() : -1 * overlap.getHeight());
+            } else { // значить ідеально кутиком вдарився
+                ball.setVx(-1 * ball.getVx());
+                ball.setVy(-1 * ball.getVy());
+                ball.move(ball.getX() > 0 ? overlap.getWidth() : -1 * overlap.getWidth(),ball.getY() > 0 ? overlap.getHeight() : -1 * overlap.getHeight());
+            }
+            ((Brick) collider).hit();
+            if (((Brick) collider).isDead()) {
+                level.remove(collider);
+            }
+
+
+        }
+    }
+
+    private GObject checkCollider(Ball ball) {
+        if (level.getElementAt(ball.getX(), ball.getY()) != null)
+            return level.getElementAt(ball.getX(), ball.getY());
+        if (level.getElementAt(ball.getX() + 2 * BALL_RADIUS, ball.getY()) != null)
+            return level.getElementAt(ball.getX() + 2 * BALL_RADIUS, ball.getY());
+        if (level.getElementAt(ball.getX(), ball.getY() + 2 * BALL_RADIUS) != null)
+            return level.getElementAt(ball.getX(), ball.getY() + 2 * BALL_RADIUS);
+        if (level.getElementAt(ball.getX() + 2 * BALL_RADIUS, ball.getY() + 2 * BALL_RADIUS) != null)
+            return level.getElementAt(ball.getX() + 2 * BALL_RADIUS, ball.getY() + 2 * BALL_RADIUS);
+        return null;
     }
 
 
@@ -206,6 +257,7 @@ public class Breakout extends GraphicsProgram {
         add(ballLinkedList.tail.ball);
 
     }
+
     // метод що подвоює всі кульки
     private void doubleBalls() {
         BallNode temp = ballLinkedList.get(0);
