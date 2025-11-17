@@ -46,9 +46,21 @@ public class Breakout extends GraphicsProgram {
     public void run() {
         setSize(WIDTH, HEIGHT);
         addMouseListeners();
+        addMenu();
         while (true) {
             startProgram();
         }
+    }
+
+    private void addMenu() {
+        startMenu = createStartMenu(getWidth(),getHeight());
+        selectMenu = createSelectMenu(getWidth(),getHeight());
+        rulesMenu = createRulesMenu(getWidth(),getHeight());
+        resultMenu = createResultMenu(getWidth(),getHeight());
+
+
+
+
     }
 
     private void startProgram() {
@@ -81,7 +93,7 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        level = Create_Level.create_Level(getWidth(), getHeight(), 1, 2);
+        level = Create_Level.create_Level(getWidth(), getHeight(), 3, 10);
         add(level);
         //рівень 2
 
@@ -125,7 +137,7 @@ public class Breakout extends GraphicsProgram {
 
     private void startGame() {
         while (!gameOver) {
-            // addBall();
+            addBall();
             moveBall();
             checkOutOfBaunds();
             checkCollision();
@@ -243,6 +255,27 @@ public class Breakout extends GraphicsProgram {
             // isChoisedResult = false;
         }
         if (isChoisedLevel) {
+            if (startMenu.isVisible){
+
+
+
+
+            }
+            else if (selectLevelMenu){
+
+
+
+            }
+
+
+            else if (rulesMenu.isVisible()){
+                
+
+                if (rulesMenu.getElemenAt(e.getX(),e.getY()).getClass() == Button.class){
+
+                }
+
+            }
         }
 
         if (!gameOver && ballLinkedList.head.next == null && ballLinkedList.head.ball.getVx() == 0) {
