@@ -1,7 +1,8 @@
 import acm.graphics.GImage;
 
 public class Bonus extends GImage {
-    private String action;
+    private int type;
+    private int vy;
 
     /**
      *
@@ -20,9 +21,19 @@ public class Bonus extends GImage {
                 return  null;
         }
     }
-    Bonus(int x,int y,int type){
+    Bonus(double x,double y,int type, int vy){
         super(getImageLocationFromType(type),x,y);
         if (type <=2) scale(0.03);
         else scale(0.1);
+        this.vy = vy;
+        this.type = type;
     }
+    public int getVy(){
+        return vy;
+    }
+    public int getType()
+        {
+        return type;
+        }
+
 }
