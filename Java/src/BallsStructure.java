@@ -1,7 +1,7 @@
-public class BallLinkedList {
+public class BallsStructure {
     public BallNode head;
     public BallNode tail;
-    public BallLinkedList() {
+    public BallsStructure() {
         this.head = null;
         this.tail = null;
     }

@@ -1,7 +1,6 @@
 import acm.graphics.GCompound;
 import acm.graphics.GObject;
 import acm.graphics.GRect;
-import acm.graphics.GRectangle;
 import acm.program.GraphicsProgram;
 import acm.util.RandomGenerator;
 
@@ -39,8 +38,8 @@ public class Breakout extends GraphicsProgram {
     private boolean gameOver;
     private boolean isWin = false;
 
-    private BallLinkedList ballLinkedList = new BallLinkedList();
-    private BonusLinkedList bonusLinkedList = new BonusLinkedList();
+    private BallsStructure ballsStructure = new BallsStructure();
+    private BonusStructure bonusStructure = new BonusStructure();
     public RandomGenerator random = RandomGenerator.getInstance();
 
     private GObject collider;
@@ -127,12 +126,12 @@ public class Breakout extends GraphicsProgram {
         levels();
         createRacket();
 
-        ballLinkedList = new BallLinkedList();
-        bonusLinkedList = new BonusLinkedList();
+        ballsStructure = new BallsStructure();
+        bonusStructure = new BonusStructure();
 
 
-        bonusMethod = new BonusMethod(this, ballLinkedList);
-        collisionLogic = new CollisionLogic(this, ballLinkedList, bonusLinkedList, bonusMethod);
+        bonusMethod = new BonusMethod(this, ballsStructure);
+        collisionLogic = new CollisionLogic(this, ballsStructure, bonusStructure, bonusMethod);
 
 
         gameOver = false;
@@ -163,8 +162,8 @@ public class Breakout extends GraphicsProgram {
 
     private void startGame() {
         while (!gameOver) {
-            MovementLogic.moveBall(ballLinkedList, this);
-            MovementLogic.moveBonus(bonusLinkedList, this);
+            MovementLogic.moveBall(ballsStructure, this);
+            MovementLogic.moveBonus(bonusStructure, this);
             collisionLogic.checkBonusCollision();
             collisionLogic.checkBallCollision();
             collisionLogic.checkOutOfBaunds();
@@ -181,7 +180,7 @@ public class Breakout extends GraphicsProgram {
             gameOver = true;
             isWin = true;
         }
-        if (playerHealth == 0 && ballLinkedList.isEmpty()) {
+        if (playerHealth == 0 && ballsStructure.isEmpty()) {
             gameOver = true;
             isWin = false;
         }
@@ -221,7 +220,7 @@ public class Breakout extends GraphicsProgram {
         }
         */
         if (!gameOver) {
-            if (ballLinkedList.isEmpty()) {
+            if (ballsStructure.isEmpty()) {
                 bonusMethod.addBall();
                 playerHealth--;
             }

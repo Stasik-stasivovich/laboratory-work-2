@@ -1,7 +1,7 @@
-public class BonusLinkedList {
+public class BonusStructure {
     public BonusNode head;
     public BonusNode tail;
-    public BonusLinkedList() {
+    public BonusStructure() {
         this.head = null;
         this.tail = null;
     }

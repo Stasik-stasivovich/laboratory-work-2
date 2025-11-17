@@ -7,15 +7,15 @@ public class CollisionLogic {
     private Breakout game;
     private GCompound level;
     private GRect racket;
-    private BallLinkedList ballLinkedList;
-    private BonusLinkedList bonusLinkedList;
+    private BallsStructure ballsStructure;
+    private BonusStructure bonusStructure;
     private GObject collider;
     private BonusMethod bonusMethod;
 
-    public CollisionLogic(Breakout game, BallLinkedList ballLinkedList, BonusLinkedList bonusLinkedList, BonusMethod bonusMethod) {
+    public CollisionLogic(Breakout game, BallsStructure ballsStructure, BonusStructure bonusStructure, BonusMethod bonusMethod) {
         this.game = game;
-        this.ballLinkedList = ballLinkedList;
-        this.bonusLinkedList = bonusLinkedList;
+        this.ballsStructure = ballsStructure;
+        this.bonusStructure = bonusStructure;
         racket = game.getRacket();
         level = game.getLevel();
         this.bonusMethod = bonusMethod;
@@ -24,7 +24,7 @@ public class CollisionLogic {
 
     // перебирає всі м'ячі в списку і викликає методи що обробляють колізію якщо така є
     public void checkBallCollision() {
-        BallNode temp = ballLinkedList.head;
+        BallNode temp = ballsStructure.head;
         while (temp != null) {
             collider = checkCollider(temp.ball, Breakout.BALL_RADIUS);
             if (collider != null) {
@@ -99,14 +99,14 @@ public class CollisionLogic {
                     bonus = new Bonus(collider.getX(), collider.getY(), 3, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
             }
             game.add(bonus);
-            bonusLinkedList.add(bonus);
+            bonusStructure.add(bonus);
         }
 
     }
     // перевіряємо чи задів бонус ракетку
     public void checkBonusCollision() {
-        BonusNode temp = bonusLinkedList.head;
-        BonusNode preTemp = bonusLinkedList.head;
+        BonusNode temp = bonusStructure.head;
+        BonusNode preTemp = bonusStructure.head;
         while (temp != null) {
             if (checkCollider(temp.bonus, (int) (temp.bonus.getWidth()) / 2) == racket) {
                 switch (temp.bonus.getType()) {
@@ -122,11 +122,11 @@ public class CollisionLogic {
                 }
                 game.remove(temp.bonus);
 
-                if (preTemp == temp) bonusLinkedList.head = bonusLinkedList.head.next;
+                if (preTemp == temp) bonusStructure.head = bonusStructure.head.next;
                 else {
                     preTemp.next = temp.next;
-                    if (temp == bonusLinkedList.tail) {
-                        bonusLinkedList.tail = preTemp;
+                    if (temp == bonusStructure.tail) {
+                        bonusStructure.tail = preTemp;
 
                     }
                 }
@@ -139,16 +139,16 @@ public class CollisionLogic {
     }
     // перевіряємо чи не випали м'ячі за край
     public void checkOutOfBaunds() {
-        BallNode temp = ballLinkedList.get(0);
-        BallNode prev = ballLinkedList.get(0);
+        BallNode temp = ballsStructure.get(0);
+        BallNode prev = ballsStructure.get(0);
         while (temp != null) {
             if (checkIfOutOfBound(temp.ball)) {
                 game.remove(temp.ball);
                 if (prev == temp) {
-                    ballLinkedList.head = ballLinkedList.head.next;
+                    ballsStructure.head = ballsStructure.head.next;
                 } else {
                     prev.next = temp.next;
-                    if (temp == ballLinkedList.tail) ballLinkedList.tail = prev;
+                    if (temp == ballsStructure.tail) ballsStructure.tail = prev;
                 }
             } else {
                 prev = temp;
