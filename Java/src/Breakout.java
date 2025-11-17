@@ -4,6 +4,7 @@ import acm.graphics.GRect;
 import acm.graphics.GRectangle;
 import acm.program.GraphicsProgram;
 import acm.util.RandomGenerator;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
@@ -130,14 +131,8 @@ public class Breakout extends GraphicsProgram {
         bonusLinkedList = new BonusLinkedList();
 
 
-
-        collisionLogic = new CollisionLogic(this, ballLinkedList, bonusLinkedList);
-        bonusMethod = new BonusMethod(this,ballLinkedList);
-
-
-
-
-
+        bonusMethod = new BonusMethod(this, ballLinkedList);
+        collisionLogic = new CollisionLogic(this, ballLinkedList, bonusLinkedList, bonusMethod);
 
 
         gameOver = false;
@@ -234,8 +229,6 @@ public class Breakout extends GraphicsProgram {
     }
 
 
-
-
     //рух ракетки разом з мишкою
     public void mouseMoved(MouseEvent e) {
         double x = e.getX() - (double) PADDLE_WIDTH / 2;
@@ -248,10 +241,12 @@ public class Breakout extends GraphicsProgram {
             racket.setLocation(x, racket.getY());
         }
     }
-    public GCompound getLevel(){
+
+    public GCompound getLevel() {
         return level;
     }
-    public GRect getRacket(){
+
+    public GRect getRacket() {
         return racket;
     }
 

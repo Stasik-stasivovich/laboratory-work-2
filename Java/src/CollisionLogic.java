@@ -12,13 +12,13 @@ public class CollisionLogic {
     private GObject collider;
     private BonusMethod bonusMethod;
 
-    public CollisionLogic(Breakout game, BallLinkedList ballLinkedList, BonusLinkedList bonusLinkedList){
+    public CollisionLogic(Breakout game, BallLinkedList ballLinkedList, BonusLinkedList bonusLinkedList, BonusMethod bonusMethod) {
         this.game = game;
         this.ballLinkedList = ballLinkedList;
         this.bonusLinkedList = bonusLinkedList;
         racket = game.getRacket();
         level = game.getLevel();
-        bonusMethod = new BonusMethod(game, ballLinkedList);
+        this.bonusMethod = bonusMethod;
 
     }
 
