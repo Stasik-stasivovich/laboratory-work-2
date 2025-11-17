@@ -22,7 +22,7 @@ public class CollisionLogic {
 
     }
 
-
+    // перебирає всі м'ячі в списку і викликає методи що обробляють колізію якщо така є
     public void checkBallCollision() {
         BallNode temp = ballLinkedList.head;
         while (temp != null) {
@@ -35,6 +35,7 @@ public class CollisionLogic {
 
         }
     }
+    // метод що перевіряє чи об'єкт пересікся з об'єктом на рівні
     private GObject checkCollider(GObject object, int radius) {
         GObject collider = level.getElementAt(object.getX(), object.getY());
         if (collider != null)
@@ -48,7 +49,7 @@ public class CollisionLogic {
         collider = level.getElementAt(object.getX() + 2 * radius, object.getY() + 2 * radius);
         return collider;
     }
-
+    // етод що визначає з чим був удар і чи був він вертикальним чи горизонтальним у випадку з цеглиною
     private void resolveCollision(GObject collider, Ball ball) {
         if (collider == racket) {
             ball.setVy(-1 * Math.abs(ball.getVy()));
@@ -82,6 +83,7 @@ public class CollisionLogic {
 
         }
     }
+    // якщо випало тру то додаємо випадковий бонус
     private void tryCreateBonus(GObject collider, Breakout game) {
 
         if (game.random.nextBoolean(Breakout.CHANCE_CREATE_BONUS)) {
@@ -101,6 +103,7 @@ public class CollisionLogic {
         }
 
     }
+    // перевіряємо чи задів бонус ракетку
     public void checkBonusCollision() {
         BonusNode temp = bonusLinkedList.head;
         BonusNode preTemp = bonusLinkedList.head;
@@ -134,6 +137,7 @@ public class CollisionLogic {
 
         }
     }
+    // перевіряємо чи не випали м'ячі за край
     public void checkOutOfBaunds() {
         BallNode temp = ballLinkedList.get(0);
         BallNode prev = ballLinkedList.get(0);

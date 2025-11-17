@@ -90,13 +90,13 @@ public class Breakout extends GraphicsProgram {
         waitForChoiseResult();
 */
     }
-
+    // показати меню завершення
     private void showResultMenu() {
         removeAll();
         isChoisedResult = true;
         // отут пишеш
     }
-
+    // переходимо в режим старту (стартове меню, правила, вибір рівнів)
     private void showChoiseMenu() {
         removeAll();
         isChoisedLevel = true;

@@ -4,6 +4,7 @@ public class MovementLogic {
 
 
 
+    // рухаєм всі бонуси
     public static void moveBonus(BonusLinkedList bonusLinkedList, GraphicsProgram game) {
         BonusNode temp = bonusLinkedList.head;
         BonusNode preTemp = bonusLinkedList.head;
@@ -23,6 +24,7 @@ public class MovementLogic {
             temp = temp.next;
         }
     }
+    //рухаєм всі м'ячі
     public static void moveBall(BallLinkedList ballLinkedList, GraphicsProgram game) {
         BallNode temp = ballLinkedList.get(0);
         while (temp != null) {
