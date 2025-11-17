@@ -13,15 +13,15 @@ public class Breakout extends GraphicsProgram {
     private static final int HEIGHT = 600;
     private static final int BRICK_HEALTH = 1;
     private static final int BALL_RADIUS = 10;
-    private static final int DELAY = 20;
+    private static final int DELAY = 15;
 
-    private static final int MAX_VX = 8;
-    private static final int MAX_VY = 8;
-    private static final int MIN_VX = 5;
-    private static final int MIN_VY = 5;
+    private static final int MAX_VX = 5;
+    private static final int MAX_VY = 5;
+    private static final int MIN_VX = 3;
+    private static final int MIN_VY = 3;
 
-    private static final int MAX_BONUS_SPEED = 8;
-    private static final int MIN_BONUS_SPEED = 5;
+    private static final int MAX_BONUS_SPEED = 5;
+    private static final int MIN_BONUS_SPEED = 3;
 
     private static final int PADDLE_WIDTH = 100;
     private static final int PADDLE_HEIGHT = 10;
@@ -37,6 +37,7 @@ public class Breakout extends GraphicsProgram {
 
     private int playerHealth = PLAYER_STARTHP;
     private boolean gameOver;
+    private boolean isWin = false;
 
     private BallLinkedList ballLinkedList = new BallLinkedList();
     private BonusLinkedList bonusLinkedList = new BonusLinkedList();
@@ -80,6 +81,7 @@ public class Breakout extends GraphicsProgram {
         setup();
 
         startGame();
+        removeAll();
 /*
         showResultMenu(); // це ти пишеш
         waitForChoiseResult();
@@ -102,7 +104,7 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        level = Create_Level.create_Level(getWidth(), getHeight(), 3, 2);
+        level = Create_Level.create_Level(getWidth(), getHeight(), 4, 2);
         add(level);
         //рівень 2
 
@@ -118,14 +120,18 @@ public class Breakout extends GraphicsProgram {
 
     private void setup() {
         removeAll();
+        ballLinkedList = new BallLinkedList();
+        bonusLinkedList = new BonusLinkedList();
+
         gameOver = false;
         playerHealth = PLAYER_STARTHP;
 
-        ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
+       /* ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
                 getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
                 , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
 
         add(ballLinkedList.head.ball);
+        */
         //рівні гри
         levels();
         createRacket();
@@ -151,7 +157,21 @@ public class Breakout extends GraphicsProgram {
             checkBonusCollision();
             checkOutOfBaunds();
             checkCollision();
+            checkForEnd();
             pause(DELAY);
+        }
+
+    }
+
+    private void checkForEnd() {
+
+        if (level.getElementCount() == 2) {
+            gameOver = true;
+            isWin = true;
+        }
+        if (playerHealth == 0 && ballLinkedList.isEmpty()) {
+            gameOver = true;
+            isWin = false;
         }
 
     }
@@ -175,7 +195,13 @@ public class Breakout extends GraphicsProgram {
                 remove(temp.bonus);
 
                 if (preTemp == temp) bonusLinkedList.head = bonusLinkedList.head.next;
-                else preTemp.next = temp.next;
+                else {
+                    preTemp.next = temp.next;
+                    if (temp == bonusLinkedList.tail) {
+                        bonusLinkedList.tail = preTemp;
+
+                    }
+                }
             } else {
                 preTemp = temp;
             }
@@ -294,20 +320,12 @@ public class Breakout extends GraphicsProgram {
                     ballLinkedList.head = ballLinkedList.head.next;
                 } else {
                     prev.next = temp.next;
+                    if (temp == ballLinkedList.tail) ballLinkedList.tail = prev;
                 }
             } else {
                 prev = temp;
             }
             temp = temp.next;
-        }
-
-        if (ballLinkedList.isEmpty()) {
-            ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
-                    getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                    , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
-            add(ballLinkedList.head.ball);
-
-            playerHealth--;
         }
 
 
@@ -363,42 +381,42 @@ public class Breakout extends GraphicsProgram {
 
         }
         */
-        if (!gameOver && ballLinkedList.head.next == null && ballLinkedList.head.ball.getVx() == 0 && ballLinkedList.head.ball.getVy() == 0) {
-            ballLinkedList.head.ball.setVx(random.nextInt(MIN_VX, MAX_VX));
-            ballLinkedList.head.ball.setVy(-random.nextInt(MIN_VY, MAX_VY));
-            if (random.nextBoolean()) ballLinkedList.head.ball.setVx(-1 * ballLinkedList.head.ball.getVx());
+        if (!gameOver) {
+            if (ballLinkedList.isEmpty()) {
+                addBall();
+                playerHealth--;
+            }
         }
     }
 
     // метод що додає нову кульку
     private void addBall() {
-        if (!(ballLinkedList.head.ball.getVx() == 0)) {
-            ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
-                    getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                    , BALL_RADIUS * 2, BALL_RADIUS * 2, random.nextBoolean() ? random.nextInt(MIN_VX, MAX_VX) : -1 * random.nextInt(MIN_VX, MAX_VX), -1 * random.nextInt(MIN_VY, MAX_VY)));
-            add(ballLinkedList.tail.ball);
-        }
+        ballLinkedList.add(new Ball((int) racket.getX() + PADDLE_WIDTH / 2,
+                getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
+                , BALL_RADIUS * 2, BALL_RADIUS * 2, random.nextBoolean() ? random.nextInt(MIN_VX, MAX_VX) :
+                -1 * random.nextInt(MIN_VX, MAX_VX), -1 * random.nextInt(MIN_VY, MAX_VY)));
+        add(ballLinkedList.tail.ball);
     }
 
     // метод що подвоює всі кульки
     private void doubleBalls() {
-            BallNode temp = ballLinkedList.get(0);
-            BallLinkedList newBalls = new BallLinkedList();
+        BallNode temp = ballLinkedList.get(0);
+        BallLinkedList newBalls = new BallLinkedList();
 
-            while (temp != null) {
+        while (temp != null) {
 
-                if (!(temp.ball.getVx() == 0 && temp.ball.getVy() == 0)) {
-                    Ball newBall = new Ball(temp.ball);
-                    newBall.setVx(-1 * newBall.getVx());
-                    add(newBall);
-                    newBalls.add(newBall);
-                }
-
-                temp = temp.next;
+            if (!(temp.ball.getVx() == 0 && temp.ball.getVy() == 0)) {
+                Ball newBall = new Ball(temp.ball);
+                newBall.setVx(-1 * newBall.getVx());
+                add(newBall);
+                newBalls.add(newBall);
             }
-            if (newBalls.isEmpty()) return;
-            ballLinkedList.tail.next = newBalls.head;
-            ballLinkedList.tail = newBalls.tail;
+
+            temp = temp.next;
+        }
+        if (newBalls.isEmpty()) return;
+        ballLinkedList.tail.next = newBalls.head;
+        ballLinkedList.tail = newBalls.tail;
     }
 
     private void addHealth() {

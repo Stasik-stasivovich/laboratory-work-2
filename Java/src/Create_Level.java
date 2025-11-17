@@ -210,8 +210,8 @@ public class Create_Level {
      *                         У =  1+ y*(height_of_brick+step_y)
      */
     private static void build_level_3(GCompound level, double getWidth, double getHeight, int health_parameter) {
-        double step_x = 0;
-        double step_y = 0;
+        double step_x = 0.005 * getWidth;
+        double step_y = 0.005 * getHeight;
         int brick_in_piramide = 10;
         int y_brick_in_piramide = brick_in_piramide;
         double width_of_brick = ((getWidth - (brick_in_piramide * step_x)) / brick_in_piramide);
