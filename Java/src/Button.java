@@ -2,6 +2,8 @@ import acm.graphics.GCompound;
 import acm.graphics.GLabel;
 import acm.graphics.GRect;
 
+
+
 /**
  * Клас що для імітації кнопки
  * варіанти реалізації функціоналу кнопки
