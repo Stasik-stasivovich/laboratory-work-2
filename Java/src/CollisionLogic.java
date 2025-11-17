@@ -52,6 +52,7 @@ public class CollisionLogic {
     private void resolveCollision(GObject collider, Ball ball) {
         if (collider == racket) {
             ball.setVy(-1 * Math.abs(ball.getVy()));
+            ball.setVx((int)Math.signum(ball.getVx()) * game.random.nextInt(Breakout.MIN_VX, Breakout.MAX_VX));
         }
         if (collider.getClass() == Brick.class) {
 
