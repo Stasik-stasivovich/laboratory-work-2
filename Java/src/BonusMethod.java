@@ -40,29 +40,6 @@ public class BonusMethod {
             ballsContainer.add(tempCompaund.getElement(0));
         }
         tempCompaund = null;
-
-
-
-        /*
-        BallNode temp = ballsStructure.get(0);
-        BallsStructure newBalls = new BallsStructure();
-
-        while (temp != null) {
-
-            if (!(temp.ball.getVx() == 0 && temp.ball.getVy() == 0)) {
-                Ball newBall = new Ball(temp.ball);
-                newBall.setVx(-1 * newBall.getVx());
-                game.add(newBall);
-                newBalls.add(newBall);
-            }
-
-            temp = temp.next;
-        }
-        if (newBalls.isEmpty()) return;
-        ballsStructure.tail.next = newBalls.head;
-        ballsStructure.tail = newBalls.tail;
-
-         */
     }
 
     public void addHealth() {

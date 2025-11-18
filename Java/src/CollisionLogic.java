@@ -39,18 +39,6 @@ public class CollisionLogic {
             collider = null;
         }
 
-        /*
-        BallNode temp = ballsStructure.head;
-        while (temp != null) {
-            collider = checkCollider(temp.ball, Breakout.BALL_RADIUS);
-            if (collider != null) {
-                resolveCollision(collider, temp.ball);
-            }
-            collider = null;
-            temp = temp.next;
-
-        }
-         */
     }
 
     // метод що перевіряє чи об'єкт пересікся з об'єктом на рівні
