@@ -7,15 +7,20 @@ public class CollisionLogic {
     private Breakout game;
     private GCompound level;
     private GRect racket;
-    private BallsStructure ballsStructure;
-    private BonusStructure bonusStructure;
+
+    private GCompound bonusContainer;
+    private GCompound ballsContainer;
+
+
     private GObject collider;
     private BonusMethod bonusMethod;
 
-    public CollisionLogic(Breakout game, BallsStructure ballsStructure, BonusStructure bonusStructure, BonusMethod bonusMethod) {
+    public CollisionLogic(Breakout game,GCompound ballsContainer, GCompound bonusContainer, BonusMethod bonusMethod) {
         this.game = game;
-        this.ballsStructure = ballsStructure;
-        this.bonusStructure = bonusStructure;
+
+        this.bonusContainer = bonusContainer;
+        this.ballsContainer = ballsContainer;
+
         racket = game.getRacket();
         level = game.getLevel();
         this.bonusMethod = bonusMethod;
@@ -24,6 +29,17 @@ public class CollisionLogic {
 
     // перебирає всі м'ячі в списку і викликає методи що обробляють колізію якщо така є
     public void checkBallCollision() {
+        int len = ballsContainer.getElementCount();
+        for (int i = 0; i < len; i++) {
+            Ball tempBall = (Ball) ballsContainer.getElement(i);
+            collider = checkCollider(tempBall, Breakout.BALL_RADIUS);
+            if (collider != null) {
+                resolveCollision(collider, tempBall);
+            }
+            collider = null;
+        }
+
+        /*
         BallNode temp = ballsStructure.head;
         while (temp != null) {
             collider = checkCollider(temp.ball, Breakout.BALL_RADIUS);
@@ -34,7 +50,9 @@ public class CollisionLogic {
             temp = temp.next;
 
         }
+         */
     }
+
     // метод що перевіряє чи об'єкт пересікся з об'єктом на рівні
     private GObject checkCollider(GObject object, int radius) {
         GObject collider = level.getElementAt(object.getX(), object.getY());
@@ -49,11 +67,12 @@ public class CollisionLogic {
         collider = level.getElementAt(object.getX() + 2 * radius, object.getY() + 2 * radius);
         return collider;
     }
+
     // етод що визначає з чим був удар і чи був він вертикальним чи горизонтальним у випадку з цеглиною
     private void resolveCollision(GObject collider, Ball ball) {
         if (collider == racket) {
             ball.setVy(-1 * Math.abs(ball.getVy()));
-            ball.setVx((int)Math.signum(ball.getVx()) * game.random.nextInt(Breakout.MIN_VX, Breakout.MAX_VX));
+            ball.setVx((int) Math.signum(ball.getVx()) * game.random.nextInt(Breakout.MIN_VX, Breakout.MAX_VX));
         }
         if (collider.getClass() == Brick.class) {
 
@@ -76,15 +95,16 @@ public class CollisionLogic {
             if (((Brick) collider).isDead()) {
                 level.remove(collider);
 
-                tryCreateBonus(collider, game);
+                tryCreateBonus();
 
             }
 
 
         }
     }
+
     // якщо випало тру то додаємо випадковий бонус
-    private void tryCreateBonus(GObject collider, Breakout game) {
+    private void tryCreateBonus() {
 
         if (game.random.nextBoolean(Breakout.CHANCE_CREATE_BONUS)) {
             Bonus bonus = null;
@@ -98,18 +118,19 @@ public class CollisionLogic {
                 case 3:
                     bonus = new Bonus(collider.getX(), collider.getY(), 3, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
             }
-            game.add(bonus);
-            bonusStructure.add(bonus);
+            bonusContainer.add(bonus);
         }
 
     }
+
     // перевіряємо чи задів бонус ракетку
     public void checkBonusCollision() {
-        BonusNode temp = bonusStructure.head;
-        BonusNode preTemp = bonusStructure.head;
-        while (temp != null) {
-            if (checkCollider(temp.bonus, (int) (temp.bonus.getWidth()) / 2) == racket) {
-                switch (temp.bonus.getType()) {
+        int len = bonusContainer.getElementCount();
+        int index = 0;
+        while (index < len) {
+            Bonus tempBonus = (Bonus) bonusContainer.getElement(index);
+            if (checkCollider(tempBonus, (int) (tempBonus.getWidth()) / 2) == racket) {
+                switch (tempBonus.getType()) {
                     case 1:
                         bonusMethod.addBall();
                         break;
@@ -120,43 +141,25 @@ public class CollisionLogic {
                         bonusMethod.addHealth();
                         break;
                 }
-                game.remove(temp.bonus);
+                bonusContainer.remove(tempBonus);
+                len--;
 
-                if (preTemp == temp) bonusStructure.head = bonusStructure.head.next;
-                else {
-                    preTemp.next = temp.next;
-                    if (temp == bonusStructure.tail) {
-                        bonusStructure.tail = preTemp;
-
-                    }
-                }
-            } else {
-                preTemp = temp;
             }
-            temp = temp.next;
-
+            else index++;
         }
     }
-    // перевіряємо чи не випали м'ячі за край
+
     public void checkOutOfBaunds() {
-        BallNode temp = ballsStructure.get(0);
-        BallNode prev = ballsStructure.get(0);
-        while (temp != null) {
-            if (checkIfOutOfBound(temp.ball)) {
-                game.remove(temp.ball);
-                if (prev == temp) {
-                    ballsStructure.head = ballsStructure.head.next;
-                } else {
-                    prev.next = temp.next;
-                    if (temp == ballsStructure.tail) ballsStructure.tail = prev;
-                }
-            } else {
-                prev = temp;
+        int len = ballsContainer.getElementCount();
+        int index = 0;
+        while (index < len) {
+            Ball tempBall = (Ball) ballsContainer.getElement(index);
+            if (checkIfOutOfBound(tempBall)) {
+                ballsContainer.remove(tempBall);
+                len --;
             }
-            temp = temp.next;
+            else index++;
         }
-
-
     }
 
     private boolean checkIfOutOfBound(Ball ball) {

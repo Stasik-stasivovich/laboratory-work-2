@@ -38,8 +38,10 @@ public class Breakout extends GraphicsProgram {
     private boolean gameOver;
     private boolean isWin = false;
 
-    private BallsStructure ballsStructure = new BallsStructure();
-    private BonusStructure bonusStructure = new BonusStructure();
+    private GCompound ballsContainer = new GCompound();
+    private GCompound bonusContainer = new GCompound();
+
+
     public RandomGenerator random = RandomGenerator.getInstance();
 
     private GObject collider;
@@ -53,6 +55,7 @@ public class Breakout extends GraphicsProgram {
 
     private CollisionLogic collisionLogic;
     private BonusMethod bonusMethod;
+    private MovementLogic movementLogic;
 
 
     //ракетка
@@ -89,12 +92,14 @@ public class Breakout extends GraphicsProgram {
         waitForChoiseResult();
 */
     }
+
     // показати меню завершення
     private void showResultMenu() {
         removeAll();
         isChoisedResult = true;
         // отут пишеш
     }
+
     // переходимо в режим старту (стартове меню, правила, вибір рівнів)
     private void showChoiseMenu() {
         removeAll();
@@ -126,13 +131,17 @@ public class Breakout extends GraphicsProgram {
         levels();
         createRacket();
 
-        ballsStructure = new BallsStructure();
-        bonusStructure = new BonusStructure();
+
+        ballsContainer = new GCompound();
+        bonusContainer = new GCompound();
+
+        add(ballsContainer);
+        add(bonusContainer);
 
 
-        bonusMethod = new BonusMethod(this, ballsStructure);
-        collisionLogic = new CollisionLogic(this, ballsStructure, bonusStructure, bonusMethod);
-
+        bonusMethod = new BonusMethod(this, ballsContainer);
+        collisionLogic = new CollisionLogic(this, ballsContainer, bonusContainer, bonusMethod);
+        movementLogic = new MovementLogic(this, ballsContainer, bonusContainer);
 
         gameOver = false;
         playerHealth = PLAYER_STARTHP;
@@ -162,12 +171,11 @@ public class Breakout extends GraphicsProgram {
 
     private void startGame() {
         while (!gameOver) {
-            MovementLogic.moveBall(ballsStructure, this);
-            MovementLogic.moveBonus(bonusStructure, this);
+            movementLogic.moveBall();
+            movementLogic.moveBonus();
             collisionLogic.checkBonusCollision();
             collisionLogic.checkBallCollision();
             collisionLogic.checkOutOfBaunds();
-
             checkForEnd();
             pause(DELAY);
         }
@@ -180,7 +188,7 @@ public class Breakout extends GraphicsProgram {
             gameOver = true;
             isWin = true;
         }
-        if (playerHealth == 0 && ballsStructure.isEmpty()) {
+        if (playerHealth == 0 && ballsContainer.getElementCount() == 0) {
             gameOver = true;
             isWin = false;
         }
@@ -220,7 +228,7 @@ public class Breakout extends GraphicsProgram {
         }
         */
         if (!gameOver) {
-            if (ballsStructure.isEmpty()) {
+            if (ballsContainer.getElementCount() == 0) {
                 bonusMethod.addBall();
                 playerHealth--;
             }
