@@ -27,4 +27,10 @@ public class Ball extends GOval {
     public void setVy(int vy) {
         this.vy = vy;
     }
+    public double getXOfCenter() {
+        return getX() + this.getWidth()/2;
+    }
+    public double getYOfCenter() {
+        return getY() + this.getHeight()/2;
+    }
 }

@@ -9,9 +9,11 @@ public class BonusMethod {
 
 
     BonusMethod(Breakout game, GCompound ballsContainer) {
+
         this.game = game;
         this.ballsContainer = ballsContainer;
         racket = game.getRacket();
+
     }
 
     // метод що додає нову кульку
@@ -44,5 +46,6 @@ public class BonusMethod {
 
     public void addHealth() {
         game.playerHealth++;
+        game.updatePlayerHp();
     }
 }

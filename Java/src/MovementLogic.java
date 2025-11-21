@@ -35,6 +35,7 @@ public class MovementLogic {
         while (index < len) {
             Ball tempBall = (Ball) ballsContainer.getElement(index);
             tempBall.move(tempBall.getVx(), tempBall.getVy());
+            if (tempBall.getY() < 0)tempBall.setVy(Math.abs(tempBall.getVy()));
             if (tempBall.getX() < 0) {
                 tempBall.setVx(Math.abs(tempBall.getVx()));
             } else if (tempBall.getX() > game.getWidth() - Breakout.BALL_RADIUS * 2) {

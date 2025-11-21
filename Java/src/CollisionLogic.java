@@ -63,8 +63,6 @@ public class CollisionLogic {
             ball.setVx((int) Math.signum(ball.getVx()) * game.random.nextInt(Breakout.MIN_VX, Breakout.MAX_VX));
         }
         if (collider.getClass() == Brick.class) {
-
-
             GRectangle bound1 = ball.getBounds();
             GRectangle bound2 = collider.getBounds();
             GRectangle overlap = bound1.intersection(bound2);
@@ -149,6 +147,8 @@ public class CollisionLogic {
             else index++;
         }
     }
+
+
 
     private boolean checkIfOutOfBound(Ball ball) {
         return ball.getY() > game.getHeight();

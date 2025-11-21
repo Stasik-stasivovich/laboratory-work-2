@@ -1,4 +1,5 @@
 import acm.graphics.GCompound;
+import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
@@ -10,33 +11,31 @@ import java.awt.event.MouseEvent;
 public class Breakout extends GraphicsProgram {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
-    private static final int BRICK_HEALTH = 1;
-    public static final int BALL_RADIUS = 10;
+    public static final int BALL_RADIUS = 9;
     private static final int DELAY = 15;
 
-    public static final int MAX_VX = 5;
-    public static final int MAX_VY = 5;
-    public static final int MIN_VX = 3;
-    public static final int MIN_VY = 3;
+    public static final int MAX_VX = 6;
+    public static final int MAX_VY = 6;
+    public static final int MIN_VX = 5;
+    public static final int MIN_VY = 5;
 
     public static final int MAX_BONUS_SPEED = 5;
     public static final int MIN_BONUS_SPEED = 3;
 
-    public static final int PADDLE_WIDTH = 100;
+    public static final int PADDLE_WIDTH = 150;
     public static final int PADDLE_HEIGHT = 10;
     public static final int PADDLE_Y_OFFSET = 20;
 
-    public static final double CHANCE_CREATE_BONUS = 1;
-
-    private boolean isChoisedLevel = false;
-
-    private boolean isChoisedResult = false;
+    public static final double CHANCE_CREATE_BONUS = 0.3;
 
     private static final int PLAYER_STARTHP = 2;
 
+
+
+
     public int playerHealth = PLAYER_STARTHP;
-    private boolean gameOver;
-    private boolean isWin = false;
+    public GLabel playerHpLabel;
+
 
     private GCompound ballsContainer = new GCompound();
     private GCompound bonusContainer = new GCompound();
@@ -57,6 +56,7 @@ public class Breakout extends GraphicsProgram {
     private BonusMethod bonusMethod;
     private MovementLogic movementLogic;
 
+    private GameStatus currentGameStatus = GameStatus.MAIN_MENU;
 
     //ракетка
     protected GRect racket;
@@ -96,33 +96,34 @@ public class Breakout extends GraphicsProgram {
     // показати меню завершення
     private void showResultMenu() {
         removeAll();
-        isChoisedResult = true;
         // отут пишеш
     }
 
     // переходимо в режим старту (стартове меню, правила, вибір рівнів)
     private void showChoiseMenu() {
-        removeAll();
-        isChoisedLevel = true;
 
-        //levels();
+        removeAll();
+        currentGameStatus = GameStatus.MAIN_MENU;
+        //add()
+
         // тут пишеш
     }
 
     private void levels() {
 //рівень 1
-        level = Create_Level.create_Level(getWidth(), getHeight(), 4, 2);
+        level = Create_Level.create_Level(getWidth(), getHeight(), random.nextInt(1,4), 2);
         add(level);
         //рівень 2
 
     }
 
     private void waitForChoiseResult() {
-        while (isChoisedResult) pause(100);
+        while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE)
+            pause(100);
     }
 
     private void waitForChoiseLevel() {
-        while (isChoisedLevel) pause(100);
+        while (currentGameStatus == GameStatus.MAIN_MENU) pause(100);
     }
 
     private void setup() {
@@ -142,16 +143,11 @@ public class Breakout extends GraphicsProgram {
         bonusMethod = new BonusMethod(this, ballsContainer);
         collisionLogic = new CollisionLogic(this, ballsContainer, bonusContainer, bonusMethod);
         movementLogic = new MovementLogic(this, ballsContainer, bonusContainer);
-
-        gameOver = false;
         playerHealth = PLAYER_STARTHP;
+        playerHpLabel = new GLabel("Player Health: " + playerHealth);
+        add(playerHpLabel,getWidth()-playerHpLabel.getWidth()-10,getHeight()-playerHpLabel.getHeight() - PADDLE_Y_OFFSET);
 
-       /* ballLinkedList.add(new Ball(getWidth() / 2 - BALL_RADIUS,
-                getHeight() - PADDLE_Y_OFFSET - BALL_RADIUS - PADDLE_HEIGHT - 20
-                , BALL_RADIUS * 2, BALL_RADIUS * 2, 0, 0));
-
-        add(ballLinkedList.head.ball);
-        */
+        currentGameStatus = GameStatus.PLAYING;
         //рівні гри
 
 
@@ -170,7 +166,7 @@ public class Breakout extends GraphicsProgram {
 
 
     private void startGame() {
-        while (!gameOver) {
+        while (currentGameStatus == GameStatus.PLAYING) {
             movementLogic.moveBall();
             movementLogic.moveBonus();
             collisionLogic.checkBonusCollision();
@@ -185,54 +181,39 @@ public class Breakout extends GraphicsProgram {
     private void checkForEnd() {
 
         if (level.getElementCount() == 2) {
-            gameOver = true;
-            isWin = true;
+
+            currentGameStatus = GameStatus.GAME_OVER_WIN;
         }
         if (playerHealth == 0 && ballsContainer.getElementCount() == 0) {
-            gameOver = true;
-            isWin = false;
+
+            currentGameStatus = GameStatus.GAME_OVER_LOSE;
         }
 
     }
 
     public void mouseClicked(MouseEvent e) {
-        if (isChoisedResult) {
+        if (currentGameStatus == GameStatus.MAIN_MENU) {
+            currentGameStatus = GameStatus.PLAYING;  // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
             // отут логіка кнопок
             // потім не забуть поміняти
             // isChoisedResult = false;
         }
-        /*
-        if (isChoisedLevel) {
-            if (startMenu.isVisible){
-
-
-
-
-            }
-            else if (selectLevelMenu){
-
-
-
-            }
-
-
-            else if (rulesMenu.isVisible()){
-
-
-                if (rulesMenu.getElemenAt(e.getX(),e.getY()).getClass() == Button.class){
-
-                }
-
-            }
-
+        else if  (currentGameStatus == GameStatus.GAME_OVER_WIN ||  currentGameStatus == GameStatus.GAME_OVER_LOSE) {
+            currentGameStatus = GameStatus.MAIN_MENU; // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
         }
-        */
-        if (!gameOver) {
+
+
+        else if (currentGameStatus == GameStatus.PLAYING) {
             if (ballsContainer.getElementCount() == 0) {
                 bonusMethod.addBall();
                 playerHealth--;
+                updatePlayerHp();
             }
         }
+    }
+
+    public void updatePlayerHp() {
+        playerHpLabel.setLabel("Player Health: " + playerHealth);
     }
 
 
