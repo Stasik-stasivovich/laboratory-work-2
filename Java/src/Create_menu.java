@@ -13,7 +13,7 @@ public class Create_menu {
      */
 
     //перша сторінка
-    public static GCompound first_title_menu( double getWidth, double getHeight) {
+    public static GCompound first_title_menu(double getWidth, double getHeight) {
         GCompound first_menu = new GCompound();
         double width_button_game_Breakout = getWidth * 0.7;
         double height_button_game_Breakout = getHeight * 0.18;
@@ -58,7 +58,7 @@ public class Create_menu {
     }
 
     //меню вибору
-    public static GCompound level_menu( double getWidth, double getHeight) {
+    public static GCompound level_menu(double getWidth, double getHeight) {
         GCompound level_menu = new GCompound();
         double width_button_game_Breakout = getWidth * 0.7;
         double height_button_game_Breakout = getHeight * 0.11;
@@ -116,7 +116,7 @@ public class Create_menu {
         level_4.setColor(Color.decode("#d99d1e"));
         level_menu.add(level_4);
 //5
-        Button exit = new Button(width_button_game_Breakout, height_exit, "Вихід", new Font("Congenial Black", Font.BOLD, (int) (height_exit / 1.7)));
+        Button exit = new Button(width_button_game_Breakout, height_exit, "Назад", new Font("Congenial Black", Font.BOLD, (int) (height_exit / 1.7)));
         exit.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_exit);
         exit.setColor(Color.decode("#d99d1e"));
         level_menu.add(exit);
@@ -125,8 +125,8 @@ public class Create_menu {
 
     }
 
-//меню результату виграш
-    public static GCompound result_menu( double getWidth, double getHeight, boolean youWin) {
+    //меню результату виграш
+    public static GCompound result_menu(double getWidth, double getHeight, boolean youWin) {
         GCompound resultMenu = new GCompound();
         int width_button_congratulation = (int) (getWidth * 0.4);
         Color color_of_text = Color.decode("#d99d1e");
@@ -149,9 +149,8 @@ public class Create_menu {
         resultMenu.add(congratulation);
 
 
-
         GLabel you_win;
-        if (youWin==true)
+        if (youWin == true)
             you_win = new GLabel("Ви виграли!");
         else
             you_win = new GLabel("Ви програли!");
@@ -160,13 +159,13 @@ public class Create_menu {
         you_win.setLocation(getWidth / 2 - you_win.getWidth() / 2, (getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6);
         resultMenu.add(you_win);
 
-        double y_button_play_again =(getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 + (getHeight-(getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 -height_play_again)/4;
+        double y_button_play_again = (getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 + (getHeight - (getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 - height_play_again) / 4;
 
         Button play_again = new Button(width_play_again, height_play_again, "Грати знову", new Font("SansSerif", Font.BOLD, (int) (width_play_again / 8)));
         play_again.setColor(color_of_text);
         play_again.setLocation(getWidth / 2 - play_again.getWidth() / 2, y_button_play_again);
         resultMenu.add(play_again);
-return  resultMenu;
+        return resultMenu;
     }
 
 

@@ -57,6 +57,7 @@ public class Breakout extends GraphicsProgram {
     private MovementLogic movementLogic;
 
     private GameStatus currentGameStatus =  GameStatus.MAIN_MENU;
+    private final Font fontHealth = new Font("Sans Serif", Font.BOLD, 16);
 
 
     //ракетка
@@ -162,6 +163,7 @@ public class Breakout extends GraphicsProgram {
         movementLogic = new MovementLogic(this, ballsContainer, bonusContainer);
         playerHealth = PLAYER_STARTHP;
         playerHpLabel = new GLabel("Player Health: " + playerHealth);
+        playerHpLabel.setFont(fontHealth);
         add(playerHpLabel, getWidth() - playerHpLabel.getWidth() - 10, getHeight() - playerHpLabel.getHeight() - PADDLE_Y_OFFSET);
 
         currentGameStatus = GameStatus.PLAYING;
@@ -243,7 +245,7 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     whatLevel = 4;
                     currentGameStatus = GameStatus.PLAYING;
-                } else if (button.text.equals("Вихід")) {
+                } else if (button.text.equals("Назад")) {
                     removeAll();
                     add(startMenu);
                     currentGameStatus = GameStatus.MAIN_MENU;
