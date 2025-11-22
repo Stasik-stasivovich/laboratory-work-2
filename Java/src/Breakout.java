@@ -31,8 +31,6 @@ public class Breakout extends GraphicsProgram {
     private static final int PLAYER_STARTHP = 2;
 
 
-
-
     public int playerHealth = PLAYER_STARTHP;
     public GLabel playerHpLabel;
 
@@ -46,17 +44,20 @@ public class Breakout extends GraphicsProgram {
     private GObject collider;
 
     public GCompound level;
+    private int whatLevel;
 
     private GCompound startMenu;
     private GCompound selectLevelMenu;
     private GCompound rulesMenu;
-    private GCompound resultMenu;
+    private GCompound resultMenuWin;
+    private GCompound resultMenuDefeat;
 
     private CollisionLogic collisionLogic;
     private BonusMethod bonusMethod;
     private MovementLogic movementLogic;
 
     private GameStatus currentGameStatus = GameStatus.MAIN_MENU;
+
 
     //ракетка
     protected GRect racket;
@@ -79,39 +80,55 @@ public class Breakout extends GraphicsProgram {
     }
     */
     private void startProgram() {
-/*
-        showChoiseMenu(); // оце ти пишеш
+
+        showChoiseMenu();
+
+        // оце ти пишеш
+
         waitForChoiseLevel();
-*/
+
         setup();
 
         startGame();
         removeAll();
-/*
+
         showResultMenu(); // це ти пишеш
         waitForChoiseResult();
-*/
+
     }
+
 
     // показати меню завершення
     private void showResultMenu() {
         removeAll();
-        // отут пишеш
+        if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
+            add(resultMenuWin);
+        }
+        else if (currentGameStatus == GameStatus.GAME_OVER_LOSE) {
+            add(resultMenuDefeat);
+        }
     }
 
     // переходимо в режим старту (стартове меню, правила, вибір рівнів)
     private void showChoiseMenu() {
-
         removeAll();
         currentGameStatus = GameStatus.MAIN_MENU;
-        //add()
+        startMenu = Create_menu.first_title_menu(getWidth(), getHeight());
+        add(startMenu);
+
+        selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
+        resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
+        resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
+
+
+
 
         // тут пишеш
     }
 
     private void levels() {
 //рівень 1
-        level = Create_Level.create_Level(getWidth(), getHeight(), random.nextInt(1,4), 2);
+        level = Create_Level.create_Level(getWidth(), getHeight(),whatLevel, 2);
         add(level);
         //рівень 2
 
@@ -123,7 +140,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU) pause(100);
+        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL) pause(100);
     }
 
     private void setup() {
@@ -145,7 +162,7 @@ public class Breakout extends GraphicsProgram {
         movementLogic = new MovementLogic(this, ballsContainer, bonusContainer);
         playerHealth = PLAYER_STARTHP;
         playerHpLabel = new GLabel("Player Health: " + playerHealth);
-        add(playerHpLabel,getWidth()-playerHpLabel.getWidth()-10,getHeight()-playerHpLabel.getHeight() - PADDLE_Y_OFFSET);
+        add(playerHpLabel, getWidth() - playerHpLabel.getWidth() - 10, getHeight() - playerHpLabel.getHeight() - PADDLE_Y_OFFSET);
 
         currentGameStatus = GameStatus.PLAYING;
         //рівні гри
@@ -183,34 +200,96 @@ public class Breakout extends GraphicsProgram {
         if (level.getElementCount() == 2) {
 
             currentGameStatus = GameStatus.GAME_OVER_WIN;
+
         }
         if (playerHealth == 0 && ballsContainer.getElementCount() == 0) {
 
             currentGameStatus = GameStatus.GAME_OVER_LOSE;
+
         }
 
     }
 
     public void mouseClicked(MouseEvent e) {
         if (currentGameStatus == GameStatus.MAIN_MENU) {
-            currentGameStatus = GameStatus.PLAYING;  // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
-            // отут логіка кнопок
-            // потім не забуть поміняти
-            // isChoisedResult = false;
-        }
-        else if  (currentGameStatus == GameStatus.GAME_OVER_WIN ||  currentGameStatus == GameStatus.GAME_OVER_LOSE) {
-            currentGameStatus = GameStatus.MAIN_MENU; // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
-        }
-
-
-        else if (currentGameStatus == GameStatus.PLAYING) {
-            if (ballsContainer.getElementCount() == 0) {
-                bonusMethod.addBall();
-                playerHealth--;
-                updatePlayerHp();
+            if (startMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) startMenu.getElementAt(e.getX(), e.getY());
+                if (button.text.equals("Почати гру")) {
+                    removeAll();
+                    add(selectLevelMenu);
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                }
+                // else if (){}
             }
         }
-    }
+        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
+            if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
+                if (button.text.equals("Рівень 1")) {
+                    removeAll();
+                    whatLevel = 1;
+                    currentGameStatus = GameStatus.PLAYING;
+
+                } else if (button.text.equals("Рівень 2")) {
+                    removeAll();
+                    whatLevel = 2;
+                    currentGameStatus = GameStatus.PLAYING;
+                } else if (button.text.equals("Рівень 3")) {
+                    removeAll();
+                    whatLevel = 3;
+                    currentGameStatus = GameStatus.PLAYING;
+                } else if (button.text.equals("Рівень 4")) {
+                    removeAll();
+                    whatLevel = 4;
+                    currentGameStatus = GameStatus.PLAYING;
+                } else if (button.text.equals("Вихід")) {
+                    removeAll();
+                    add(startMenu);
+                    currentGameStatus = GameStatus.MAIN_MENU;
+
+                }
+            }}
+        else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
+            if (resultMenuWin.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) resultMenuWin.getElementAt(e.getX(), e.getY());
+                if (button.text.equals("Грати знову")) {
+                    removeAll();
+                    add(selectLevelMenu);
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                }
+                // else if (){}
+            }
+        } else if (currentGameStatus == GameStatus.GAME_OVER_LOSE) {
+            if (resultMenuDefeat.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) resultMenuDefeat.getElementAt(e.getX(), e.getY());
+                if (button.text.equals("Грати знову")) {
+                    removeAll();
+                    add(selectLevelMenu);
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                }
+                // else if (){}
+            }
+        }
+
+
+        if (currentGameStatus == GameStatus.MAIN_MENU) {
+                currentGameStatus = GameStatus.PLAYING;  // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
+                // отут логіка кнопок
+                // потім не забуть поміняти
+                // isChoisedResult = false;
+            } else if (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE) {
+                currentGameStatus = GameStatus.MAIN_MENU; // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
+            } else if (currentGameStatus == GameStatus.PLAYING) {
+                if (ballsContainer.getElementCount() == 0) {
+                    bonusMethod.addBall();
+                    playerHealth--;
+                    updatePlayerHp();
+                }
+            }
+
+        }
+
+
 
     public void updatePlayerHp() {
         playerHpLabel.setLabel("Player Health: " + playerHealth);

@@ -126,8 +126,8 @@ public class Create_menu {
     }
 
 //меню результату виграш
-    public static GCompound result_menu_you_win( double getWidth, double getHeight) {
-        GCompound result_menu_you_win = new GCompound();
+    public static GCompound result_menu( double getWidth, double getHeight, boolean youWin) {
+        GCompound resultMenu = new GCompound();
         int width_button_congratulation = (int) (getWidth * 0.4);
         Color color_of_text = Color.decode("#d99d1e");
         int width_you_win = (int) (getWidth * 0.2);
@@ -139,29 +139,65 @@ public class Create_menu {
         backgraound.setColor(Color.decode("#1ED987"));
         backgraound.setFilled(true);
         backgraound.sendBackward();
-        result_menu_you_win.add(backgraound);
+        resultMenu.add(backgraound);
 
 
         GLabel congratulation = new GLabel("Вітаємо!");
         congratulation.setColor(color_of_text);
         congratulation.setFont(new Font("SansSerif", Font.BOLD, width_button_congratulation / 2));
         congratulation.setLocation(getWidth / 2 - congratulation.getWidth() / 2, (getHeight + congratulation.getAscent()) / 4);
-        result_menu_you_win.add(congratulation);
+        resultMenu.add(congratulation);
 
-        GLabel you_win = new GLabel("Ви виграли!");
+
+
+        GLabel you_win;
+        if (youWin==true)
+            you_win = new GLabel("Ви виграли!");
+        else
+            you_win = new GLabel("Ви програли!");
         you_win.setColor(color_of_text);
         you_win.setFont(new Font("SansSerif", Font.BOLD, width_you_win / 2));
         you_win.setLocation(getWidth / 2 - you_win.getWidth() / 2, (getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6);
-        result_menu_you_win.add(you_win);
+        resultMenu.add(you_win);
 
         double y_button_play_again =(getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 + (getHeight-(getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 -height_play_again)/4;
 
         Button play_again = new Button(width_play_again, height_play_again, "Грати знову", new Font("SansSerif", Font.BOLD, (int) (width_play_again / 8)));
         play_again.setColor(color_of_text);
         play_again.setLocation(getWidth / 2 - play_again.getWidth() / 2, y_button_play_again);
-        result_menu_you_win.add(play_again);
-return  result_menu_you_win;
+        resultMenu.add(play_again);
+return  resultMenu;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   /*
+
 
 //меню результату програш
     public static GCompound result_menu_you_defeat( double getWidth, double getHeight) {
@@ -202,5 +238,7 @@ return  result_menu_you_win;
         return result_menu_you_defeat;
 
     }
+
+    */
 
 }
