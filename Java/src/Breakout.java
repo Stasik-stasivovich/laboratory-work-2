@@ -56,7 +56,7 @@ public class Breakout extends GraphicsProgram {
     private BonusMethod bonusMethod;
     private MovementLogic movementLogic;
 
-    private GameStatus currentGameStatus = GameStatus.MAIN_MENU;
+    private GameStatus currentGameStatus =  GameStatus.MAIN_MENU;
 
 
     //ракетка
@@ -103,8 +103,7 @@ public class Breakout extends GraphicsProgram {
         removeAll();
         if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
             add(resultMenuWin);
-        }
-        else if (currentGameStatus == GameStatus.GAME_OVER_LOSE) {
+        } else if (currentGameStatus == GameStatus.GAME_OVER_LOSE) {
             add(resultMenuDefeat);
         }
     }
@@ -112,15 +111,16 @@ public class Breakout extends GraphicsProgram {
     // переходимо в режим старту (стартове меню, правила, вибір рівнів)
     private void showChoiseMenu() {
         removeAll();
-        currentGameStatus = GameStatus.MAIN_MENU;
+
         startMenu = Create_menu.first_title_menu(getWidth(), getHeight());
-        add(startMenu);
+        if (currentGameStatus == GameStatus.MAIN_MENU)
+            add(startMenu);
+        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL)
+            add(selectLevelMenu);
 
         selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
         resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
         resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
-
-
 
 
         // тут пишеш
@@ -128,7 +128,7 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        level = Create_Level.create_Level(getWidth(), getHeight(),whatLevel, 2);
+        level = Create_Level.create_Level(getWidth(), getHeight(), whatLevel, 2);
         add(level);
         //рівень 2
 
@@ -218,11 +218,12 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                } else if (button.text.equals("Вихід")) {
+                    exit();
                 }
                 // else if (){}
             }
-        }
-        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
+        } else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Рівень 1")) {
@@ -248,14 +249,15 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.MAIN_MENU;
 
                 }
-            }}
-        else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
+            }
+        } else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
             if (resultMenuWin.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) resultMenuWin.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Грати знову")) {
                     removeAll();
                     add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
+
                 }
                 // else if (){}
             }
@@ -266,29 +268,20 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
+
                 }
                 // else if (){}
             }
         }
-
-
-        if (currentGameStatus == GameStatus.MAIN_MENU) {
-                currentGameStatus = GameStatus.PLAYING;  // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
-                // отут логіка кнопок
-                // потім не забуть поміняти
-                // isChoisedResult = false;
-            } else if (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE) {
-                currentGameStatus = GameStatus.MAIN_MENU; // ЦЕ ЗАГЛУШКА ПОТІМ ЦЕ ПЕРЕПИШИ
-            } else if (currentGameStatus == GameStatus.PLAYING) {
-                if (ballsContainer.getElementCount() == 0) {
-                    bonusMethod.addBall();
-                    playerHealth--;
-                    updatePlayerHp();
-                }
+        else if (currentGameStatus == GameStatus.PLAYING) {
+            if (ballsContainer.getElementCount() == 0) {
+                bonusMethod.addBall();
+                playerHealth--;
+                updatePlayerHp();
             }
-
         }
 
+    }
 
 
     public void updatePlayerHp() {
