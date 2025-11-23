@@ -67,9 +67,9 @@ public class Create_menu {
         double height_levels = getHeight * 0.1;
         double height_exit = getHeight * 0.12;
 
-        int amount_of_all_objects = 7;
+        int amount_of_all_objects = 8;
         int space_between_objects = amount_of_all_objects + 1;
-        double all_heights_of_objects = height_button_game_Breakout + height_choice_level + 4 * height_levels + height_exit;
+        double all_heights_of_objects = height_button_game_Breakout + height_choice_level + 5 * height_levels + height_exit;
 
         double y_step = (getHeight - all_heights_of_objects) / space_between_objects;
 
@@ -79,7 +79,9 @@ public class Create_menu {
         double y_level_2 = y_level_1 + height_levels + y_step;
         double y_level_3 = y_level_2 + height_levels + y_step;
         double y_level_4 = y_level_3 + height_levels + y_step;
-        double y_exit = y_level_4 + height_levels + y_step;
+        double y_level_5 = y_level_4 + height_levels + y_step;
+        double y_exit = y_level_5 + height_levels + y_step;
+
 
         GRect backgraound = new GRect(0, 0, getWidth, getHeight);
         backgraound.setColor(Color.decode("#1ED987"));
@@ -116,6 +118,12 @@ public class Create_menu {
         level_4.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_level_4);
         level_4.setColor(Color.decode("#d99d1e"));
         level_menu.add(level_4);
+
+        Button level_5 = new Button(width_button_game_Breakout, height_levels, "Рівень 5", new Font("Congenial Black", Font.BOLD, (int) (height_levels / 1.7)));
+        level_5.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_level_5);
+        level_5.setColor(Color.decode("#d99d1e"));
+        level_menu.add(level_5);
+
 //5
         Button exit = new Button(width_button_game_Breakout, height_exit, "Назад", new Font("Congenial Black", Font.BOLD, (int) (height_exit / 1.7)));
         exit.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_exit);

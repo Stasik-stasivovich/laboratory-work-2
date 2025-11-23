@@ -273,6 +273,10 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     whatLevel = 4;
                     currentGameStatus = GameStatus.PLAYING;
+                }else if (button.text.equals("Рівень 5")) {
+                    removeAll();
+                    whatLevel = 5;
+                    currentGameStatus = GameStatus.PLAYING;
                 } else if (button.text.equals("Назад")) {
                     removeAll();
                     add(startMenu);

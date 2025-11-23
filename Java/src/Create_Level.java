@@ -33,10 +33,18 @@ public class Create_Level {
             //метод 3 рівня
             build_level_3(level, getWidth, getHeight, health);
 
+        //4 рівень
         if (what_level == 4) {
             //метод 4 рівня
             build_level_4(level, getWidth, getHeight, health);
         }
+
+        //5 рівень
+        if (what_level == 5) {
+            //метод 5 рівня
+            build_level_5(level, getWidth, getHeight, health);
+        }
+
 
 
         //повернення GCompound level
@@ -1053,7 +1061,65 @@ public class Create_Level {
 
 
     }
-}
+
+
+
+    private static void build_level_5(GCompound level, double getWidth, double getHeight, int health_parameter) {
+        double step_x = 0;
+        double step_y = 0;
+        int amount_of_brick_y = 8;
+        int amount_of_brick_x = 8;
+        double width_of_brick = ((getWidth - (amount_of_brick_x * step_x)) / amount_of_brick_x);
+        double height_of_brick = (getHeight / 2) / amount_of_brick_y;
+        double x_of_brick = 0;
+        double y_of_brick = 0;
+        double x_health = 0;
+        double y_health = 0;
+        //цикл будування висоти 8 рядків
+        for (int y = 0; y < amount_of_brick_y; y++) {
+            //цикл будування ширини 8 стовпців
+            for (int x = 0; x < amount_of_brick_x; x++) {
+                //створення обєкту - цеглинки
+                Brick brick1 = new Brick(width_of_brick, height_of_brick, health_parameter);
+
+
+                //умова кольору
+                if ((y+x )%2== 0)
+                    brick1.setColor_of_brick(Color.decode("#835c38"));
+                else
+                    brick1.setColor_of_brick(Color.decode("#c5a571"));
+
+
+
+                //Не малює деякі клітинки
+
+                if ((y+x )%2!= 0)
+                    continue;
+                x_of_brick = x * (step_x + width_of_brick);
+
+
+
+                level.add(brick1);
+                brick1.setLocation(x_of_brick, 1 + y_of_brick);
+
+                x_of_brick += (step_x + width_of_brick);
+                x_health += (step_x + width_of_brick);
+            }
+            //наступні (змінені) координати розміщення цеглинки: для 2, 3,4... цеглинки
+            x_of_brick = 0;
+            x_health = 0;
+            y_of_brick += (step_y + height_of_brick);
+            y_health += (step_y + height_of_brick);
+        }
+        // створення Glabel - назва рівня "Рівень 1"
+        GLabel level_name_1 = new GLabel("Рівень 5", 0, getHeight);
+        level_name_1.setFont(new Font("PT Serif", Font.BOLD, (int) height_of_brick / 2));
+        level.add(level_name_1);
+
+
+
+
+}}
 
 
 
