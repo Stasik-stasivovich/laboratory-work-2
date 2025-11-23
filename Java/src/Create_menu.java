@@ -173,6 +173,7 @@ public class Create_menu {
 
         double width_headline_box = getWidth * 0.85;
         double height_headline_box = getWidth * 0.1;
+        double y_step =0.0185;
         GCompound rulesMenu = new GCompound();
         GRect backgraound = new GRect(0, 0, getWidth, getHeight);
         backgraound.setColor(Color.decode("#1ED987"));
@@ -184,15 +185,20 @@ public class Create_menu {
 
         Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
         headline.setColor(Color.decode("#d99d1e"));
-        headline.setLocation(getWidth / 2 - width_headline_box / 2, 0.0185 * getHeight);
+        headline.setLocation(getWidth / 2 - width_headline_box / 2, y_step * getHeight);
         rulesMenu.add(headline);
+
+        Button mainPartofRules = new Button(width_headline_box, getHeight-4*y_step*getHeight-2*height_headline_box, "Правила ",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
+        mainPartofRules.setColor(Color.decode("#d99d1e"));
+        mainPartofRules.setLocation(getWidth / 2 - width_headline_box / 2, 2*y_step * getHeight+height_headline_box);
+        rulesMenu.add(mainPartofRules);
 
 
 
 
         Button exit = new Button(width_headline_box, height_headline_box, "Назад",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
         exit.setColor(Color.decode("#d99d1e"));
-        exit.setLocation(getWidth / 2 - width_headline_box / 2, getHeight-height_headline_box-0.0185 * getHeight);
+        exit.setLocation(getWidth / 2 - width_headline_box / 2, getHeight-height_headline_box-y_step * getHeight);
         rulesMenu.add(exit);
 
 
