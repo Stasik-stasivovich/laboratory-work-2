@@ -5,6 +5,7 @@ import acm.graphics.GRect;
 import java.awt.*;
 
 public class Create_menu {
+    String rulesText;
 
 
     /*
@@ -168,76 +169,43 @@ public class Create_menu {
         return resultMenu;
     }
 
+    public static GCompound rules_menu(double getWidth, double getHeight) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /*
-
-
-//меню результату програш
-    public static GCompound result_menu_you_defeat( double getWidth, double getHeight) {
-        GCompound result_menu_you_defeat = new GCompound();
-        int width_button_congratulation = (int) (getWidth * 0.4);
-        Color color_of_text = Color.decode("#d99d1e");
-        int width_you_win = (int) (getWidth * 0.2);
-        double width_play_again = getWidth * 0.5;
-        double height_play_again = getWidth * 0.2;
-
-
+        double width_headline_box = getWidth * 0.85;
+        double height_headline_box = getWidth * 0.1;
+        GCompound rulesMenu = new GCompound();
         GRect backgraound = new GRect(0, 0, getWidth, getHeight);
         backgraound.setColor(Color.decode("#1ED987"));
         backgraound.setFilled(true);
         backgraound.sendBackward();
-        result_menu_you_defeat.add(backgraound);
+        rulesMenu.add(backgraound);
 
 
-        GLabel congratulation = new GLabel("Вітаємо!");
-        congratulation.setColor(color_of_text);
-        congratulation.setFont(new Font("SansSerif", Font.BOLD, width_button_congratulation / 2));
-        congratulation.setLocation(getWidth / 2 - congratulation.getWidth() / 2, (getHeight + congratulation.getAscent()) / 4);
-        result_menu_you_defeat.add(congratulation);
 
-        GLabel you_win = new GLabel("Ви програли!");
-        you_win.setColor(color_of_text);
-        you_win.setFont(new Font("SansSerif", Font.BOLD, width_you_win / 2));
-        you_win.setLocation(getWidth / 2 - you_win.getWidth() / 2, (getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6);
-        result_menu_you_defeat.add(you_win);
+        Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
+        headline.setColor(Color.decode("#d99d1e"));
+        headline.setLocation(getWidth / 2 - width_headline_box / 2, 0.0185 * getHeight);
+        rulesMenu.add(headline);
 
-        double y_button_play_again =(getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 + (getHeight-(getHeight + congratulation.getAscent()) / 4 + (getHeight + you_win.getAscent()) / 6 -height_play_again)/4;
 
-        Button play_again = new Button(width_play_again, height_play_again, "Грати знову", new Font("SansSerif", Font.BOLD, (int) (width_play_again / 8)));
-        play_again.setColor(color_of_text);
-        play_again.setLocation(getWidth / 2 - play_again.getWidth() / 2, y_button_play_again);
-        result_menu_you_defeat.add(play_again);
 
-        return result_menu_you_defeat;
 
+        Button exit = new Button(width_headline_box, height_headline_box, "Назад",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
+        exit.setColor(Color.decode("#d99d1e"));
+        exit.setLocation(getWidth / 2 - width_headline_box / 2, getHeight-height_headline_box-0.0185 * getHeight);
+        rulesMenu.add(exit);
+
+
+
+
+
+
+        return rulesMenu;
     }
 
-    */
 
 }
+
+
+
+

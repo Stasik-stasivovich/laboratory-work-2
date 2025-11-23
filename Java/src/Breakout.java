@@ -56,7 +56,7 @@ public class Breakout extends GraphicsProgram {
     private BonusMethod bonusMethod;
     private MovementLogic movementLogic;
 
-    private GameStatus currentGameStatus =  GameStatus.MAIN_MENU;
+    private GameStatus currentGameStatus = GameStatus.MAIN_MENU;
     private final Font fontHealth = new Font("Sans Serif", Font.BOLD, 16);
 
 
@@ -114,14 +114,17 @@ public class Breakout extends GraphicsProgram {
         removeAll();
 
         startMenu = Create_menu.first_title_menu(getWidth(), getHeight());
-        if (currentGameStatus == GameStatus.MAIN_MENU)
-            add(startMenu);
-        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL)
-            add(selectLevelMenu);
+
+        if (currentGameStatus == GameStatus.MAIN_MENU) add(startMenu);
+
+        else if (currentGameStatus == GameStatus.RULES_MENU) add(rulesMenu);
+
+        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) add(selectLevelMenu);
 
         selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
         resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
         resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
+        rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
 
 
         // тут пишеш
@@ -141,7 +144,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL) pause(100);
+        while (currentGameStatus == GameStatus.MAIN_MENU ||currentGameStatus==GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL) pause(100);
     }
 
     private void setup() {
@@ -222,10 +225,35 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
                 } else if (button.text.equals("Вихід")) {
                     exit();
+                } else if (button.text.equals("Правила гри")) {
+                    removeAll();
+                    add(rulesMenu);
+                    currentGameStatus = GameStatus.RULES_MENU;
                 }
-                // else if (){}
             }
-        } else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
+        }
+
+
+
+
+        else if (currentGameStatus == GameStatus.RULES_MENU) {
+            if (rulesMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) rulesMenu.getElementAt(e.getX(), e.getY());
+                if (button.text.equals("Назад")) {
+                    removeAll();
+                    add(startMenu);
+                    currentGameStatus = GameStatus.MAIN_MENU;
+
+                }
+            }
+        }
+
+
+
+
+
+
+        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Рівень 1")) {
@@ -261,7 +289,6 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
 
                 }
-                // else if (){}
             }
         } else if (currentGameStatus == GameStatus.GAME_OVER_LOSE) {
             if (resultMenuDefeat.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
@@ -274,8 +301,7 @@ public class Breakout extends GraphicsProgram {
                 }
                 // else if (){}
             }
-        }
-        else if (currentGameStatus == GameStatus.PLAYING) {
+        } else if (currentGameStatus == GameStatus.PLAYING) {
             if (ballsContainer.getElementCount() == 0) {
                 bonusMethod.addBall();
                 playerHealth--;
@@ -294,10 +320,8 @@ public class Breakout extends GraphicsProgram {
     //рух ракетки разом з мишкою
     public void mouseMoved(MouseEvent e) {
         double x = e.getX() - (double) PADDLE_WIDTH / 2;
-        if (x < 0)
-            x = 0;
-        if (x + PADDLE_WIDTH > getWidth())
-            x = getWidth() - PADDLE_WIDTH;
+        if (x < 0) x = 0;
+        if (x + PADDLE_WIDTH > getWidth()) x = getWidth() - PADDLE_WIDTH;
 
         if (racket != null) {
             racket.setLocation(x, racket.getY());
