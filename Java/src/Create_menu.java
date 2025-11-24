@@ -3,6 +3,7 @@ import acm.graphics.GLabel;
 import acm.graphics.GRect;
 
 import java.awt.*;
+import java.util.StringTokenizer;
 
 public class Create_menu {
     String rulesText;
@@ -232,6 +233,12 @@ public class Create_menu {
 
     public static GCompound rules_menu(double getWidth, double getHeight) {
 
+
+        String rule = "asdadadasd \n" +
+                "asdadsadsadadsdadad \n" +
+                "asdadadasdasdsadadasd \n" +
+                "asdasdjaksdjadkasdad";
+
         double width_headline_box = getWidth * 0.85;
         double height_headline_box = getWidth * 0.1;
         double y_step =0.0185;
@@ -242,19 +249,24 @@ public class Create_menu {
         backgraound.sendBackward();
         rulesMenu.add(backgraound);
 
-
-
+        int yOfStartRule = 100;//хз шо тут має бути зробиш
+        int xOffSet = 50;
         Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
         headline.setColor(Color.decode("#d99d1e"));
         headline.setLocation(getWidth / 2 - width_headline_box / 2, y_step * getHeight);
         rulesMenu.add(headline);
 
+        createLablesFromText(rulesMenu, rule, yOfStartRule,xOffSet);
+
+        /*
         Button mainPartofRules = new Button(width_headline_box, getHeight-4*y_step*getHeight-2*height_headline_box, "Правила ",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
         mainPartofRules.setColor(Color.decode("#d99d1e"));
         mainPartofRules.setLocation(getWidth / 2 - width_headline_box / 2, 2*y_step * getHeight+height_headline_box);
         rulesMenu.add(mainPartofRules);
 
 
+
+         */
 
 
         Button exit = new Button(width_headline_box, height_headline_box, "Назад",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
@@ -268,6 +280,19 @@ public class Create_menu {
 
 
         return rulesMenu;
+    }
+
+    private static void createLablesFromText(GCompound rulesMenu, String rule, int yOfStartRule, int xOffSet) {
+        StringTokenizer stringTokenizer = new StringTokenizer(rule, "\n");
+        int y = yOfStartRule;
+
+        while (stringTokenizer.hasMoreTokens()) {
+            GLabel label = new GLabel(stringTokenizer.nextToken(),xOffSet,y);
+            label.setColor(Color.decode("#d99d1e"));
+            label.setFont(new Font("Congenial Black", Font.BOLD,20));
+            rulesMenu.add(label);
+            y += (int) (label.getHeight()+ 20);
+        }
     }
 
 
