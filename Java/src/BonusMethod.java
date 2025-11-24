@@ -50,6 +50,6 @@ public class BonusMethod {
     }
     public void addExpansion(){
         game.expansionCountdown = 1000;
-        game.racket.setSize(Breakout.PADDLE_WIDTH + 50, Breakout.PADDLE_HEIGHT);
+        game.racket.setSize(Breakout.PADDLE_WIDTH + Breakout.paddleExpansion, Breakout.PADDLE_HEIGHT);
     }
 }
