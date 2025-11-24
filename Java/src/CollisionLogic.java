@@ -105,7 +105,7 @@ public class CollisionLogic {
 
         if (game.random.nextBoolean(Breakout.CHANCE_CREATE_BONUS)) {
             Bonus bonus = null;
-            int type = game.random.nextInt(1,4);
+            int type = game.random.nextInt(1,5);
             bonus = new Bonus(collider.getX(), collider.getY(), type, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
             bonusContainer.add(bonus);
         }
@@ -130,8 +130,10 @@ public class CollisionLogic {
                         bonusMethod.addHealth();
                         break;
                     case 4:
-                        bonusMethod.addExpansion();
+                        bonusMethod.changeSizeRacket(game.paddleExpansion);
                         break;
+                    case 5:
+                        bonusMethod.changeSizeRacket(-1 * game.paddleIncrease);
                 }
                 bonusContainer.remove(tempBonus);
                 len--;

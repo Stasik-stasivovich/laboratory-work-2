@@ -48,8 +48,9 @@ public class BonusMethod {
         game.playerHealth++;
         game.updatePlayerHp();
     }
-    public void addExpansion(){
+    public void changeSizeRacket(int sizeDelta){
         game.expansionCountdown = 1000;
-        game.racket.setSize(Breakout.PADDLE_WIDTH + Breakout.paddleExpansion, Breakout.PADDLE_HEIGHT);
+        game.racket.setSize(Breakout.PADDLE_WIDTH + sizeDelta, Breakout.PADDLE_HEIGHT);
     }
+
 }

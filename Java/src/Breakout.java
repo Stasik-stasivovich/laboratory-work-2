@@ -27,7 +27,8 @@ public class Breakout extends GraphicsProgram {
     public static final int PADDLE_Y_OFFSET = 20;
 
     public int expansionCountdown = 0;
-    public static int paddleExpansion = 75;
+    public int paddleExpansion = 75;
+    public int paddleIncrease = 75;
 
 
     public static final double CHANCE_CREATE_BONUS = 0.3;
