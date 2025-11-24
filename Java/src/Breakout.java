@@ -328,12 +328,14 @@ public class Breakout extends GraphicsProgram {
 
     //рух ракетки разом з мишкою
     public void mouseMoved(MouseEvent e) {
-        double x = e.getX() - (double) PADDLE_WIDTH / 2;
-        if (x < 0) x = 0;
-        if (x + PADDLE_WIDTH > getWidth()) x = getWidth() - PADDLE_WIDTH;
+        if (currentGameStatus == GameStatus.PLAYING) {
+            double x = e.getX() - (double) racket.getWidth() / 2;
+            if (x < 0) x = 0;
+            if (x + racket.getWidth() > getWidth()) x = getWidth() - racket.getWidth();
 
-        if (racket != null) {
-            racket.setLocation(x, racket.getY());
+            if (racket != null) {
+                racket.setLocation(x, racket.getY());
+            }
         }
     }
 
