@@ -149,7 +149,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU ||currentGameStatus==GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL) pause(100);
+        while (currentGameStatus == GameStatus.MAIN_MENU ||currentGameStatus==GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL|| currentGameStatus==GameStatus.CHOICE_DIFFICULTY) pause(100);
     }
 
     private void setup() {
@@ -228,7 +228,7 @@ public class Breakout extends GraphicsProgram {
                 if (button.text.equals("Почати гру")) {
                     removeAll();
                     add(selectLevelMenu);
-                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                    currentGameStatus = GameStatus.CHOICE_DIFFICULTY;
                 } else if (button.text.equals("Вихід")) {
                     exit();
                 } else if (button.text.equals("Правила гри")) {
@@ -251,6 +251,25 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.MAIN_MENU;
 
                 }
+            }
+        }
+
+
+        //changes
+        else if (currentGameStatus == GameStatus.CHOICE_DIFFICULTY) {
+            if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == GCompound.class) {
+                GCompound GcompoundDifficulty = (GCompound) selectLevelMenu.getElementAt(e.getX(), e.getY());
+
+                Button easy = (Button) GcompoundDifficulty.getElementAt(e.getX(), e.getY());
+                if (easy.text.equals("Легко")) {
+
+                    GcompoundDifficulty.getElement(0);
+                    GcompoundDifficulty.setColor(Color.BLACK);
+
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                }
+
+
             }
         }
 

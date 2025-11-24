@@ -17,6 +17,7 @@ import java.awt.*;
 public class Button extends GCompound {
     String text;
     Font font_button ;
+    //Сщдщ
     /**
      *
      *
