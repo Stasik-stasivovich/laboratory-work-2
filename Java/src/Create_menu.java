@@ -258,6 +258,16 @@ public class Create_menu {
         rulesMenu.add(backgraound);
 
 
+        //прямокутник canvas для основного тексту правил
+        GRect mainPartofRules = new GRect(width_headline_box, getHeight-4*y_step*getHeight-2*height_headline_box);
+        mainPartofRules.setColor(Color.decode("#d99d1e"));
+        mainPartofRules.setFilled(true);
+        mainPartofRules.sendBackward();
+        mainPartofRules.setLocation(getWidth / 2 - width_headline_box / 2, 2 * y_step * getHeight + height_headline_box);
+        rulesMenu.add(mainPartofRules);
+
+
+
 
        Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
 
@@ -270,18 +280,13 @@ public class Create_menu {
         rulesMenu.add(headline);
 
 
-        Button mainPartofRules = new Button(width_headline_box, getHeight - 4 * y_step * getHeight - 2 * height_headline_box, "Правила ", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
+        // Button mainPartofRules = new Button(width_headline_box, getHeight - 4 * y_step * getHeight - 2 * height_headline_box, "Правила ", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
 
         createLablesFromText(rulesMenu, rule, yOfStartRule,xOffSet);
 
-        /*
-        Button mainPartofRules = new Button(width_headline_box, getHeight-4*y_step*getHeight-2*height_headline_box, "Правила ",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
-
-        mainPartofRules.setColor(Color.decode("#d99d1e"));
-        mainPartofRules.setLocation(getWidth / 2 - width_headline_box / 2, 2 * y_step * getHeight + height_headline_box);
-        rulesMenu.add(mainPartofRules);
 
 
+/*
 
         Button exit = new Button(width_headline_box, height_headline_box, "Назад", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
 
@@ -296,6 +301,7 @@ public class Create_menu {
         rulesMenu.add(exit);
 
 
+
         return rulesMenu;
     }
 
@@ -305,12 +311,14 @@ public class Create_menu {
 
         while (stringTokenizer.hasMoreTokens()) {
             GLabel label = new GLabel(stringTokenizer.nextToken(),xOffSet,y);
-            label.setColor(Color.decode("#d99d1e"));
+            label.setColor(Color.BLACK);
             label.setFont(new Font("Congenial Black", Font.BOLD,20));
             rulesMenu.add(label);
+            label.sendForward();
             y += (int) (label.getHeight()+ 20);
         }
     }
+
 
 
 }
