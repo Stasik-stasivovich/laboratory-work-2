@@ -129,18 +129,26 @@ public class Create_menu {
         wrapper_hard.setFilled(true);
         level_menu.add(wrapper_hard);
 
+        // button easy
+        Button easy = new Button((width_button_game_Breakout-2*x_step_betweenDifficulty)/3-6, height_choice_difficulty-6, "Легко", new Font("Congenial Black", Font.BOLD, (int) (height_choice_level / 2)));
+        easy.setColor(Color.decode("#d99d1e"));
+        easy.setLocation(getWidth / 2 - width_button_game_Breakout / 2+3, y_button_choice_difficulty+3);
+        level_menu.add(easy);
 
-/*
+        //button medium
+        Button medium = new Button((width_button_game_Breakout-2*x_step_betweenDifficulty)/3-6, height_choice_difficulty-6, "Нормально", new Font("Congenial Black", Font.BOLD, (int) (height_choice_level / 2)));
+        medium.setColor(Color.decode("#d99d1e"));
+        medium.setLocation((getWidth / 2 - width_button_game_Breakout / 2) + (width_button_game_Breakout-2*x_step_betweenDifficulty)/3+x_step_betweenDifficulty+3, y_button_choice_difficulty+3);
+        level_menu.add(medium);
+
+        //button hard
+        Button hard = new Button((width_button_game_Breakout-2*x_step_betweenDifficulty)/3-6, height_choice_difficulty-6, "Важко", new Font("Congenial Black", Font.BOLD, (int) (height_choice_level / 2)));
+        hard.setColor(Color.decode("#d99d1e"));
+        hard.setLocation((getWidth / 2 - width_button_game_Breakout / 2) + 2*((width_button_game_Breakout-2*x_step_betweenDifficulty)/3)+2*x_step_betweenDifficulty+3, y_button_choice_difficulty+3);
+        level_menu.add(hard);
 
 
-        Button easy = new Button(width_button_game_Breakout/3-5, height_choice_level, "Легко", new Font("Congenial Black", Font.BOLD, (int) (height_choice_level / 2)));
-        easy.setColor(Color.RED);
-        easy.setLocation(+(width_button_game_Breakout/3)*0.1, 100);
-        //level_menu.add(easy);
 
-
-
- */
 
 
         //1
