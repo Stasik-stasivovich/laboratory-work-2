@@ -61,21 +61,24 @@ public class Create_menu {
     //меню вибору
     public static GCompound level_menu(double getWidth, double getHeight) {
         GCompound level_menu = new GCompound();
+        int amount_of_all_objects = 9;
+
         double width_button_game_Breakout = getWidth * 0.7;
-        double height_button_game_Breakout = getHeight * 0.11;
-        double height_choice_level = getHeight * 0.12;
-        double height_levels = getHeight * 0.1;
-        double height_exit = getHeight * 0.12;
-
-        int amount_of_all_objects = 8;
+        double height_button_game_Breakout = getHeight * 0.10;
+        double height_choice_level = getHeight * 0.07;
+        double height_choice_difficulty = getHeight * 0.085;
+        double height_exit = getHeight * 0.1;
+        double height_levels = (getHeight -(height_exit+height_choice_level+height_button_game_Breakout+height_choice_difficulty))/amount_of_all_objects;
         int space_between_objects = amount_of_all_objects + 1;
-        double all_heights_of_objects = height_button_game_Breakout + height_choice_level + 5 * height_levels + height_exit;
 
+        double all_heights_of_objects = height_button_game_Breakout + height_choice_level + 5 * height_levels + height_exit+ height_choice_difficulty;
         double y_step = (getHeight - all_heights_of_objects) / space_between_objects;
+
 
         double y_button_game_Breakout = y_step;
         double y_button_choice_level = y_button_game_Breakout + height_button_game_Breakout + y_step;
-        double y_level_1 = y_button_choice_level + height_choice_level + y_step;
+        double y_button_choice_difficulty = y_button_choice_level + height_choice_level + y_step;
+        double y_level_1 = y_button_choice_difficulty + height_choice_difficulty + y_step;
         double y_level_2 = y_level_1 + height_levels + y_step;
         double y_level_3 = y_level_2 + height_levels + y_step;
         double y_level_4 = y_level_3 + height_levels + y_step;
@@ -94,11 +97,53 @@ public class Create_menu {
         game_Breakout.setColor(Color.decode("#d99d1e"));
         level_menu.add(game_Breakout);
 
-        Button choice_level = new Button(width_button_game_Breakout, height_choice_level, "Вибір рівнів", new Font("Congenial Black", Font.BOLD, (int) (height_choice_level / 2)));
-        choice_level.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_button_choice_level);
-        choice_level.setColor(Color.decode("#d99d1e"));
-        level_menu.add(choice_level);
-//1
+        //лейбл складність
+        Button levelDifficulty = new Button(width_button_game_Breakout, height_choice_level, "Складність", new Font("Congenial Black", Font.BOLD, (int) (height_choice_level / 2)));
+        levelDifficulty.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_button_choice_level);
+        levelDifficulty.setColor(Color.decode("#d99d1e"));
+        level_menu.add(levelDifficulty);
+
+        //складність
+        double x_step_betweenDifficulty= (0.1*(width_button_game_Breakout/3));
+
+        //легко складність обгортка
+        GRect wrapper_easy = new GRect((width_button_game_Breakout-2*x_step_betweenDifficulty)/3,height_choice_difficulty );
+        wrapper_easy.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_button_choice_difficulty);
+        wrapper_easy.setColor(Color.BLACK);
+        wrapper_easy.setFilled(true);
+        level_menu.add(wrapper_easy);
+
+        //середня складність обгортка
+
+        GRect wrapper_medium = new GRect((width_button_game_Breakout-2*x_step_betweenDifficulty)/3,height_choice_difficulty );
+        wrapper_medium.setLocation((getWidth / 2 - width_button_game_Breakout / 2) + (width_button_game_Breakout-2*x_step_betweenDifficulty)/3+x_step_betweenDifficulty, y_button_choice_difficulty);
+        wrapper_medium.setColor(Color.BLACK);
+        wrapper_medium.setFilled(true);
+        level_menu.add(wrapper_medium);
+
+        //важка складність обгортка
+
+        GRect wrapper_hard = new GRect((width_button_game_Breakout-2*x_step_betweenDifficulty)/3,height_choice_difficulty );
+        wrapper_hard.setLocation((getWidth / 2 - width_button_game_Breakout / 2) + 2*((width_button_game_Breakout-2*x_step_betweenDifficulty)/3)+2*x_step_betweenDifficulty, y_button_choice_difficulty);
+        wrapper_hard.setColor(Color.BLACK);
+        wrapper_hard.setFilled(true);
+        level_menu.add(wrapper_hard);
+
+
+/*
+
+
+        Button easy = new Button(width_button_game_Breakout/3-5, height_choice_level, "Легко", new Font("Congenial Black", Font.BOLD, (int) (height_choice_level / 2)));
+        easy.setColor(Color.RED);
+        easy.setLocation(+(width_button_game_Breakout/3)*0.1, 100);
+        //level_menu.add(easy);
+
+
+
+ */
+
+
+        //1
         Button level_1 = new Button(width_button_game_Breakout, height_levels, "Рівень 1", new Font("Congenial Black", Font.BOLD, (int) (height_levels / 1.7)));
         level_1.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_level_1);
         level_1.setColor(Color.decode("#d99d1e"));
