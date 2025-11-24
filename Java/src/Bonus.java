@@ -6,7 +6,7 @@ public class Bonus extends GImage {
 
     /**
      *
-     * @param type тип 1 - +1 кулька 2- х2 кульки 3 - +1 життя
+     * @param type тип 1 - +1 кулька 2- х2 кульки 3 - +1 життя 4 - розширення ракетки
      * @return шлях до картинки (String)
      */
     private static String getImageLocationFromType (int type){
@@ -16,6 +16,8 @@ public class Bonus extends GImage {
             case 2:
                 return  "images/bonus2.png";
             case 3:
+                return  "images/bonus3.png";
+            case 4:
                 return  "images/bonus3.png";
             default:
                 return  null;
@@ -31,8 +33,7 @@ public class Bonus extends GImage {
     public int getVy(){
         return vy;
     }
-    public int getType()
-        {
+    public int getType() {
         return type;
         }
 

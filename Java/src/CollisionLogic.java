@@ -41,6 +41,17 @@ public class CollisionLogic {
 
     }
 
+
+    public void checkExpansionCountdown(){
+        if (game.expansionCountdown != 0){
+            game.expansionCountdown--;
+            if (game.expansionCountdown == 0){
+                game.racket.setSize(Breakout.PADDLE_WIDTH, game.racket.getHeight());
+            }
+        }
+
+    }
+
     // метод що перевіряє чи об'єкт пересікся з об'єктом на рівні
     private GObject checkCollider(GObject object, int radius) {
         GObject collider = level.getElementAt(object.getX(), object.getY());
@@ -94,16 +105,8 @@ public class CollisionLogic {
 
         if (game.random.nextBoolean(Breakout.CHANCE_CREATE_BONUS)) {
             Bonus bonus = null;
-            switch (game.random.nextInt(1, 3)) {
-                case 1:
-                    bonus = new Bonus(collider.getX(), collider.getY(), 1, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
-                    break;
-                case 2:
-                    bonus = new Bonus(collider.getX(), collider.getY(), 2, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
-                    break;
-                case 3:
-                    bonus = new Bonus(collider.getX(), collider.getY(), 3, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
-            }
+            int type = game.random.nextInt(1,4);
+            bonus = new Bonus(collider.getX(), collider.getY(), type, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
             bonusContainer.add(bonus);
         }
 
@@ -125,6 +128,9 @@ public class CollisionLogic {
                         break;
                     case 3:
                         bonusMethod.addHealth();
+                        break;
+                    case 4:
+                        bonusMethod.addExpansion();
                         break;
                 }
                 bonusContainer.remove(tempBonus);

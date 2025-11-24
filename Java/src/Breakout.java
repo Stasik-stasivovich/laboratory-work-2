@@ -12,19 +12,22 @@ public class Breakout extends GraphicsProgram {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
     public static final int BALL_RADIUS = 9;
-    private static final int DELAY = 15;
+    private static final int DELAY = 8;
 
-    public static final int MAX_VX = 6;
-    public static final int MAX_VY = 6;
-    public static final int MIN_VX = 5;
-    public static final int MIN_VY = 5;
+    public static final int MAX_VX = 5;
+    public static final int MAX_VY = 5;
+    public static final int MIN_VX = 3;
+    public static final int MIN_VY = 3;
 
     public static final int MAX_BONUS_SPEED = 5;
     public static final int MIN_BONUS_SPEED = 3;
 
-    public static final int PADDLE_WIDTH = 150;
+    public static final int PADDLE_WIDTH = 70;
     public static final int PADDLE_HEIGHT = 10;
     public static final int PADDLE_Y_OFFSET = 20;
+
+    public int expansionCountdown = 0;
+
 
     public static final double CHANCE_CREATE_BONUS = 0.3;
 
@@ -192,6 +195,7 @@ public class Breakout extends GraphicsProgram {
             movementLogic.moveBall();
             movementLogic.moveBonus();
             collisionLogic.checkBonusCollision();
+            collisionLogic.checkExpansionCountdown();
             collisionLogic.checkBallCollision();
             collisionLogic.checkOutOfBaunds();
             checkForEnd();
