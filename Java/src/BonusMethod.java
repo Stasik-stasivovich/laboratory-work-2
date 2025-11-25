@@ -19,10 +19,10 @@ public class BonusMethod {
     // метод що додає нову кульку
     public void addBall() {
 
-        ballsContainer.add(new Ball((int) racket.getX() + Breakout.PADDLE_WIDTH / 2,
-                game.getHeight() - Breakout.PADDLE_Y_OFFSET - Breakout.BALL_RADIUS - Breakout.PADDLE_HEIGHT - 20
-                , Breakout.BALL_RADIUS * 2, Breakout.BALL_RADIUS * 2, game.random.nextBoolean() ? game.random.nextInt(Breakout.MIN_VX, Breakout.MAX_VX) :
-                -1 * game.random.nextInt(Breakout.MIN_VX, Breakout.MAX_VX), -1 * game.random.nextInt(Breakout.MIN_VY, Breakout.MAX_VY)));
+        ballsContainer.add(new Ball((int) racket.getX() + Breakout.paddleWidth / 2,
+                game.getHeight() - Breakout.paddleYOffset - Breakout.BALL_RADIUS - Breakout.paddleHeight - 20
+                , Breakout.BALL_RADIUS * 2, Breakout.BALL_RADIUS * 2, game.random.nextBoolean() ? game.random.nextInt(Breakout.minVx, Breakout.maxVx) :
+                -1 * game.random.nextInt(Breakout.minVx, Breakout.maxVx), -1 * game.random.nextInt(Breakout.minVy, Breakout.maxVy)));
     }
 
     // метод що подвоює всі кульки
@@ -41,7 +41,6 @@ public class BonusMethod {
         while (tempCompaund.getElementCount() > 0) {
             ballsContainer.add(tempCompaund.getElement(0));
         }
-        tempCompaund = null;
     }
 
     public void addHealth() {
@@ -50,7 +49,7 @@ public class BonusMethod {
     }
     public void changeSizeRacket(int sizeDelta){
         game.expansionCountdown = 1000;
-        game.racket.setSize(Breakout.PADDLE_WIDTH + sizeDelta, Breakout.PADDLE_HEIGHT);
+        game.racket.setSize(Breakout.paddleWidth + sizeDelta, Breakout.paddleHeight);
     }
 
 }

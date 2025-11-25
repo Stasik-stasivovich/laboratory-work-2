@@ -11,34 +11,33 @@ import java.awt.event.MouseEvent;
 public class Breakout extends GraphicsProgram {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
-    public static  int BALL_RADIUS = 9;
-    private static  int DELAY = 8;
+    public static int BALL_RADIUS = 9;
+    private static int DELAY = 8;
 
-    public static  int MAX_VX = 5;
-    public static  int MAX_VY = 5;
-    public static  int MIN_VX = 3;
-    public static  int MIN_VY = 3;
+    public static int maxVx = 5;
+    public static int maxVy = 5;
+    public static int minVx = 3;
+    public static int minVy = 3;
 
-    public static  int MAX_BONUS_SPEED = 5;
-    public static  int MIN_BONUS_SPEED = 3;
+    public static int MAX_BONUS_SPEED = 5;
+    public static int MIN_BONUS_SPEED = 3;
 
-    public static  int PADDLE_WIDTH = 70;
-    public static  int PADDLE_HEIGHT = 10;
-    public static  int PADDLE_Y_OFFSET = 20;
+    public static int paddleWidth = 70;
+    public static int paddleHeight = 10;
+    public static int paddleYOffset = 20;
 
     public int expansionCountdown = 0;
     public int paddleExpansion = 75;
     public int paddleIncrease = 40;
 
 
-    public static  double CHANCE_CREATE_BONUS = 0.3;
+    public static double chanceCreateBonus = 0.3;
 
-    private static  int PLAYER_STARTHP = 2;
-    private static  int BRICK_HEALYH = 2;
+    private static int playerStarthp = 2;
+    private static int brickHealth = 2;
 
 
-
-    public int playerHealth = PLAYER_STARTHP;
+    public int playerHealth = playerStarthp;
     public GLabel playerHpLabel;
 
 
@@ -139,7 +138,7 @@ public class Breakout extends GraphicsProgram {
 
     private void levels() {
 //рівень 1
-        level = Create_Level.create_Level(getWidth(), getHeight(), whatLevel, BRICK_HEALYH);
+        level = Create_Level.create_Level(getWidth(), getHeight(), whatLevel, brickHealth);
         add(level);
         //рівень 2
 
@@ -148,12 +147,13 @@ public class Breakout extends GraphicsProgram {
     private void waitForChoiseResult() {
         while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE || currentGameStatus == GameStatus.CHOICE_DIFFICULTY) {
 
-        pause(100);
-    }
+            pause(100);
+        }
     }
 
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU ||currentGameStatus==GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL|| currentGameStatus==GameStatus.CHOICE_DIFFICULTY) pause(100);
+        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL || currentGameStatus == GameStatus.CHOICE_DIFFICULTY)
+            pause(100);
     }
 
     private void setup() {
@@ -173,10 +173,10 @@ public class Breakout extends GraphicsProgram {
         bonusMethod = new BonusMethod(this, ballsContainer);
         collisionLogic = new CollisionLogic(this, ballsContainer, bonusContainer, bonusMethod);
         movementLogic = new MovementLogic(this, ballsContainer, bonusContainer);
-        playerHealth = PLAYER_STARTHP;
+        playerHealth = playerStarthp;
         playerHpLabel = new GLabel("Player Health: " + playerHealth);
         playerHpLabel.setFont(fontHealth);
-        add(playerHpLabel, getWidth() - playerHpLabel.getWidth() - 10, getHeight() - playerHpLabel.getHeight() - PADDLE_Y_OFFSET);
+        add(playerHpLabel, getWidth() - playerHpLabel.getWidth() - 10, getHeight() - playerHpLabel.getHeight() - paddleYOffset);
 
         currentGameStatus = GameStatus.PLAYING;
         //рівні гри
@@ -187,10 +187,10 @@ public class Breakout extends GraphicsProgram {
     //ракетка
     private void createRacket() {
 
-        racket = new GRect((double) (getWidth() - PADDLE_WIDTH) / 2, getHeight() - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
+        racket = new GRect((double) (getWidth() - paddleWidth) / 2, getHeight() - paddleYOffset, paddleWidth, paddleHeight);
         racket.setColor(Color.BLACK);
         racket.setFilled(true);
-        level.add(racket, (double) getWidth() / 2 - ((double) PADDLE_WIDTH / 2), getHeight() - PADDLE_Y_OFFSET);
+        level.add(racket, (double) getWidth() / 2 - ((double) paddleWidth / 2), getHeight() - paddleYOffset);
 
 
     }
@@ -241,12 +241,7 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.RULES_MENU;
                 }
             }
-        }
-
-
-
-
-        else if (currentGameStatus == GameStatus.RULES_MENU) {
+        } else if (currentGameStatus == GameStatus.RULES_MENU) {
             if (rulesMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) rulesMenu.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Назад")) {
@@ -267,25 +262,25 @@ public class Breakout extends GraphicsProgram {
                 Button difficulty = (Button) GcompoundDifficulty.getElementAt(e.getX(), e.getY());
                 if (difficulty.text.equals("Легко")) {
                     difficulty.setColor(Color.decode("#00bf63"));
-                       BALL_RADIUS = 9;
-                        DELAY = 8;
+                    BALL_RADIUS = 9;
+                    DELAY = 8;
 
-                       MAX_VX = 3;
-                       MAX_VY = 3;
-                       MIN_VX = 2;
-                       MIN_VY = 2;
+                    maxVx = 3;
+                    maxVy = 3;
+                    minVx = 2;
+                    minVy = 2;
 
-                       MAX_BONUS_SPEED = 5;
-                       MIN_BONUS_SPEED = 3;
+                    MAX_BONUS_SPEED = 5;
+                    MIN_BONUS_SPEED = 3;
 
-                       PADDLE_WIDTH = 70;
-                       PADDLE_HEIGHT = 10;
-                       PADDLE_Y_OFFSET = 20;
+                    paddleWidth = 70;
+                    paddleHeight = 10;
+                    paddleYOffset = 20;
 
-                       CHANCE_CREATE_BONUS = 0.3;
+                    chanceCreateBonus = 0.3;
 
-                        PLAYER_STARTHP = 10;
-                        BRICK_HEALYH =2;
+                    playerStarthp = 10;
+                    brickHealth = 2;
 
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
                 } else if (difficulty.text.equals("Нормально")) {
@@ -293,58 +288,58 @@ public class Breakout extends GraphicsProgram {
                     BALL_RADIUS = 6;
                     DELAY = 5;
 
-                    MAX_VX = 5;
-                    MAX_VY = 5;
-                    MIN_VX = 3;
-                    MIN_VY = 3;
+                    maxVx = 5;
+                    maxVy = 5;
+                    minVx = 3;
+                    minVy = 3;
 
                     MAX_BONUS_SPEED = 10;
                     MIN_BONUS_SPEED = 3;
 
-                    PADDLE_WIDTH = 50;
-                    PADDLE_HEIGHT = 7;
-                    PADDLE_Y_OFFSET = 40;
+                    paddleWidth = 50;
+                    paddleHeight = 7;
+                    paddleYOffset = 40;
 
-                    CHANCE_CREATE_BONUS = 0.2;
-                    PLAYER_STARTHP = 5;
-                    BRICK_HEALYH =5;
+                    chanceCreateBonus = 0.2;
+                    playerStarthp = 5;
+                    brickHealth = 5;
 
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
 
-                }else if (difficulty.text.equals("Важко")) {
+                } else if (difficulty.text.equals("Важко")) {
                     difficulty.setColor(Color.decode("#ff5555"));
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
                     BALL_RADIUS = 3;
                     DELAY = 3;
 
-                    MAX_VX = 7;
-                    MAX_VY = 7;
-                    MIN_VX = 5;
-                    MIN_VY = 5;
+                    maxVx = 7;
+                    maxVy = 7;
+                    minVx = 5;
+                    minVy = 5;
 
                     MAX_BONUS_SPEED = 20;
                     MIN_BONUS_SPEED = 10;
 
-                    PADDLE_WIDTH = 25;
-                    PADDLE_HEIGHT = 5;
-                    PADDLE_Y_OFFSET = 50;
+                    paddleWidth = 25;
+                    paddleHeight = 5;
+                    paddleYOffset = 50;
 
-                    CHANCE_CREATE_BONUS = 0.01;
-                    PLAYER_STARTHP = 1;
-                    BRICK_HEALYH =10;
+                    chanceCreateBonus = 0.01;
+                    playerStarthp = 1;
+                    brickHealth = 10;
 
 
                 }
-
-
+            }
+            if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
+                if (button.text.equals("Назад")) {
+                    removeAll();
+                    add(startMenu);
+                    currentGameStatus = GameStatus.MAIN_MENU;
+                }
             }
         }
-
-
-
-
-
-
         else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
@@ -365,7 +360,7 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     whatLevel = 4;
                     currentGameStatus = GameStatus.PLAYING;
-                }else if (button.text.equals("Рівень 5")) {
+                } else if (button.text.equals("Рівень 5")) {
                     removeAll();
                     whatLevel = 5;
                     currentGameStatus = GameStatus.PLAYING;
@@ -440,3 +435,4 @@ public class Breakout extends GraphicsProgram {
         game.start(args);
     }
 }
+

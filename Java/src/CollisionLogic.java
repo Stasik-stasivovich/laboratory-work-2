@@ -46,7 +46,7 @@ public class CollisionLogic {
         if (game.expansionCountdown != 0){
             game.expansionCountdown--;
             if (game.expansionCountdown == 0){
-                game.racket.setSize(Breakout.PADDLE_WIDTH, game.racket.getHeight());
+                game.racket.setSize(Breakout.paddleWidth, game.racket.getHeight());
             }
         }
 
@@ -71,7 +71,7 @@ public class CollisionLogic {
     private void resolveCollision(GObject collider, Ball ball) {
         if (collider == racket) {
             ball.setVy(-1 * Math.abs(ball.getVy()));
-            ball.setVx((int) Math.signum(ball.getVx()) * game.random.nextInt(Breakout.MIN_VX, Breakout.MAX_VX));
+            ball.setVx((int) Math.signum(ball.getVx()) * game.random.nextInt(Breakout.minVx, Breakout.maxVx));
         }
         if (collider.getClass() == Brick.class) {
             GRectangle bound1 = ball.getBounds();
@@ -103,7 +103,7 @@ public class CollisionLogic {
     // якщо випало тру то додаємо випадковий бонус
     private void tryCreateBonus() {
 
-        if (game.random.nextBoolean(Breakout.CHANCE_CREATE_BONUS)) {
+        if (game.random.nextBoolean(Breakout.chanceCreateBonus)) {
             Bonus bonus = null;
             int type = game.random.nextInt(1,5);
             bonus = new Bonus(collider.getX(), collider.getY(), type, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
