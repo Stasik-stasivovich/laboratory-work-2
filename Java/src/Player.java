@@ -13,7 +13,7 @@ public class Player {
     Player(){
 
     }
-    public void toogleMusic(){
+    public void toggleMusic(){
         if (isPlaying){
             stop();
         }
@@ -25,6 +25,7 @@ public class Player {
     public void play(){
         if (clip != null && !clip.isRunning()) {
             clip.start();
+            isPlaying = true;
         }
         else{
             loadAndPlay();
