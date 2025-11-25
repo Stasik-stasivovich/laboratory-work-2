@@ -242,10 +242,26 @@ public class Create_menu {
     public static GCompound rules_menu(double getWidth, double getHeight) {
 
 
-        String rule = "asdadadasd \n" +
-                "asdadsadsadadsdadad \n" +
-                "asdadadasdasdsadadasd \n" +
-                "asdasdjaksdjadkasdad";
+        String rule =
+                "МЕТА ГРИ \n" +
+                        "Ваше завдання просте - знищити всі цеглини на рівні.\n" +
+                        "Керуйте ракеткою за допомогою миші \n"+
+                        "і не дайте м'ячам вилетіти за екран.\n" +
+                        "\n" +
+                        "ЯК ПОЧАТИ:\n" +
+                        "1. Натисніть почати гру, оберіть складність та рівень\n" +
+                        "2. Увага, на старті (і при втраті життя)\n"+"м'яч не з'являється автоматично.\n" +
+                        "Клікніть мишкою щоб його запустити.\n" +
+                        "\n" +
+                        "ОСОБЛИВОСТІ:\n" +
+                        "- Міцність: Цеглини, можливо, треба вдарити\n"+
+                        " декілька разів.\n" +
+                        "- Бонуси: Із розбитих цеглин може щось випасти.\n"+
+                        "Ви можете зловити цікавинки ракеткою.\n"+
+                        " Але будьте обережні...\n" +
+                        "Трапляються і шкідливі речі. Досліджуйте самі!\n" +
+                        "\n" +
+                        "Успіхів і насолоджуйтеся грою!";                ;
 
         double width_headline_box = getWidth * 0.85;
         double height_headline_box = getWidth * 0.1;
@@ -259,7 +275,7 @@ public class Create_menu {
 
 
         //прямокутник canvas для основного тексту правил
-        GRect mainPartofRules = new GRect(width_headline_box, getHeight-4*y_step*getHeight-2*height_headline_box);
+        GRect mainPartofRules = new GRect(width_headline_box, getHeight - 4 * y_step * getHeight - 2 * height_headline_box);
         mainPartofRules.setColor(Color.decode("#d99d1e"));
         mainPartofRules.setFilled(true);
         mainPartofRules.sendBackward();
@@ -267,13 +283,11 @@ public class Create_menu {
         rulesMenu.add(mainPartofRules);
 
 
-
-
-       Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
+        Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
 
         int yOfStartRule = 100;//хз шо тут має бути зробиш
         int xOffSet = 50;
-       // Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
+        // Button headline = new Button(width_headline_box, height_headline_box, "Правила гри Breakout",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
 
         headline.setColor(Color.decode("#d99d1e"));
         headline.setLocation(getWidth / 2 - width_headline_box / 2, y_step * getHeight);
@@ -282,7 +296,7 @@ public class Create_menu {
 
         // Button mainPartofRules = new Button(width_headline_box, getHeight - 4 * y_step * getHeight - 2 * height_headline_box, "Правила ", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
 
-        createLablesFromText(rulesMenu, rule, yOfStartRule,xOffSet);
+        createLablesFromText(rulesMenu, rule, yOfStartRule, xOffSet);
 
 
 
@@ -294,12 +308,11 @@ public class Create_menu {
          */
 
 
-        Button exit = new Button(width_headline_box, height_headline_box, "Назад",new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2 ));
+        Button exit = new Button(width_headline_box, height_headline_box, "Назад", new Font("Congenial Black", Font.BOLD, (int) height_headline_box / 2));
 
         exit.setColor(Color.decode("#d99d1e"));
         exit.setLocation(getWidth / 2 - width_headline_box / 2, getHeight - height_headline_box - y_step * getHeight);
         rulesMenu.add(exit);
-
 
 
         return rulesMenu;
@@ -310,15 +323,14 @@ public class Create_menu {
         int y = yOfStartRule;
 
         while (stringTokenizer.hasMoreTokens()) {
-            GLabel label = new GLabel(stringTokenizer.nextToken(),xOffSet,y);
+            GLabel label = new GLabel(stringTokenizer.nextToken(), xOffSet, y);
             label.setColor(Color.BLACK);
-            label.setFont(new Font("Congenial Black", Font.BOLD,20));
+            label.setFont(new Font("Congenial Black", Font.BOLD, 18));
             rulesMenu.add(label);
             label.sendForward();
-            y += (int) (label.getHeight()+ 20);
+            y += (int) (label.getHeight() - 2);
         }
     }
-
 
 
 }
