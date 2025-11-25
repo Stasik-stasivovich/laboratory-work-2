@@ -17,6 +17,7 @@ import java.awt.*;
 public class Button extends GCompound {
     String text;
     Font font_button ;
+    GRect background;
     //Сщдщ
     /**
      *
@@ -29,6 +30,7 @@ public class Button extends GCompound {
     Button(double width, double height, String text,  Font font_button) {
         //font_button = new Font("SansSerif",Font.BOLD,(int) height/5);
         GRect rect = new GRect(0, 0, width, height);
+        background = rect;
         rect.setFilled(true);
         GLabel label = new GLabel(" " + text, 0, height / 2);
         label.setFont(font_button);
@@ -38,5 +40,10 @@ public class Button extends GCompound {
         this.add(rect);
         this.add(label);
     }
+    public void setColor(Color color){
+        background.setColor(color);
+        background.setFillColor(color);
+    }
+
 
 }
