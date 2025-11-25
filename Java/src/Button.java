@@ -42,7 +42,6 @@ public class Button extends GCompound {
     }
     public void setColor(Color color){
         background.setColor(color);
-
         background.setFillColor(color);
 
     }

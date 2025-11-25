@@ -124,16 +124,19 @@ public class Breakout extends GraphicsProgram {
 
         startMenu = Create_menu.first_title_menu(getWidth(), getHeight());
 
+        selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
+        resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
+        resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
+        rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
+
+
         if (currentGameStatus == GameStatus.MAIN_MENU) add(startMenu);
 
         else if (currentGameStatus == GameStatus.RULES_MENU) add(rulesMenu);
 
         else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) add(selectLevelMenu);
 
-        selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
-        resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
-        resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
-        rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
+
 
 
         // тут пишеш
@@ -148,14 +151,14 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void waitForChoiseResult() {
-        while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE ) {
+        while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE) {
 
             pause(100);
         }
     }
 
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL )
+        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL)
             pause(100);
     }
 
@@ -184,7 +187,7 @@ public class Breakout extends GraphicsProgram {
         currentGameStatus = GameStatus.PLAYING;
         //рівні гри
 
-        difficultSelect=false;
+        difficultSelect = false;
     }
 
     //ракетка
@@ -264,73 +267,78 @@ public class Breakout extends GraphicsProgram {
                 GCompound GcompoundDifficulty = (GCompound) selectLevelMenu.getElementAt(e.getX(), e.getY());
 
                 Button difficulty = (Button) GcompoundDifficulty.getElementAt(e.getX(), e.getY());
+                System.out.println(difficulty.text);
                 if (difficulty.text.equals("Легко")) {
-                    if (lastDifficultButton != null){
-                          lastDifficultButton.setColor(Color.decode("#d99d1e"));
+                    if (lastDifficultButton != null) {
+                        lastDifficultButton.setColor(Color.decode("#d99d1e"));
                     }
-                        difficulty.setColor(Color.decode("#00bf63"));
-                        lastDifficultButton = difficulty;
-                        setEasy();
-                        difficultSelect = true;
+                    difficulty.setColor(Color.decode("#00bf63"));
+                    lastDifficultButton = difficulty;
+                    setEasy();
+                    difficultSelect = true;
 
 
                 } else if (difficulty.text.equals("Нормально")) {
-                    if (lastDifficultButton != null){
+                    if (lastDifficultButton != null) {
                         lastDifficultButton.setColor(Color.decode("#d99d1e"));
                     }
-                        difficulty.setColor(Color.decode("#ffde59"));
-                        lastDifficultButton = difficulty;
-                        setMedium();
-                        difficultSelect = true;
+                    difficulty.setColor(Color.decode("#ffde59"));
+                    lastDifficultButton = difficulty;
+                    setMedium();
+                    difficultSelect = true;
 
                 } else if (difficulty.text.equals("Важко")) {
-                    if (lastDifficultButton != null){
+                    System.out.println("пупупу");
+                    if (lastDifficultButton != null) {
                         lastDifficultButton.setColor(Color.decode("#d99d1e"));
                     }
-                        lastDifficultButton = difficulty;
-                        setHard();
-                        difficultSelect = true;
-                        difficulty.setColor(Color.decode("#ff5555"));
+                    lastDifficultButton = difficulty;
+                    setHard();
+                    difficultSelect = true;
+                    difficulty.setColor(Color.decode("#ff5555"));
 
                 }
             }
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                if (lastDifficultButton != null) {
+                    lastDifficultButton.setColor(Color.decode("#d99d1e"));
+                    lastDifficultButton = null;
+                }
                 Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Назад")) {
                     removeAll();
                     add(startMenu);
                     currentGameStatus = GameStatus.MAIN_MENU;
+                    difficultSelect = false;
                 }
-            }
-            if (difficultSelect==true) {
-            if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
-                Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
-                if (button.text.equals("Рівень 1")) {
-                    removeAll();
-                    whatLevel = 1;
-                    currentGameStatus = GameStatus.PLAYING;
+                    if (difficultSelect) {
 
 
+                        if (button.text.equals("Рівень 1")) {
+                            removeAll();
+                            whatLevel = 1;
+                            currentGameStatus = GameStatus.PLAYING;
 
 
-                } else if (button.text.equals("Рівень 2")) {
-                    removeAll();
-                    whatLevel = 2;
-                    currentGameStatus = GameStatus.PLAYING;
-                } else if (button.text.equals("Рівень 3")) {
-                    removeAll();
-                    whatLevel = 3;
-                    currentGameStatus = GameStatus.PLAYING;
-                } else if (button.text.equals("Рівень 4")) {
-                    removeAll();
-                    whatLevel = 4;
-                    currentGameStatus = GameStatus.PLAYING;
-                } else if (button.text.equals("Рівень 5")) {
-                    removeAll();
-                    whatLevel = 5;
-                    currentGameStatus = GameStatus.PLAYING;
-                } }
-            }
+                        } else if (button.text.equals("Рівень 2")) {
+                            removeAll();
+                            whatLevel = 2;
+                            currentGameStatus = GameStatus.PLAYING;
+                        } else if (button.text.equals("Рівень 3")) {
+                            removeAll();
+                            whatLevel = 3;
+                            currentGameStatus = GameStatus.PLAYING;
+                        } else if (button.text.equals("Рівень 4")) {
+                            removeAll();
+                            whatLevel = 4;
+                            currentGameStatus = GameStatus.PLAYING;
+                        } else if (button.text.equals("Рівень 5")) {
+                            removeAll();
+                            whatLevel = 5;
+                            currentGameStatus = GameStatus.PLAYING;
+                        }
+                    }
+                }
         } else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
             if (resultMenuWin.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) resultMenuWin.getElementAt(e.getX(), e.getY());
@@ -338,6 +346,7 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                    difficultSelect = false;
 
                 }
             }
@@ -348,6 +357,7 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                    difficultSelect = false;
 
                 }
             }
