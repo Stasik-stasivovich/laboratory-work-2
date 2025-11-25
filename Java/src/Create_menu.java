@@ -62,7 +62,7 @@ public class Create_menu {
     //меню вибору
     public static GCompound level_menu(double getWidth, double getHeight) {
         GCompound level_menu = new GCompound();
-        int amount_of_all_objects = 9;
+        int amount_of_all_objects = 10;
 
         double width_button_game_Breakout = getWidth * 0.7;
         double height_button_game_Breakout = getHeight * 0.10;
@@ -72,7 +72,7 @@ public class Create_menu {
         double height_levels = (getHeight - (height_exit + height_choice_level + height_button_game_Breakout + height_choice_difficulty)) / amount_of_all_objects;
         int space_between_objects = amount_of_all_objects + 1;
 
-        double all_heights_of_objects = height_button_game_Breakout + height_choice_level + 5 * height_levels + height_exit + height_choice_difficulty;
+        double all_heights_of_objects = height_button_game_Breakout + height_choice_level + 6 * height_levels + height_exit + height_choice_difficulty;
         double y_step = (getHeight - all_heights_of_objects) / space_between_objects;
 
 
@@ -84,7 +84,9 @@ public class Create_menu {
         double y_level_3 = y_level_2 + height_levels + y_step;
         double y_level_4 = y_level_3 + height_levels + y_step;
         double y_level_5 = y_level_4 + height_levels + y_step;
-        double y_exit = y_level_5 + height_levels + y_step;
+        double y_music = y_level_5 + height_levels + y_step;
+        double y_exit = y_music + height_levels + y_step;
+
 
 
         GRect backgraound = new GRect(0, 0, getWidth, getHeight);
@@ -186,6 +188,11 @@ public class Create_menu {
         level_5.setColor(Color.decode("#d99d1e"));
         level_menu.add(level_5);
 
+        Button music = new Button(width_button_game_Breakout, height_levels, "Музика", new Font("Congenial Black", Font.BOLD, (int) (height_levels / 1.7)));
+        music.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_music);
+        music.setColor(Color.decode("#d99d1e"));
+        level_menu.add(music);
+
 //5
         Button exit = new Button(width_button_game_Breakout, height_exit, "Назад", new Font("Congenial Black", Font.BOLD, (int) (height_exit / 1.7)));
         exit.setLocation(getWidth / 2 - width_button_game_Breakout / 2, y_exit);
@@ -245,23 +252,24 @@ public class Create_menu {
         String rule =
                 "МЕТА ГРИ \n" +
                         "Ваше завдання просте - знищити всі цеглини на рівні.\n" +
-                        "Керуйте ракеткою за допомогою миші \n"+
+                        "Керуйте ракеткою за допомогою миші \n" +
                         "і не дайте м'ячам вилетіти за екран.\n" +
                         "\n" +
                         "ЯК ПОЧАТИ:\n" +
                         "1. Натисніть почати гру, оберіть складність та рівень\n" +
-                        "2. Увага, на старті (і при втраті життя)\n"+"м'яч не з'являється автоматично.\n" +
+                        "2. Увага, на старті (і при втраті життя)\n" + "м'яч не з'являється автоматично.\n" +
                         "Клікніть мишкою щоб його запустити.\n" +
                         "\n" +
                         "ОСОБЛИВОСТІ:\n" +
-                        "- Міцність: Цеглини, можливо, треба вдарити\n"+
+                        "- Міцність: Цеглини, можливо, треба вдарити\n" +
                         " декілька разів.\n" +
-                        "- Бонуси: Із розбитих цеглин може щось випасти.\n"+
-                        "Ви можете зловити цікавинки ракеткою.\n"+
+                        "- Бонуси: Із розбитих цеглин може щось випасти.\n" +
+                        "Ви можете зловити цікавинки ракеткою.\n" +
                         " Але будьте обережні...\n" +
                         "Трапляються і шкідливі речі. Досліджуйте самі!\n" +
                         "\n" +
-                        "Успіхів і насолоджуйтеся грою!";                ;
+                        "Успіхів і насолоджуйтеся грою!";
+        ;
 
         double width_headline_box = getWidth * 0.85;
         double height_headline_box = getWidth * 0.1;
@@ -330,6 +338,64 @@ public class Create_menu {
             label.sendForward();
             y += (int) (label.getHeight() - 2);
         }
+    }
+
+    public static GCompound music(double Width, double Height) {
+        GCompound music_player = new GCompound();
+
+        GRect backgraound = new GRect(0, 0, Width, Height);
+        backgraound.setColor(Color.decode("#1ED987"));
+        backgraound.setFilled(true);
+        music_player.add(backgraound);
+
+
+        double stop_width = 0.3 * Width;
+        double stop_height = 0.15 * Height;
+        double nextAndPreviousMusic_width = stop_width*0.65;
+        double nextAndPreviousMusic_height = stop_height*0.65;
+        double exit_width = 0.1 * Width;
+        double exit_height = 0.1 * Height;
+        double x_step = 0.1*stop_width;
+        double label_music_width = 0.65*Width;
+        double label_music_height = 0.1*Height;
+
+        //main button
+        Button stopMusic = new Button(stop_width, stop_height, "Запустити/Стоп", new Font("Congenial Black", Font.BOLD, (int) (stop_height / 4)));
+        stopMusic.setColor(Color.decode("#d99d1e"));
+        stopMusic.setLocation(Width / 2 - stop_width / 2, Height - 0.2 * Height);
+        music_player.add(stopMusic);
+
+        //next
+        Button nextMusic = new Button(nextAndPreviousMusic_width, nextAndPreviousMusic_height, "Наступна", new Font("Congenial Black", Font.BOLD, (int) (stop_height / 5)));
+        nextMusic.setColor(Color.decode("#d99d1e"));
+        nextMusic.setLocation(Width / 2 - stop_width / 2 +stop_width+x_step, (Height - 0.2 * Height) +(nextAndPreviousMusic_height)/4);
+        music_player.add(nextMusic);
+
+        //previous
+        Button previousMusic = new Button(nextAndPreviousMusic_width, nextAndPreviousMusic_height, "Попередня", new Font("Congenial Black", Font.BOLD, (int) (stop_height / 5)));
+        previousMusic.setColor(Color.decode("#d99d1e"));
+        previousMusic.setLocation((Width / 2 - stop_width / 2) -x_step-nextAndPreviousMusic_width, (Height - 0.2 * Height) +(nextAndPreviousMusic_height)/4);
+        music_player.add(previousMusic);
+
+
+        //exit
+        Button exitMusic = new Button(exit_width, exit_height, "Вихід", new Font("Congenial Black", Font.BOLD, (int) (exit_height / 3.5)));
+        exitMusic.setColor(Color.decode("#d99d1e"));
+        exitMusic.setLocation(Width-x_step-exit_width, x_step);
+        music_player.add(exitMusic);
+
+
+        //label music
+        Button labelMusic = new Button(label_music_width, label_music_height+2*x_step, "Музика", new Font("Congenial Black", Font.BOLD, (int) (label_music_height )));
+        labelMusic.setColor(Color.decode("#d99d1e"));
+        labelMusic.sendForward();
+        labelMusic.setLocation(Width/2-label_music_width/2, x_step/2);
+        music_player.add(labelMusic);
+
+
+
+
+        return music_player;
     }
 
 

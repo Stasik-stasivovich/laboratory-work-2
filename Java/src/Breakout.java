@@ -57,6 +57,7 @@ public class Breakout extends GraphicsProgram {
     private GCompound rulesMenu;
     private GCompound resultMenuWin;
     private GCompound resultMenuDefeat;
+    private GCompound musicPlayer;
 
     private CollisionLogic collisionLogic;
     private BonusMethod bonusMethod;
@@ -71,6 +72,8 @@ public class Breakout extends GraphicsProgram {
 
     private boolean difficultSelect = false;
     private Button lastDifficultButton;
+
+    private Player musicPlayer2 = new Player() ;
 
     public void run() {
         setSize(WIDTH, HEIGHT);
@@ -129,6 +132,7 @@ public class Breakout extends GraphicsProgram {
         resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
         rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
 
+        musicPlayer = Create_menu.music(getWidth(), getHeight());
 
         if (currentGameStatus == GameStatus.MAIN_MENU) add(startMenu);
 
@@ -158,7 +162,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL)
+        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL||currentGameStatus==GameStatus.MUSICPLAYER_MENU)
             pause(100);
     }
 
@@ -267,7 +271,6 @@ public class Breakout extends GraphicsProgram {
                 GCompound GcompoundDifficulty = (GCompound) selectLevelMenu.getElementAt(e.getX(), e.getY());
 
                 Button difficulty = (Button) GcompoundDifficulty.getElementAt(e.getX(), e.getY());
-                System.out.println(difficulty.text);
                 if (difficulty.text.equals("Легко")) {
                     if (lastDifficultButton != null) {
                         lastDifficultButton.setColor(Color.decode("#d99d1e"));
@@ -288,7 +291,6 @@ public class Breakout extends GraphicsProgram {
                     difficultSelect = true;
 
                 } else if (difficulty.text.equals("Важко")) {
-                    System.out.println("пупупу");
                     if (lastDifficultButton != null) {
                         lastDifficultButton.setColor(Color.decode("#d99d1e"));
                     }
@@ -310,6 +312,10 @@ public class Breakout extends GraphicsProgram {
                     add(startMenu);
                     currentGameStatus = GameStatus.MAIN_MENU;
                     difficultSelect = false;
+                }else if (button.text.equals("Музика")) {
+                    removeAll();
+                    add(musicPlayer);
+                    currentGameStatus = GameStatus.MUSICPLAYER_MENU;
                 }
                     if (difficultSelect) {
 
@@ -339,7 +345,28 @@ public class Breakout extends GraphicsProgram {
                         }
                     }
                 }
-        } else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
+        }
+        else if (currentGameStatus == GameStatus.MUSICPLAYER_MENU) {
+            if (musicPlayer.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) musicPlayer.getElementAt(e.getX(), e.getY());
+                if (button.text.equals("Вихід")) {
+                    removeAll();
+                    add(selectLevelMenu);
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                    difficultSelect = false;
+
+                } else if (button.text.equals("Запустити/Стоп")){
+                    musicPlayer2.toggleMusic();
+                }else if (button.text.equals("Наступна")){
+                    musicPlayer2.nextTrack();
+                }else if (button.text.equals("Попередня")){
+                    musicPlayer2.prevTrack();
+                }
+            }
+        }
+
+
+        else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
             if (resultMenuWin.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) resultMenuWin.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Грати знову")) {
