@@ -1,7 +1,6 @@
 public enum GameStatus {
     MAIN_MENU,
     RULES_MENU,
-    CHOICE_DIFFICULTY,
     CHOOSE_LEVEL,
     PLAYING,
     GAME_OVER_WIN,

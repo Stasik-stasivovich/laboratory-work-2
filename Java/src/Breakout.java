@@ -69,6 +69,9 @@ public class Breakout extends GraphicsProgram {
     //ракетка
     protected GRect racket;
 
+    private boolean difficultSelect = false;
+    private Button lastDifficultButton;
+
     public void run() {
         setSize(WIDTH, HEIGHT);
         addMouseListeners();
@@ -145,14 +148,14 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void waitForChoiseResult() {
-        while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE || currentGameStatus == GameStatus.CHOICE_DIFFICULTY) {
+        while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE ) {
 
             pause(100);
         }
     }
 
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL || currentGameStatus == GameStatus.CHOICE_DIFFICULTY)
+        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL )
             pause(100);
     }
 
@@ -181,7 +184,7 @@ public class Breakout extends GraphicsProgram {
         currentGameStatus = GameStatus.PLAYING;
         //рівні гри
 
-
+        difficultSelect=false;
     }
 
     //ракетка
@@ -225,6 +228,7 @@ public class Breakout extends GraphicsProgram {
 
     }
 
+
     public void mouseClicked(MouseEvent e) {
         if (currentGameStatus == GameStatus.MAIN_MENU) {
             if (startMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
@@ -232,7 +236,7 @@ public class Breakout extends GraphicsProgram {
                 if (button.text.equals("Почати гру")) {
                     removeAll();
                     add(selectLevelMenu);
-                    currentGameStatus = GameStatus.CHOICE_DIFFICULTY;
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
                 } else if (button.text.equals("Вихід")) {
                     exit();
                 } else if (button.text.equals("Правила гри")) {
@@ -255,79 +259,38 @@ public class Breakout extends GraphicsProgram {
 
 
         //changes
-        else if (currentGameStatus == GameStatus.CHOICE_DIFFICULTY) {
+        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == GCompound.class) {
                 GCompound GcompoundDifficulty = (GCompound) selectLevelMenu.getElementAt(e.getX(), e.getY());
 
                 Button difficulty = (Button) GcompoundDifficulty.getElementAt(e.getX(), e.getY());
                 if (difficulty.text.equals("Легко")) {
-                    difficulty.setColor(Color.decode("#00bf63"));
-                    BALL_RADIUS = 9;
-                    DELAY = 8;
+                    if (lastDifficultButton != null){
+                          lastDifficultButton.setColor(Color.decode("#d99d1e"));
+                    }
+                        difficulty.setColor(Color.decode("#00bf63"));
+                        lastDifficultButton = difficulty;
+                        setEasy();
+                        difficultSelect = true;
 
-                    maxVx = 3;
-                    maxVy = 3;
-                    minVx = 2;
-                    minVy = 2;
 
-                    MAX_BONUS_SPEED = 5;
-                    MIN_BONUS_SPEED = 3;
-
-                    paddleWidth = 70;
-                    paddleHeight = 10;
-                    paddleYOffset = 20;
-
-                    chanceCreateBonus = 0.3;
-
-                    playerStarthp = 10;
-                    brickHealth = 2;
-
-                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
                 } else if (difficulty.text.equals("Нормально")) {
-                    difficulty.setColor(Color.decode("#ffde59"));
-                    BALL_RADIUS = 6;
-                    DELAY = 5;
-
-                    maxVx = 5;
-                    maxVy = 5;
-                    minVx = 3;
-                    minVy = 3;
-
-                    MAX_BONUS_SPEED = 10;
-                    MIN_BONUS_SPEED = 3;
-
-                    paddleWidth = 50;
-                    paddleHeight = 7;
-                    paddleYOffset = 40;
-
-                    chanceCreateBonus = 0.2;
-                    playerStarthp = 5;
-                    brickHealth = 5;
-
-                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
+                    if (lastDifficultButton != null){
+                        lastDifficultButton.setColor(Color.decode("#d99d1e"));
+                    }
+                        difficulty.setColor(Color.decode("#ffde59"));
+                        lastDifficultButton = difficulty;
+                        setMedium();
+                        difficultSelect = true;
 
                 } else if (difficulty.text.equals("Важко")) {
-                    difficulty.setColor(Color.decode("#ff5555"));
-                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
-                    BALL_RADIUS = 3;
-                    DELAY = 3;
-
-                    maxVx = 7;
-                    maxVy = 7;
-                    minVx = 5;
-                    minVy = 5;
-
-                    MAX_BONUS_SPEED = 20;
-                    MIN_BONUS_SPEED = 10;
-
-                    paddleWidth = 25;
-                    paddleHeight = 5;
-                    paddleYOffset = 50;
-
-                    chanceCreateBonus = 0.01;
-                    playerStarthp = 1;
-                    brickHealth = 10;
-
+                    if (lastDifficultButton != null){
+                        lastDifficultButton.setColor(Color.decode("#d99d1e"));
+                    }
+                        lastDifficultButton = difficulty;
+                        setHard();
+                        difficultSelect = true;
+                        difficulty.setColor(Color.decode("#ff5555"));
 
                 }
             }
@@ -339,14 +302,16 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.MAIN_MENU;
                 }
             }
-        }
-        else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
+            if (difficultSelect==true) {
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Рівень 1")) {
                     removeAll();
                     whatLevel = 1;
                     currentGameStatus = GameStatus.PLAYING;
+
+
+
 
                 } else if (button.text.equals("Рівень 2")) {
                     removeAll();
@@ -364,12 +329,7 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     whatLevel = 5;
                     currentGameStatus = GameStatus.PLAYING;
-                } else if (button.text.equals("Назад")) {
-                    removeAll();
-                    add(startMenu);
-                    currentGameStatus = GameStatus.MAIN_MENU;
-
-                }
+                } }
             }
         } else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
             if (resultMenuWin.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
@@ -377,7 +337,7 @@ public class Breakout extends GraphicsProgram {
                 if (button.text.equals("Грати знову")) {
                     removeAll();
                     add(selectLevelMenu);
-                    currentGameStatus = GameStatus.CHOICE_DIFFICULTY;
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
 
                 }
             }
@@ -387,10 +347,9 @@ public class Breakout extends GraphicsProgram {
                 if (button.text.equals("Грати знову")) {
                     removeAll();
                     add(selectLevelMenu);
-                    currentGameStatus = GameStatus.CHOICE_DIFFICULTY;
+                    currentGameStatus = GameStatus.CHOOSE_LEVEL;
 
                 }
-                // else if (){}
             }
         } else if (currentGameStatus == GameStatus.PLAYING) {
             if (ballsContainer.getElementCount() == 0) {
@@ -400,6 +359,70 @@ public class Breakout extends GraphicsProgram {
             }
         }
 
+    }
+
+    private void setHard() {
+        BALL_RADIUS = 3;
+        DELAY = 3;
+
+        maxVx = 7;
+        maxVy = 7;
+        minVx = 5;
+        minVy = 5;
+
+        MAX_BONUS_SPEED = 20;
+        MIN_BONUS_SPEED = 10;
+
+        paddleWidth = 25;
+        paddleHeight = 5;
+        paddleYOffset = 50;
+
+        chanceCreateBonus = 0.01;
+        playerStarthp = 1;
+        brickHealth = 10;
+    }
+
+    private void setMedium() {
+        BALL_RADIUS = 6;
+        DELAY = 5;
+
+        maxVx = 5;
+        maxVy = 5;
+        minVx = 3;
+        minVy = 3;
+
+        MAX_BONUS_SPEED = 10;
+        MIN_BONUS_SPEED = 3;
+
+        paddleWidth = 50;
+        paddleHeight = 7;
+        paddleYOffset = 40;
+
+        chanceCreateBonus = 0.2;
+        playerStarthp = 5;
+        brickHealth = 5;
+    }
+
+    private void setEasy() {
+        BALL_RADIUS = 9;
+        DELAY = 8;
+
+        maxVx = 3;
+        maxVy = 3;
+        minVx = 2;
+        minVy = 2;
+
+        MAX_BONUS_SPEED = 5;
+        MIN_BONUS_SPEED = 3;
+
+        paddleWidth = 70;
+        paddleHeight = 10;
+        paddleYOffset = 20;
+
+        chanceCreateBonus = 0.3;
+
+        playerStarthp = 10;
+        brickHealth = 2;
     }
 
 
