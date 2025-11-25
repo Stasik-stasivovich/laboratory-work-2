@@ -6,7 +6,7 @@ import java.io.File;
 
 public class Player {
     private int currentSoundIndex = 1;
-    private int numberOfSounds = 3;
+    private int numberOfSounds = 1;
     private Clip clip = null;
     private boolean isPlaying = false;
 
@@ -26,7 +26,7 @@ public class Player {
     // запустити
     public void play(){
         if (clip != null && !clip.isRunning()) {
-            clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             isPlaying = true;
         }
         else{
