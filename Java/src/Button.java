@@ -14,11 +14,10 @@ import java.awt.*;
  *
  *
  */
+
 public class Button extends GCompound {
     String text;
-    Font font_button ;
     GRect background;
-    //Сщдщ
     /**
      *
      *
@@ -40,11 +39,10 @@ public class Button extends GCompound {
         this.add(rect);
         this.add(label);
     }
+    // change color of button background
     public void setColor(Color color){
         background.setColor(color);
         background.setFillColor(color);
 
     }
-
-
 }

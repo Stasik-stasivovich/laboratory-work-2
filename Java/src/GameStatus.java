@@ -1,3 +1,6 @@
+/**
+ * Enum with game status constant
+ */
 public enum GameStatus {
     MAIN_MENU,
     RULES_MENU,

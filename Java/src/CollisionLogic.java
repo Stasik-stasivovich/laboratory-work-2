@@ -3,6 +3,9 @@ import acm.graphics.GObject;
 import acm.graphics.GRect;
 import acm.graphics.GRectangle;
 
+/**
+ * class with collision logic and out of bounce checker
+ */
 public class CollisionLogic {
     private Breakout game;
     private GCompound level;
@@ -15,6 +18,13 @@ public class CollisionLogic {
     private GObject collider;
     private BonusMethod bonusMethod;
 
+    /**
+     *
+     * @param game object of canvas
+     * @param ballsContainer GCompound with balls
+     * @param bonusContainer GCompound with bonus
+     * @param bonusMethod object of BonusMethod Class
+     */
     public CollisionLogic(Breakout game,GCompound ballsContainer, GCompound bonusContainer, BonusMethod bonusMethod) {
         this.game = game;
 
@@ -28,11 +38,15 @@ public class CollisionLogic {
     }
 
     // перебирає всі м'ячі в списку і викликає методи що обробляють колізію якщо така є
+
+    /**
+     * check collision balls in balls GCompound
+     */
     public void checkBallCollision() {
         int len = ballsContainer.getElementCount();
         for (int i = 0; i < len; i++) {
             Ball tempBall = (Ball) ballsContainer.getElement(i);
-            collider = checkCollider(tempBall, Breakout.BALL_RADIUS);
+            collider = checkCollider(tempBall, Breakout.ballRadius);
             if (collider != null) {
                 resolveCollision(collider, tempBall);
             }
@@ -41,7 +55,9 @@ public class CollisionLogic {
 
     }
 
-
+    /**
+     * check countdown of change size
+     */
     public void checkExpansionCountdown(){
         if (game.expansionCountdown != 0){
             game.expansionCountdown--;
@@ -67,7 +83,13 @@ public class CollisionLogic {
         return collider;
     }
 
-    // етод що визначає з чим був удар і чи був він вертикальним чи горизонтальним у випадку з цеглиною
+    /** етод що визначає з чим був удар і чи був він вертикальним чи горизонтальним у випадку з цеглиною
+    Якщо попали в ракетку відзеркалюємо швидкість по вертикалі.
+    Якщо попали в цеглину робим наступне:
+        1) визначаємо перетин цеглини і м'яча
+        2) якщо ширина перетину більша за висоту то удар горизонтальний інакше вертикальний
+        ps на наближені дає хорошу точність (але можлива поведінка 'черва' (фіча))
+    */
     private void resolveCollision(GObject collider, Ball ball) {
         if (collider == racket) {
             ball.setVy(-1 * Math.abs(ball.getVy()));
@@ -100,13 +122,13 @@ public class CollisionLogic {
         }
     }
 
-    // якщо випало тру то додаємо випадковий бонус
+    // спроба створити бонус, використовуючи шанс
     private void tryCreateBonus() {
 
         if (game.random.nextBoolean(Breakout.chanceCreateBonus)) {
             Bonus bonus = null;
             int type = game.random.nextInt(1,5);
-            bonus = new Bonus(collider.getX(), collider.getY(), type, game.random.nextInt(Breakout.MIN_BONUS_SPEED, Breakout.MAX_BONUS_SPEED));
+            bonus = new Bonus(collider.getX(), collider.getY(), type, game.random.nextInt(Breakout.minBonusSpeed, Breakout.maxBonusSpeed));
             bonusContainer.add(bonus);
         }
 
@@ -143,7 +165,10 @@ public class CollisionLogic {
         }
     }
 
-    public void checkOutOfBaunds() {
+    /**
+     * check if balls out of bounds
+     */
+    public void checkOutOfBounds() {
         int len = ballsContainer.getElementCount();
         int index = 0;
         while (index < len) {
@@ -157,7 +182,7 @@ public class CollisionLogic {
     }
 
 
-
+    // перевіряємо чи м'яч за межами
     private boolean checkIfOutOfBound(Ball ball) {
         return ball.getY() > game.getHeight();
     }

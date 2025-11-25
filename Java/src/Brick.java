@@ -18,16 +18,6 @@ public class Brick extends GCompound {
      * @param width_of_brick_parameter  - довжина цеглинок
      * @param height_of_brick_parameter - висота цеглинок
      * @param health_of_brick_parameter - здоров'я цеглинок
-     *                                  <p>
-     *                                  Grect brick - цеглинка
-     *                                  Glabel health - здоров'я цеглинок
-     *                                  <p>
-     *                                  координати здоров'я цеглинок:
-     *                                  Х = (width_of_brick_parameter-health.getWidth())/2,
-     *                                  У = (height_of_brick_parameter-health.getAscent()/2)
-     *                                  <p>
-     *                                  шрифт (int) (height_of_brick_parameter/2)
-     *
      */
     public Brick(double width_of_brick_parameter, double height_of_brick_parameter, int health_of_brick_parameter) {
         final Font font_of_brick = new Font("PT Serif", Font.BOLD, (int) (height_of_brick_parameter / 2));
@@ -46,9 +36,9 @@ public class Brick extends GCompound {
     }
 
     /**
-     * сеттер кольору цеглинок
+     * change color
      *
-     * @param color_of_brick_parameter - setColor of brick - встановлення кольору цеглинок через сеттер
+     * @param color_of_brick_parameter - Color
      */
     public void setColor_of_brick(Color color_of_brick_parameter) {
         this.color_of_brick = color_of_brick_parameter;

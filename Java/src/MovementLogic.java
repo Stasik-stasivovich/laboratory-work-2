@@ -1,11 +1,19 @@
 import acm.graphics.GCompound;
-import acm.program.GraphicsProgram;
 
+/**
+ * class with movement logic
+ */
 public class MovementLogic {
     private GCompound ballsContainer = new GCompound();
     private GCompound bonusContainer = new GCompound();
     private Breakout game;
 
+    /**
+     *
+     * @param game object of canvas
+     * @param ballsContainer GCompaund with balls
+     * @param bonusContainer GCompaund with bonus
+     */
     MovementLogic(Breakout game, GCompound ballsContainer, GCompound bonusContainer) {
         this.game = game;
         this.ballsContainer = ballsContainer;
@@ -13,7 +21,9 @@ public class MovementLogic {
     }
 
 
-    // рухаєм всі бонуси
+    /**
+     * move all bonus in GCompaund with bonus
+     */
     public void moveBonus() {
         int len = bonusContainer.getElementCount();
         int index = 0;
@@ -27,7 +37,9 @@ public class MovementLogic {
         }
     }
 
-    //рухаєм всі м'ячі
+    /**
+     * move all balls in GCompound with balls
+     */
     public void moveBall() {
 
         int len = ballsContainer.getElementCount();
@@ -38,7 +50,7 @@ public class MovementLogic {
             if (tempBall.getY() < 0)tempBall.setVy(Math.abs(tempBall.getVy()));
             if (tempBall.getX() < 0) {
                 tempBall.setVx(Math.abs(tempBall.getVx()));
-            } else if (tempBall.getX() > game.getWidth() - Breakout.BALL_RADIUS * 2) {
+            } else if (tempBall.getX() > game.getWidth() - Breakout.ballRadius * 2) {
                 tempBall.setVx(-Math.abs(tempBall.getVx()));
             }
             index++;

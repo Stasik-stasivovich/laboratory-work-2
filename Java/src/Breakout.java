@@ -11,27 +11,27 @@ import java.awt.event.MouseEvent;
 public class Breakout extends GraphicsProgram {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
-    public static int BALL_RADIUS = 9;
-    private static int DELAY = 8;
+    public static int ballRadius = 9;
+    private static final int DELAY = 8;  // затримка між кадрами у мілісекундах
 
     public static int maxVx = 5;
     public static int maxVy = 5;
     public static int minVx = 3;
     public static int minVy = 3;
 
-    public static int MAX_BONUS_SPEED = 5;
-    public static int MIN_BONUS_SPEED = 3;
+    public static int maxBonusSpeed = 5;
+    public static int minBonusSpeed = 3;
 
     public static int paddleWidth = 70;
     public static int paddleHeight = 10;
-    public static int paddleYOffset = 20;
+    public static int paddleYOffset = 20; //відступ ракетки від низу екрана
 
     public int expansionCountdown = 0;
-    public int paddleExpansion = 75;
-    public int paddleIncrease = 40;
+    public int paddleExpansion = 75; // збільшення ракетки при відповідному бонусі
+    public int paddleIncrease = 40; // зменшення ракетки при відповідному бонусі
 
 
-    public static double chanceCreateBonus = 0.3;
+    public static double chanceCreateBonus = 0.3; // шанс спавна бонуса при руйнуванні цеглини
 
     private static int playerStarthp = 2;
     private static int brickHealth = 2;
@@ -52,12 +52,13 @@ public class Breakout extends GraphicsProgram {
     public GCompound level;
     private int whatLevel;
 
+    //
     private GCompound startMenu;
     private GCompound selectLevelMenu;
     private GCompound rulesMenu;
     private GCompound resultMenuWin;
     private GCompound resultMenuDefeat;
-    private GCompound musicPlayer;
+    private GCompound musicPlayerMenu;
 
     private CollisionLogic collisionLogic;
     private BonusMethod bonusMethod;
@@ -73,8 +74,9 @@ public class Breakout extends GraphicsProgram {
     private boolean difficultSelect = false;
     private Button lastDifficultButton;
 
-    private Player musicPlayer2 = new Player() ;
+    private final Player musicPlayer = new Player() ; // об'єкт музичного плеєра
 
+    // метод що починає програму
     public void run() {
         setSize(WIDTH, HEIGHT);
         addMouseListeners();
@@ -84,19 +86,10 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
-    /*private void addMenu() {
-        startMenu = createStartMenu(getWidth(),getHeight());
-        selectMenu = createSelectMenu(getWidth(),getHeight());
-        rulesMenu = createRulesMenu(getWidth(),getHeight());
-        resultMenu = createResultMenu(getWidth(),getHeight());
-
-    }
-    */
+    // метод що виконує життєвий цикл гри
     private void startProgram() {
 
         showChoiseMenu();
-
-        // оце ти пишеш
 
         waitForChoiseLevel();
 
@@ -105,7 +98,7 @@ public class Breakout extends GraphicsProgram {
         startGame();
         removeAll();
 
-        showResultMenu(); // це ти пишеш
+        showResultMenu();
         waitForChoiseResult();
 
     }
@@ -132,7 +125,7 @@ public class Breakout extends GraphicsProgram {
         resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
         rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
 
-        musicPlayer = Create_menu.music(getWidth(), getHeight());
+        musicPlayerMenu = Create_menu.music(getWidth(), getHeight());
 
         if (currentGameStatus == GameStatus.MAIN_MENU) add(startMenu);
 
@@ -140,32 +133,28 @@ public class Breakout extends GraphicsProgram {
 
         else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) add(selectLevelMenu);
 
-
-
-
-        // тут пишеш
     }
 
+    //метод що додає на екран GCompaund рівня
     private void levels() {
-//рівень 1
+
         level = Create_Level.create_Level(getWidth(), getHeight(), whatLevel, brickHealth);
         add(level);
-        //рівень 2
 
     }
-
+    // метод що чекає поки ми в кінцевому меню
     private void waitForChoiseResult() {
         while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE) {
 
             pause(100);
         }
     }
-
+    // метод що чекає поки ми в початкових меню
     private void waitForChoiseLevel() {
         while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL||currentGameStatus==GameStatus.MUSICPLAYER_MENU)
             pause(100);
     }
-
+    // встановлює початкові значення деяких параметрів готує об'єкти до початку гри
     private void setup() {
         removeAll();
 
@@ -194,7 +183,7 @@ public class Breakout extends GraphicsProgram {
         difficultSelect = false;
     }
 
-    //ракетка
+    //створює ракетку
     private void createRacket() {
 
         racket = new GRect((double) (getWidth() - paddleWidth) / 2, getHeight() - paddleYOffset, paddleWidth, paddleHeight);
@@ -205,7 +194,7 @@ public class Breakout extends GraphicsProgram {
 
     }
 
-
+    // починає гру
     private void startGame() {
         while (currentGameStatus == GameStatus.PLAYING) {
             movementLogic.moveBall();
@@ -213,16 +202,17 @@ public class Breakout extends GraphicsProgram {
             collisionLogic.checkBonusCollision();
             collisionLogic.checkExpansionCountdown();
             collisionLogic.checkBallCollision();
-            collisionLogic.checkOutOfBaunds();
+            collisionLogic.checkOutOfBounds();
             checkForEnd();
             pause(DELAY);
         }
 
     }
-
+    // перевіряє умову закінчення гри
     private void checkForEnd() {
 
-        if (level.getElementCount() == 2) {
+        if (level.getElementCount() == 2) { // на рівні є 3 типи об'єктів одна цеглина, 1 лейбл з номером рівня і цегли, коли
+            // цегли ламаються то залишається 2 об'єкта
 
             currentGameStatus = GameStatus.GAME_OVER_WIN;
 
@@ -235,8 +225,9 @@ public class Breakout extends GraphicsProgram {
 
     }
 
-
+    // метод що реагує на кліки
     public void mouseClicked(MouseEvent e) {
+        // якщо в стартовому меню
         if (currentGameStatus == GameStatus.MAIN_MENU) {
             if (startMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) startMenu.getElementAt(e.getX(), e.getY());
@@ -252,6 +243,7 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.RULES_MENU;
                 }
             }
+            // якщо в меню правил
         } else if (currentGameStatus == GameStatus.RULES_MENU) {
             if (rulesMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) rulesMenu.getElementAt(e.getX(), e.getY());
@@ -265,7 +257,7 @@ public class Breakout extends GraphicsProgram {
         }
 
 
-        //changes
+        //якщо в меню вибора рівнів
         else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == GCompound.class) {
                 GCompound GcompoundDifficulty = (GCompound) selectLevelMenu.getElementAt(e.getX(), e.getY());
@@ -314,7 +306,7 @@ public class Breakout extends GraphicsProgram {
                     difficultSelect = false;
                 }else if (button.text.equals("Музика")) {
                     removeAll();
-                    add(musicPlayer);
+                    add(musicPlayerMenu);
                     currentGameStatus = GameStatus.MUSICPLAYER_MENU;
                 }
                     if (difficultSelect) {
@@ -346,9 +338,10 @@ public class Breakout extends GraphicsProgram {
                     }
                 }
         }
+        // якщо в меню плеєра
         else if (currentGameStatus == GameStatus.MUSICPLAYER_MENU) {
-            if (musicPlayer.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
-                Button button = (Button) musicPlayer.getElementAt(e.getX(), e.getY());
+            if (musicPlayerMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
+                Button button = (Button) musicPlayerMenu.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Вихід")) {
                     removeAll();
                     add(selectLevelMenu);
@@ -356,16 +349,16 @@ public class Breakout extends GraphicsProgram {
                     difficultSelect = false;
 
                 } else if (button.text.equals("Запустити/Стоп")){
-                    musicPlayer2.toggleMusic();
+                    musicPlayer.toggleMusic();
                 }else if (button.text.equals("Наступна")){
-                    musicPlayer2.nextTrack();
+                    musicPlayer.nextTrack();
                 }else if (button.text.equals("Попередня")){
-                    musicPlayer2.prevTrack();
+                    musicPlayer.prevTrack();
                 }
             }
         }
 
-
+        // якщо кінцеве меню
         else if (currentGameStatus == GameStatus.GAME_OVER_WIN) {
             if (resultMenuWin.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) resultMenuWin.getElementAt(e.getX(), e.getY());
@@ -377,6 +370,7 @@ public class Breakout extends GraphicsProgram {
 
                 }
             }
+            // якщо кінцеве меню
         } else if (currentGameStatus == GameStatus.GAME_OVER_LOSE) {
             if (resultMenuDefeat.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
                 Button button = (Button) resultMenuDefeat.getElementAt(e.getX(), e.getY());
@@ -388,6 +382,7 @@ public class Breakout extends GraphicsProgram {
 
                 }
             }
+            // якщо зараз гра
         } else if (currentGameStatus == GameStatus.PLAYING) {
             if (ballsContainer.getElementCount() == 0) {
                 bonusMethod.addBall();
@@ -397,60 +392,57 @@ public class Breakout extends GraphicsProgram {
         }
 
     }
-
+    // задає складну складність
     private void setHard() {
-        BALL_RADIUS = 3;
-        DELAY = 3;
+        ballRadius = 8;
 
         maxVx = 7;
         maxVy = 7;
         minVx = 5;
         minVy = 5;
 
-        MAX_BONUS_SPEED = 20;
-        MIN_BONUS_SPEED = 10;
+        maxBonusSpeed = 20;
+        minBonusSpeed = 10;
 
         paddleWidth = 25;
         paddleHeight = 5;
-        paddleYOffset = 50;
+        paddleYOffset = 80;
 
-        chanceCreateBonus = 0.01;
-        playerStarthp = 1;
-        brickHealth = 10;
+        chanceCreateBonus = 0.1;
+        playerStarthp = 2;
+        brickHealth = 6;
     }
-
+    // задає середню складність
     private void setMedium() {
-        BALL_RADIUS = 6;
-        DELAY = 5;
+        ballRadius = 7;
 
         maxVx = 5;
         maxVy = 5;
         minVx = 3;
         minVy = 3;
 
-        MAX_BONUS_SPEED = 10;
-        MIN_BONUS_SPEED = 3;
+        maxBonusSpeed = 10;
+        minBonusSpeed = 3;
 
-        paddleWidth = 50;
+        paddleWidth = 60;
         paddleHeight = 7;
         paddleYOffset = 40;
 
         chanceCreateBonus = 0.2;
-        playerStarthp = 5;
-        brickHealth = 5;
+        playerStarthp = 4;
+        brickHealth =4;
     }
-
+    // задає легку складність
     private void setEasy() {
-        BALL_RADIUS = 9;
-        DELAY = 8;
+        ballRadius = 6;
 
-        maxVx = 3;
-        maxVy = 3;
-        minVx = 2;
-        minVy = 2;
+        maxVx = 4;
+        maxVy = 4;
+        minVx = 3;
+        minVy = 3;
 
-        MAX_BONUS_SPEED = 5;
-        MIN_BONUS_SPEED = 3;
+        maxBonusSpeed = 5;
+        minBonusSpeed = 3;
 
         paddleWidth = 70;
         paddleHeight = 10;
@@ -458,11 +450,13 @@ public class Breakout extends GraphicsProgram {
 
         chanceCreateBonus = 0.3;
 
-        playerStarthp = 10;
+        playerStarthp = 6;
         brickHealth = 2;
     }
 
-
+    /**
+     * update health label
+     */
     public void updatePlayerHp() {
         playerHpLabel.setLabel("Player Health: " + playerHealth);
     }

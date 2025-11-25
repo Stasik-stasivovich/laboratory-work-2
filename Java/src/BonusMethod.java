@@ -7,7 +7,11 @@ public class BonusMethod {
 
     private GCompound ballsContainer;
 
-
+    /**
+     *
+     * @param game Object our canvas
+     * @param ballsContainer GCompaund with balls
+     */
     BonusMethod(Breakout game, GCompound ballsContainer) {
 
         this.game = game;
@@ -17,15 +21,23 @@ public class BonusMethod {
     }
 
     // метод що додає нову кульку
+
+    /**
+     * add new ball
+     */
     public void addBall() {
 
         ballsContainer.add(new Ball((int) racket.getX() + Breakout.paddleWidth / 2,
-                game.getHeight() - Breakout.paddleYOffset - Breakout.BALL_RADIUS - Breakout.paddleHeight - 20
-                , Breakout.BALL_RADIUS * 2, Breakout.BALL_RADIUS * 2, game.random.nextBoolean() ? game.random.nextInt(Breakout.minVx, Breakout.maxVx) :
+                game.getHeight() - Breakout.paddleYOffset - Breakout.ballRadius - Breakout.paddleHeight - 20
+                , Breakout.ballRadius * 2, Breakout.ballRadius * 2, game.random.nextBoolean() ? game.random.nextInt(Breakout.minVx, Breakout.maxVx) :
                 -1 * game.random.nextInt(Breakout.minVx, Breakout.maxVx), -1 * game.random.nextInt(Breakout.minVy, Breakout.maxVy)));
     }
 
     // метод що подвоює всі кульки
+
+    /**
+     * double all balls
+     */
     public void doubleBalls() {
 
         int len = ballsContainer.getElementCount();
@@ -43,10 +55,18 @@ public class BonusMethod {
         }
     }
 
+    /**
+     * add one HP
+     */
     public void addHealth() {
         game.playerHealth++;
         game.updatePlayerHp();
     }
+
+    /**
+     * change rocket size
+     * @param sizeDelta delta size
+     */
     public void changeSizeRacket(int sizeDelta){
         game.expansionCountdown = 1000;
         game.racket.setSize(Breakout.paddleWidth + sizeDelta, Breakout.paddleHeight);

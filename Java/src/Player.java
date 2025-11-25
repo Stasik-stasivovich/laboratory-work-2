@@ -3,7 +3,9 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import java.io.File;
 
-
+/**
+ * class with MusicPlayer logic
+ */
 public class Player {
     private int currentSoundIndex = 1;
     private int numberOfSounds = 1;
@@ -14,6 +16,10 @@ public class Player {
 
     }
     // поставити на паузу/ зняти паузу
+
+    /**
+     * turn on pause / turn off pause
+     */
     public void toggleMusic(){
         if (isPlaying){
             stop();
@@ -23,7 +29,10 @@ public class Player {
         }
 
     }
-    // запустити
+
+    /**
+     * start
+     */
     public void play(){
         if (clip != null && !clip.isRunning()) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -33,7 +42,7 @@ public class Player {
             loadAndPlay();
         }
     }
-    // якщо трек не загружений то загружає
+    // якщо трека немає в змінній то завантажуємо трек за індексом
     private void loadAndPlay() {
         try{
             if (clip != null ) clip.close();
@@ -50,7 +59,9 @@ public class Player {
         }
 
     }
-    // переключаємо трек на наступний
+    /**
+    go to next track
+     */
     public void nextTrack(){
         stop();
         if (clip != null) clip.close();
@@ -60,7 +71,11 @@ public class Player {
         clip = null;
         play();
     }
-    // переключаємо трек на попередній
+
+    /**
+     * go to previous track
+     */
+
     public void prevTrack(){
         stop();
         if (clip != null) clip.close();
@@ -70,7 +85,10 @@ public class Player {
         clip = null;
         play();
     }
-    // зупиняємо музику
+
+    /**
+     * stop
+     */
     public void stop(){
         if (clip != null && clip.isRunning()) clip.stop();
         isPlaying = false;
