@@ -6,7 +6,7 @@ import java.io.File;
 
 public class Player {
     private int currentSoundIndex = 1;
-    private int numberOfSounds = 3;
+    private int numberOfSounds = 1;
     private Clip clip = null;
     private boolean isPlaying = false;
 
