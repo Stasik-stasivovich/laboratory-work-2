@@ -18,9 +18,9 @@ public class Bonus extends GImage {
             case 3:
                 return  "images/bonus3.png";
             case 4:
-                return  "images/bonus3.png";
+                return  "images/bonus4.png";
             case 5:
-                return  "images/bonus3.png";
+                return  "images/bonus5.png";
             default:
                 return  null;
         }
