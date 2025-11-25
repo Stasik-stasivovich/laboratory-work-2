@@ -26,7 +26,7 @@ public class Player {
     // запустити
     public void play(){
         if (clip != null && !clip.isRunning()) {
-            clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             isPlaying = true;
         }
         else{
