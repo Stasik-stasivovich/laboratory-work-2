@@ -111,6 +111,11 @@ public class CollisionLogic {
                 ball.move(ball.getX() > 0 ? overlap.getWidth() : -1 * overlap.getWidth(), ball.getY() > 0 ? overlap.getHeight() : -1 * overlap.getHeight());
             }
             ((Brick) collider).hit();
+            if(game.impactSound.isRunning()){
+                game.impactSound.stop();
+            }
+            game.impactSound.setFramePosition(0);
+            game.impactSound.start();
             if (((Brick) collider).isDead()) {
                 level.remove(collider);
 
@@ -155,7 +160,7 @@ public class CollisionLogic {
                         bonusMethod.changeSizeRacket(game.paddleExpansion);
                         break;
                     case 5:
-                        bonusMethod.changeSizeRacket(-1 * game.paddleIncrease);
+                        bonusMethod.changeSizeRacket(-1 * game.paddleReduction);
                 }
                 bonusContainer.remove(tempBonus);
                 len--;

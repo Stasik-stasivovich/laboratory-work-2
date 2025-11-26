@@ -68,7 +68,8 @@ public class BonusMethod {
      * @param sizeDelta delta size
      */
     public void changeSizeRacket(int sizeDelta){
-        game.expansionCountdown = 1000;
+        if (sizeDelta > 0) game.expansionCountdown = game.expansionTimer;
+        else game.expansionCountdown = game.reductionTimer;
         game.racket.setSize(Breakout.paddleWidth + sizeDelta, Breakout.paddleHeight);
     }
 

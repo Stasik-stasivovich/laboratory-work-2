@@ -5,8 +5,11 @@ import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
 import acm.util.RandomGenerator;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class Breakout extends GraphicsProgram {
     private static final int WIDTH = 600;
@@ -28,7 +31,9 @@ public class Breakout extends GraphicsProgram {
 
     public int expansionCountdown = 0;
     public int paddleExpansion = 75; // збільшення ракетки при відповідному бонусі
-    public int paddleIncrease = 40; // зменшення ракетки при відповідному бонусі
+    public int paddleReduction = 40; // зменшення ракетки при відповідному бонусі
+    public int expansionTimer = 1000; // в кадрах
+    public int reductionTimer = 1000; // в кадрах
 
 
     public static double chanceCreateBonus = 0.3; // шанс спавна бонуса при руйнуванні цеглини
@@ -67,6 +72,8 @@ public class Breakout extends GraphicsProgram {
     private GameStatus currentGameStatus = GameStatus.MAIN_MENU;
     private final Font fontHealth = new Font("Sans Serif", Font.BOLD, 16);
 
+    public Clip impactSound;
+
 
     //ракетка
     protected GRect racket;
@@ -81,8 +88,19 @@ public class Breakout extends GraphicsProgram {
         setSize(WIDTH, HEIGHT);
         addMouseListeners();
         createMenu();
+        addSound();
         while (true) {
             startProgram();
+        }
+    }
+
+    private void addSound() {
+        try {
+            impactSound = AudioSystem.getClip();
+            impactSound.open(AudioSystem.getAudioInputStream(new File("music/ImpactSound.wav")));
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -397,6 +415,13 @@ public class Breakout extends GraphicsProgram {
         paddleYOffset = 80;
 
         chanceCreateBonus = 0.1;
+
+        expansionTimer = 500;
+        reductionTimer = 1500;
+
+        paddleExpansion = 15;
+        paddleReduction = 9;
+
         playerStarthp = 2;
         brickHealth = 6;
     }
@@ -417,6 +442,13 @@ public class Breakout extends GraphicsProgram {
         paddleYOffset = 40;
 
         chanceCreateBonus = 0.2;
+
+        expansionTimer = 1000;
+        reductionTimer = 1000;
+
+        paddleExpansion = 30;
+        paddleReduction = 30;
+
         playerStarthp = 4;
         brickHealth =4;
     }
@@ -437,6 +469,12 @@ public class Breakout extends GraphicsProgram {
         paddleYOffset = 20;
 
         chanceCreateBonus = 0.3;
+
+        expansionTimer = 1500;
+        reductionTimer = 500;
+
+        paddleExpansion = 70;
+        paddleReduction = 20;
 
         playerStarthp = 6;
         brickHealth = 2;
