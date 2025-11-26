@@ -8,7 +8,7 @@ import java.io.File;
  */
 public class Player {
     private int currentSoundIndex = 1;
-    private int numberOfSounds = 9;
+    private int numberOfSounds = 8;
     private Clip clip = null;
     private boolean isPlaying = false;
 
