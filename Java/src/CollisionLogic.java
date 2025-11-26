@@ -25,7 +25,7 @@ public class CollisionLogic {
      * @param bonusContainer GCompound with bonus
      * @param bonusMethod object of BonusMethod Class
      */
-    public CollisionLogic(Breakout game,GCompound ballsContainer, GCompound bonusContainer, BonusMethod bonusMethod) {
+    public CollisionLogic(Breakout game, GCompound ballsContainer, GCompound bonusContainer, BonusMethod bonusMethod) {
         this.game = game;
 
         this.bonusContainer = bonusContainer;
