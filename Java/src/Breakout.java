@@ -117,9 +117,9 @@ public class Breakout extends GraphicsProgram {
     // метод що виконує життєвий цикл гри
     private void startProgram() {
 
-        showChoiseMenu();
+        showChoiceMenu();
 
-        waitForChoiseLevel();
+        waitForChoiceLevel();
 
         setup();
 
@@ -127,7 +127,7 @@ public class Breakout extends GraphicsProgram {
         removeAll();
 
         showResultMenu();
-        waitForChoiseResult();
+        waitForChoiceResult();
 
     }
 
@@ -143,7 +143,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     // переходимо в режим старту (стартове меню, правила, вибір рівнів)
-    private void showChoiseMenu() {
+    private void showChoiceMenu() {
         removeAll();
         if (currentGameStatus == GameStatus.MAIN_MENU) add(startMenu);
 
@@ -162,7 +162,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     // метод що чекає поки ми в кінцевому меню
-    private void waitForChoiseResult() {
+    private void waitForChoiceResult() {
         while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE) {
 
             pause(100);
@@ -170,7 +170,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     // метод що чекає поки ми в початкових меню
-    private void waitForChoiseLevel() {
+    private void waitForChoiceLevel() {
         while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL || currentGameStatus == GameStatus.MUSICPLAYER_MENU)
             pause(100);
     }
