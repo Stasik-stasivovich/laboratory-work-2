@@ -278,12 +278,12 @@ public class Breakout extends GraphicsProgram {
         }
 
 
-        //якщо в меню вибора рівнів
+        //якщо в меню вибору рівнів
         else if (currentGameStatus == GameStatus.CHOOSE_LEVEL) {
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == GCompound.class) {
-                GCompound GcompoundDifficulty = (GCompound) selectLevelMenu.getElementAt(e.getX(), e.getY());
+                GCompound gcompoundDifficulty = (GCompound) selectLevelMenu.getElementAt(e.getX(), e.getY());
 
-                Button difficulty = (Button) GcompoundDifficulty.getElementAt(e.getX(), e.getY());
+                Button difficulty = (Button) gcompoundDifficulty.getElementAt(e.getX(), e.getY());
                 if (difficulty.text.equals("Легко")) {
                     if (lastDifficultButton != null) {
                         lastDifficultButton.setColor(Color.decode("#d99d1e"));
