@@ -28,8 +28,8 @@ public class BonusMethod {
     public void addBall() {
         Ball ball = new Ball((int) racket.getX() + Breakout.paddleWidth / 2,
                 game.getHeight() - Breakout.paddleYOffset - Breakout.ballRadius - Breakout.paddleHeight - 20
-                , Breakout.ballRadius * 2, Breakout.ballRadius * 2, game.random.nextBoolean() ? game.random.nextInt(Breakout.minVx, Breakout.maxVx) :
-                -1 * game.random.nextInt(Breakout.minVx, Breakout.maxVx), -1 * game.random.nextInt(Breakout.minVy, Breakout.maxVy));
+                , Breakout.ballRadius * 2, Breakout.ballRadius * 2, game.random.nextBoolean() ? game.random.nextDouble(Breakout.minVx, Breakout.maxVx) :
+                -1 * game.random.nextDouble(Breakout.minVx, Breakout.maxVx), -1 * game.random.nextDouble(Breakout.minVy, Breakout.maxVy));
         if (game.isGodMod) ball.setColor(game.random.nextColor());
         ballsContainer.add(ball);
     }
@@ -73,6 +73,7 @@ public class BonusMethod {
         if (sizeDelta > 0) game.expansionCountdown = game.expansionTimer;
         else game.expansionCountdown = game.reductionTimer;
         game.racket.setSize(Breakout.paddleWidth + sizeDelta, Breakout.paddleHeight);
+        game.racket.move(-sizeDelta/2,0);
     }
 
 }

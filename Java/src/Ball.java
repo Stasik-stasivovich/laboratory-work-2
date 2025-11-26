@@ -1,8 +1,8 @@
 import acm.graphics.GOval;
 
 public class Ball extends GOval {
-    private int vx;
-    private int vy;
+    private double vx;
+    private double vy;
 
     /**
      *
@@ -13,7 +13,7 @@ public class Ball extends GOval {
      * @param vx horizontal speed
      * @param vy vertical speed
      */
-    Ball(int x, int y, int r1 , int r2, int vx, int vy) {
+    Ball(int x, int y, int r1 , int r2, double vx, double vy) {
         super(x, y, r1, r2);
         this.vx = vx;
         this.vy = vy;
@@ -35,7 +35,7 @@ public class Ball extends GOval {
      *
      * @return horizontal speed
      */
-    public int getVx() {
+    public double getVx() {
         return vx;
     }
 
@@ -43,7 +43,7 @@ public class Ball extends GOval {
      *
      * @param vx horizontal speed
      */
-    public void setVx(int vx) {
+    public void setVx(double vx) {
         this.vx = vx;
     }
 
@@ -51,7 +51,7 @@ public class Ball extends GOval {
      *
      * @return vertical speed
      */
-    public int getVy() {
+    public double getVy() {
         return vy;
     }
 
@@ -60,7 +60,7 @@ public class Ball extends GOval {
      * @param vy vertical speed
      */
 
-    public void setVy(int vy) {
+    public void setVy(double vy) {
         this.vy = vy;
     }
 }
