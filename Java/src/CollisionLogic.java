@@ -62,7 +62,9 @@ public class CollisionLogic {
         if (game.expansionCountdown != 0){
             game.expansionCountdown--;
             if (game.expansionCountdown == 0){
+                double delta = game.racket.getWidth()  - game.paddleWidth ;
                 game.racket.setSize(Breakout.paddleWidth, game.racket.getHeight());
+                game.racket.move(delta/2,0);
             }
         }
 
@@ -93,7 +95,7 @@ public class CollisionLogic {
     private void resolveCollision(GObject collider, Ball ball) {
         if (collider == racket) {
             ball.setVy(-1 * Math.abs(ball.getVy()));
-            ball.setVx((int) Math.signum(ball.getVx()) * game.random.nextInt(Breakout.minVx, Breakout.maxVx));
+            ball.setVx((int) Math.signum(ball.getVx()) * game.random.nextDouble(Breakout.minVx, Breakout.maxVx));
         }
         if (collider.getClass() == Brick.class) {
             GRectangle bound1 = ball.getBounds();

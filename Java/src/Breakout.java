@@ -15,12 +15,12 @@ public class Breakout extends GraphicsProgram {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
     public static int ballRadius = 9;
-    private static final int DELAY = 8;  // затримка між кадрами у мілісекундах
+    private static final int DELAY = 6;  // затримка між кадрами у мілісекундах
 
-    public static int maxVx = 5;
-    public static int maxVy = 5;
-    public static int minVx = 3;
-    public static int minVy = 3;
+    public static double maxVx = 5;
+    public static double maxVy = 5;
+    public static double minVx = 3;
+    public static double minVy = 3;
 
     public static int maxBonusSpeed = 5;
     public static int minBonusSpeed = 3;
@@ -34,6 +34,8 @@ public class Breakout extends GraphicsProgram {
     public int paddleReduction = 40; // зменшення ракетки при відповідному бонусі
     public int expansionTimer = 1000; // в кадрах
     public int reductionTimer = 1000; // в кадрах
+
+    public boolean isGodMod = false;
 
 
     public static double chanceCreateBonus = 0.3; // шанс спавна бонуса при руйнуванні цеглини
@@ -322,8 +324,10 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     add(musicPlayerMenu);
                     currentGameStatus = GameStatus.MUSICPLAYER_MENU;
-                }
-                else if (button.text.equals("Складність")){
+                } else if (button.text.equals("Складність")) {
+                    if (lastDifficultButton != null) {
+                        lastDifficultButton.setColor(Color.decode("#d99d1e"));
+                    }
                     setGodMod();
                     difficultSelect = true;
                 }
@@ -410,12 +414,12 @@ public class Breakout extends GraphicsProgram {
     private void setHard() {
         ballRadius = 8;
 
-        maxVx = 7;
-        maxVy = 7;
-        minVx = 5;
-        minVy = 5;
+        maxVx = 5;
+        maxVy = 5;
+        minVx = 4;
+        minVy = 4;
 
-        maxBonusSpeed = 7;
+        maxBonusSpeed = 6;
         minBonusSpeed = 5;
 
         paddleWidth = 25;
@@ -431,20 +435,21 @@ public class Breakout extends GraphicsProgram {
         paddleReduction = 9;
 
         playerStarthp = 2;
-        brickHealth = 6;
+        brickHealth = 5;
+        isGodMod = false;
     }
 
     // задає середню складність
     private void setMedium() {
         ballRadius = 7;
 
-        maxVx = 5;
-        maxVy = 5;
+        maxVx = 4;
+        maxVy = 4;
         minVx = 3;
         minVy = 3;
 
-        maxBonusSpeed = 5;
-        minBonusSpeed = 4;
+        maxBonusSpeed = 4;
+        minBonusSpeed = 3;
 
         paddleWidth = 60;
         paddleHeight = 7;
@@ -459,20 +464,21 @@ public class Breakout extends GraphicsProgram {
         paddleReduction = 30;
 
         playerStarthp = 4;
-        brickHealth = 4;
+        brickHealth = 3;
+        isGodMod = false;
     }
 
     // задає легку складність
     private void setEasy() {
         ballRadius = 6;
 
-        maxVx = 4;
-        maxVy = 4;
-        minVx = 3;
-        minVy = 3;
+        maxVx = 3;
+        maxVy = 3;
+        minVx = 2;
+        minVy = 2;
 
-        maxBonusSpeed = 4;
-        minBonusSpeed = 3;
+        maxBonusSpeed = 3;
+        minBonusSpeed = 2;
 
         paddleWidth = 70;
         paddleHeight = 10;
@@ -487,7 +493,8 @@ public class Breakout extends GraphicsProgram {
         paddleReduction = 20;
 
         playerStarthp = 6;
-        brickHealth = 2;
+        brickHealth = 1;
+        isGodMod = false;
     }
 
     private void setGodMod() {
@@ -514,7 +521,9 @@ public class Breakout extends GraphicsProgram {
         paddleReduction = 0;
 
         playerStarthp = 1;
-        brickHealth = 10;
+        brickHealth = 12;
+
+        isGodMod = true;
 
     }
 
