@@ -28,6 +28,7 @@ public class Brick extends GCompound {
 
         health = new GLabel(Integer.toString(health_of_brick_parameter));
         health.setFont(font_of_brick);
+
         health.setLocation((width_of_brick_parameter - health.getWidth()) / 2, (height_of_brick_parameter - health.getAscent() / 2));
         health.setColor(Color.BLACK);
         add(health);
@@ -44,6 +45,9 @@ public class Brick extends GCompound {
         this.color_of_brick = color_of_brick_parameter;
         brick.setColor(color_of_brick);
         brick.setFilled(true);
+        if (color_of_brick == Color.BLACK) {
+            health.setColor(Color.YELLOW);
+        }
     }
 
     public void hit(){
