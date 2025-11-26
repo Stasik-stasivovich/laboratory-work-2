@@ -24,15 +24,15 @@ public class Button extends GCompound {
      * @param width - довжина прямокутника
      * @param height - висота прямокутника
      * @param text - текст кнопки
-     * @param font_button - шрифт тексту всередині кнопки
+     * @param fontButton - шрифт тексту всередині кнопки
      */
-    Button(double width, double height, String text,  Font font_button) {
+    Button(double width, double height, String text,  Font fontButton) {
         //font_button = new Font("SansSerif",Font.BOLD,(int) height/5);
         GRect rect = new GRect(0, 0, width, height);
         background = rect;
         rect.setFilled(true);
         GLabel label = new GLabel(" " + text, 0, height / 2);
-        label.setFont(font_button);
+        label.setFont(fontButton);
         label.setColor(Color.BLACK);
         this.text = text;
         label.setLocation(width/2-label.getWidth()/2, height/2+label.getAscent()/2);

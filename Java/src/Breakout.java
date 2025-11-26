@@ -106,12 +106,12 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void createMenu() {
-        startMenu = Create_menu.firstTitleMenu(getWidth(), getHeight());
-        selectLevelMenu = Create_menu.levelMenu(getWidth(), getHeight());
-        resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
-        resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
-        rulesMenu = Create_menu.rulesMenu(getWidth(), getHeight());
-        musicPlayerMenu = Create_menu.music(getWidth(), getHeight());
+        startMenu = CreateMenu.firstTitleMenu(getWidth(), getHeight());
+        selectLevelMenu = CreateMenu.levelMenu(getWidth(), getHeight());
+        resultMenuWin = CreateMenu.resultMenu(getWidth(), getHeight(), true);
+        resultMenuDefeat = CreateMenu.resultMenu(getWidth(), getHeight(), false);
+        rulesMenu = CreateMenu.rulesMenu(getWidth(), getHeight());
+        musicPlayerMenu = CreateMenu.music(getWidth(), getHeight());
     }
 
     // метод що виконує життєвий цикл гри
@@ -156,7 +156,7 @@ public class Breakout extends GraphicsProgram {
     //метод що додає на екран GCompaund рівня
     private void levels() {
 
-        level = Create_Level.create_Level(getWidth(), getHeight(), whatLevel, brickHealth);
+        level = CreateLevel.createLevel(getWidth(), getHeight(), whatLevel, brickHealth);
         add(level);
 
     }

@@ -7,40 +7,40 @@
     /**
      * Клас рівнів гри. Створення рівнів гри
      */
-    public class Create_Level {
+    public class CreateLevel {
         /**
-         * public static GCompound create_level(param)
+         * public static GCompound CreateLevel(param)
          *
          * @param getWidth   - довжина екрану getWidth отримана з класу Breakout
          * @param getHeight  - висота екрану getHeight отримана з класу Breakout
-         * @param what_level - рівень гри. Наприклад рівень 1, 2, 3.... Від рівня залежить важкість гри
+         * @param whatLevel - рівень гри. Наприклад рівень 1, 2, 3.... Від рівня залежить важкість гри
          * @return GCompound level
          */
-        public static GCompound create_Level(double getWidth, double getHeight, int what_level, int health) {
+        public static GCompound createLevel(double getWidth, double getHeight, int whatLevel, int health) {
             GCompound level = new GCompound();
             //рівень 1
-            if (what_level == 1)
+            if (whatLevel == 1)
                 //метод 1 рівня
-                buildLevel_1(level, getWidth, getHeight, health);
+                buildLevel1(level, getWidth, getHeight, health);
 
             // 2 рівень
-            if (what_level == 2)
+            if (whatLevel == 2)
                 //метод 2 рівня
                 buildLevel2(level, getWidth, getHeight, health);
 
             // 3 рівень
-            if (what_level == 3)
+            if (whatLevel == 3)
                 //метод 3 рівня
                 buildLevel3(level, getWidth, getHeight, health);
 
             //4 рівень
-            if (what_level == 4) {
+            if (whatLevel == 4) {
                 //метод 4 рівня
-                build_level_4(level, getWidth, getHeight, health);
+                buildLevel4(level, getWidth, getHeight, health);
             }
 
             //5 рівень
-            if (what_level == 5) {
+            if (whatLevel == 5) {
                 //метод 5 рівня
                 buildLevel5(level, getWidth, getHeight, health);
             }
@@ -57,7 +57,7 @@
          * @param level            - рівень 1.
          * @param getWidth         - довжина екрану getWidth отримана з класу Breakout
          * @param getHeight        - висота екрану getHeight отримана з класу Breakout
-         * @param health_parameter - здоров'я цеглинки
+         * @param healthParameter - здоров'я цеглинки
          *                         variables:
          *                         double step_x = 0.005 * getWidth; - відстань між цеглинками по довжині (X)
          *                         double step_y = 0.005 * getHeight; - відстань між цеглинками по висоті (Y)
@@ -84,7 +84,7 @@
          *
          *
          */
-        private static void buildLevel_1(GCompound level, double getWidth, double getHeight, int health_parameter) {
+        private static void buildLevel1(GCompound level, double getWidth, double getHeight, int healthParameter) {
             double stepX = 0.005 * getWidth;
             double stepY = 0.005 * getHeight;
             int amountOfBrickY = 6;
@@ -98,7 +98,7 @@
                 //цикл будування ширини 10 стовпців
                 for (int x = 0; x < amountOfBrickX; x++) {
                     //створення обєкту - цеглинки
-                    Brick brick1 = new Brick(widthOfBrick, heightOfBrick, health_parameter);
+                    Brick brick1 = new Brick(widthOfBrick, heightOfBrick, healthParameter);
 
 
                     //умова кольору
@@ -132,7 +132,7 @@
          * @param level            - рівень 2.
          * @param getWidth         - довжина екрану getWidth отримана з класу Breakout
          * @param getHeight        - висота екрану getHeight отримана з класу Breakout
-         * @param health_parameter - здоров'я цеглинки
+         * @param healthParameter - здоров'я цеглинки
          *                         <p>
          *                         <p>
          *                         variables:
@@ -149,7 +149,7 @@
          *                         Х =  x_of_brick+ x*(width_of_brick+step_x),
          *                         У =  ((y_brick_in_piramide-1)*(height_of_brick)+(step_y*(y_brick_in_piramide-1)))+1- y*(height_of_brick+step_y)
          */
-        private static void buildLevel2(GCompound level, double getWidth, double getHeight, int health_parameter) {
+        private static void buildLevel2(GCompound level, double getWidth, double getHeight, int healthParameter) {
             double stepX = 0.005 * getWidth;
             double stepY = 0.005 * getHeight;
             int brickInPiramide = 10;
@@ -162,7 +162,7 @@
             for (int y = 0; y < yBrickInPiramide; y++) {
                 for (int x = 0; x < brickInPiramide; x++) {
 
-                    Brick brick2 = new Brick(widthOfBrick, heightOfBrick, health_parameter);
+                    Brick brick2 = new Brick(widthOfBrick, heightOfBrick, healthParameter);
 
                     if (y % 2 == 0)
                         brick2.setColorOfBrick(Color.BLUE);
@@ -194,7 +194,7 @@
          * @param level            - рівень 2.
          * @param getWidth         - довжина екрану getWidth отримана з класу Breakout
          * @param getHeight        - висота екрану getHeight отримана з класу Breakout
-         * @param health_parameter - здоров'я цеглинки
+         * @param healthParameter - здоров'я цеглинки
          *                         <p>
          *                         <p>
          *                         variables:
@@ -211,7 +211,7 @@
          *                         Х =  x_of_brick+ x*(width_of_brick+step_x),
          *                         У =  1+ y*(height_of_brick+step_y)
          */
-        private static void buildLevel3(GCompound level, double getWidth, double getHeight, int health_parameter) {
+        private static void buildLevel3(GCompound level, double getWidth, double getHeight, int healthParameter) {
             double stepX = 0.005 * getWidth;
             double stepY = 0.005 * getHeight;
             int brickInPiramide = 10;
@@ -224,7 +224,7 @@
             for (int y = 0; y < yBrickInPiramide; y++) {
                 for (int x = 0; x < brickInPiramide; x++) {
 
-                    Brick brick3 = new Brick(widthOfBrick, heightOfBrick, health_parameter);
+                    Brick brick3 = new Brick(widthOfBrick, heightOfBrick, healthParameter);
 
                     if (y % 2 == 0)
                         brick3.setColorOfBrick(Color.BLUE);
@@ -252,7 +252,7 @@
         }
 
 
-        private static void build_level_4(GCompound level, double getWidth, double getHeight, int health_parameter) {
+        private static void buildLevel4(GCompound level, double getWidth, double getHeight, int healthParameter) {
             double stepX = 0;
             double stepY = 0;
             int amountOfBrickY = 15;
@@ -267,7 +267,7 @@
                 //цикл будування ширини 15 стовпців
                 for (int x = 0; x < amountOfBrickX; x++) {
                     //створення обєкту - цеглинки
-                    Brick brick4 = new Brick(widthOfBrick, heightOfBrick, health_parameter);
+                    Brick brick4 = new Brick(widthOfBrick, heightOfBrick, healthParameter);
 
 
                     //умова кольору
@@ -1053,7 +1053,7 @@
 
 
 
-        private static void buildLevel5(GCompound level, double getWidth, double getHeight, int health_parameter) {
+        private static void buildLevel5(GCompound level, double getWidth, double getHeight, int healthParameter) {
             double stepX = 0;
             double stepY = 0;
             int amountOfBrickY = 8;
@@ -1067,7 +1067,7 @@
                 //цикл будування ширини 8 стовпців
                 for (int x = 0; x < amountOfBrickX; x++) {
                     //створення обєкту - цеглинки
-                    Brick brick1 = new Brick(widthOfBrick, heightOfBrick, health_parameter);
+                    Brick brick1 = new Brick(widthOfBrick, heightOfBrick, healthParameter);
 
 
                     //умова кольору
