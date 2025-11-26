@@ -106,11 +106,11 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void createMenu() {
-        startMenu = Create_menu.first_title_menu(getWidth(), getHeight());
-        selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
+        startMenu = Create_menu.firstTitleMenu(getWidth(), getHeight());
+        selectLevelMenu = Create_menu.levelMenu(getWidth(), getHeight());
         resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
         resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
-        rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
+        rulesMenu = Create_menu.rulesMenu(getWidth(), getHeight());
         musicPlayerMenu = Create_menu.music(getWidth(), getHeight());
     }
 
