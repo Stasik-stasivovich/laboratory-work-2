@@ -80,10 +80,19 @@ public class Breakout extends GraphicsProgram {
     public void run() {
         setSize(WIDTH, HEIGHT);
         addMouseListeners();
-        //addMenu();
+        createMenu();
         while (true) {
             startProgram();
         }
+    }
+
+    private void createMenu() {
+        startMenu = Create_menu.first_title_menu(getWidth(), getHeight());
+        selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
+        resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
+        resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
+        rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
+        musicPlayerMenu = Create_menu.music(getWidth(), getHeight());
     }
 
     // метод що виконує життєвий цикл гри
@@ -117,16 +126,6 @@ public class Breakout extends GraphicsProgram {
     // переходимо в режим старту (стартове меню, правила, вибір рівнів)
     private void showChoiseMenu() {
         removeAll();
-
-        startMenu = Create_menu.first_title_menu(getWidth(), getHeight());
-
-        selectLevelMenu = Create_menu.level_menu(getWidth(), getHeight());
-        resultMenuWin = Create_menu.result_menu(getWidth(), getHeight(), true);
-        resultMenuDefeat = Create_menu.result_menu(getWidth(), getHeight(), false);
-        rulesMenu = Create_menu.rules_menu(getWidth(), getHeight());
-
-        musicPlayerMenu = Create_menu.music(getWidth(), getHeight());
-
         if (currentGameStatus == GameStatus.MAIN_MENU) add(startMenu);
 
         else if (currentGameStatus == GameStatus.RULES_MENU) add(rulesMenu);
@@ -180,7 +179,6 @@ public class Breakout extends GraphicsProgram {
         currentGameStatus = GameStatus.PLAYING;
         //рівні гри
 
-        difficultSelect = false;
     }
 
     //створює ракетку
@@ -294,16 +292,11 @@ public class Breakout extends GraphicsProgram {
                 }
             }
             if (selectLevelMenu.getElementAt(e.getX(), e.getY()).getClass() == Button.class) {
-                if (lastDifficultButton != null) {
-                    lastDifficultButton.setColor(Color.decode("#d99d1e"));
-                    lastDifficultButton = null;
-                }
                 Button button = (Button) selectLevelMenu.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Назад")) {
                     removeAll();
                     add(startMenu);
                     currentGameStatus = GameStatus.MAIN_MENU;
-                    difficultSelect = false;
                 }else if (button.text.equals("Музика")) {
                     removeAll();
                     add(musicPlayerMenu);
@@ -346,7 +339,6 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
-                    difficultSelect = false;
 
                 } else if (button.text.equals("Запустити/Стоп")){
                     musicPlayer.toggleMusic();
@@ -364,9 +356,7 @@ public class Breakout extends GraphicsProgram {
                 Button button = (Button) resultMenuWin.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Грати знову")) {
                     removeAll();
-                    add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
-                    difficultSelect = false;
 
                 }
             }
@@ -376,9 +366,7 @@ public class Breakout extends GraphicsProgram {
                 Button button = (Button) resultMenuDefeat.getElementAt(e.getX(), e.getY());
                 if (button.text.equals("Грати знову")) {
                     removeAll();
-                    add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
-                    difficultSelect = false;
 
                 }
             }
@@ -401,8 +389,8 @@ public class Breakout extends GraphicsProgram {
         minVx = 5;
         minVy = 5;
 
-        maxBonusSpeed = 20;
-        minBonusSpeed = 10;
+        maxBonusSpeed = 8;
+        minBonusSpeed = 6;
 
         paddleWidth = 25;
         paddleHeight = 5;
@@ -421,8 +409,8 @@ public class Breakout extends GraphicsProgram {
         minVx = 3;
         minVy = 3;
 
-        maxBonusSpeed = 10;
-        minBonusSpeed = 3;
+        maxBonusSpeed = 7;
+        minBonusSpeed = 5;
 
         paddleWidth = 60;
         paddleHeight = 7;
