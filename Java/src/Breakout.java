@@ -81,7 +81,7 @@ public class Breakout extends GraphicsProgram {
     private boolean difficultSelect = false;
     private Button lastDifficultButton;
 
-    private final Player musicPlayer = new Player() ; // об'єкт музичного плеєра
+    private final Player musicPlayer = new Player(); // об'єкт музичного плеєра
 
     // метод що починає програму
     public void run() {
@@ -98,8 +98,7 @@ public class Breakout extends GraphicsProgram {
         try {
             impactSound = AudioSystem.getClip();
             impactSound.open(AudioSystem.getAudioInputStream(new File("music/ImpactSound.wav")));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -159,6 +158,7 @@ public class Breakout extends GraphicsProgram {
         add(level);
 
     }
+
     // метод що чекає поки ми в кінцевому меню
     private void waitForChoiseResult() {
         while (currentGameStatus == GameStatus.GAME_OVER_WIN || currentGameStatus == GameStatus.GAME_OVER_LOSE) {
@@ -166,11 +166,13 @@ public class Breakout extends GraphicsProgram {
             pause(100);
         }
     }
+
     // метод що чекає поки ми в початкових меню
     private void waitForChoiseLevel() {
-        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL||currentGameStatus==GameStatus.MUSICPLAYER_MENU)
+        while (currentGameStatus == GameStatus.MAIN_MENU || currentGameStatus == GameStatus.RULES_MENU || currentGameStatus == GameStatus.CHOOSE_LEVEL || currentGameStatus == GameStatus.MUSICPLAYER_MENU)
             pause(100);
     }
+
     // встановлює початкові значення деяких параметрів готує об'єкти до початку гри
     private void setup() {
         removeAll();
@@ -224,6 +226,7 @@ public class Breakout extends GraphicsProgram {
         }
 
     }
+
     // перевіряє умову закінчення гри
     private void checkForEnd() {
 
@@ -315,39 +318,43 @@ public class Breakout extends GraphicsProgram {
                     removeAll();
                     add(startMenu);
                     currentGameStatus = GameStatus.MAIN_MENU;
-                }else if (button.text.equals("Музика")) {
+                } else if (button.text.equals("Музика")) {
                     removeAll();
                     add(musicPlayerMenu);
                     currentGameStatus = GameStatus.MUSICPLAYER_MENU;
                 }
-                    if (difficultSelect) {
+                else if (button.text.equals("Складність")){
+                    setGodMod();
+                    difficultSelect = true;
+                }
+                if (difficultSelect) {
 
 
-                        if (button.text.equals("Рівень 1")) {
-                            removeAll();
-                            whatLevel = 1;
-                            currentGameStatus = GameStatus.PLAYING;
+                    if (button.text.equals("Рівень 1")) {
+                        removeAll();
+                        whatLevel = 1;
+                        currentGameStatus = GameStatus.PLAYING;
 
 
-                        } else if (button.text.equals("Рівень 2")) {
-                            removeAll();
-                            whatLevel = 2;
-                            currentGameStatus = GameStatus.PLAYING;
-                        } else if (button.text.equals("Рівень 3")) {
-                            removeAll();
-                            whatLevel = 3;
-                            currentGameStatus = GameStatus.PLAYING;
-                        } else if (button.text.equals("Рівень 4")) {
-                            removeAll();
-                            whatLevel = 4;
-                            currentGameStatus = GameStatus.PLAYING;
-                        } else if (button.text.equals("Рівень 5")) {
-                            removeAll();
-                            whatLevel = 5;
-                            currentGameStatus = GameStatus.PLAYING;
-                        }
+                    } else if (button.text.equals("Рівень 2")) {
+                        removeAll();
+                        whatLevel = 2;
+                        currentGameStatus = GameStatus.PLAYING;
+                    } else if (button.text.equals("Рівень 3")) {
+                        removeAll();
+                        whatLevel = 3;
+                        currentGameStatus = GameStatus.PLAYING;
+                    } else if (button.text.equals("Рівень 4")) {
+                        removeAll();
+                        whatLevel = 4;
+                        currentGameStatus = GameStatus.PLAYING;
+                    } else if (button.text.equals("Рівень 5")) {
+                        removeAll();
+                        whatLevel = 5;
+                        currentGameStatus = GameStatus.PLAYING;
                     }
                 }
+            }
         }
         // якщо в меню плеєра
         else if (currentGameStatus == GameStatus.MUSICPLAYER_MENU) {
@@ -358,11 +365,11 @@ public class Breakout extends GraphicsProgram {
                     add(selectLevelMenu);
                     currentGameStatus = GameStatus.CHOOSE_LEVEL;
 
-                } else if (button.text.equals("Запустити/Стоп")){
+                } else if (button.text.equals("Запустити/Стоп")) {
                     musicPlayer.toggleMusic();
-                }else if (button.text.equals("Наступна")){
+                } else if (button.text.equals("Наступна")) {
                     musicPlayer.nextTrack();
-                }else if (button.text.equals("Попередня")){
+                } else if (button.text.equals("Попередня")) {
                     musicPlayer.prevTrack();
                 }
             }
@@ -398,6 +405,7 @@ public class Breakout extends GraphicsProgram {
         }
 
     }
+
     // задає складну складність
     private void setHard() {
         ballRadius = 8;
@@ -407,8 +415,8 @@ public class Breakout extends GraphicsProgram {
         minVx = 5;
         minVy = 5;
 
-        maxBonusSpeed = 8;
-        minBonusSpeed = 6;
+        maxBonusSpeed = 7;
+        minBonusSpeed = 5;
 
         paddleWidth = 25;
         paddleHeight = 5;
@@ -425,6 +433,7 @@ public class Breakout extends GraphicsProgram {
         playerStarthp = 2;
         brickHealth = 6;
     }
+
     // задає середню складність
     private void setMedium() {
         ballRadius = 7;
@@ -434,8 +443,8 @@ public class Breakout extends GraphicsProgram {
         minVx = 3;
         minVy = 3;
 
-        maxBonusSpeed = 7;
-        minBonusSpeed = 5;
+        maxBonusSpeed = 5;
+        minBonusSpeed = 4;
 
         paddleWidth = 60;
         paddleHeight = 7;
@@ -450,8 +459,9 @@ public class Breakout extends GraphicsProgram {
         paddleReduction = 30;
 
         playerStarthp = 4;
-        brickHealth =4;
+        brickHealth = 4;
     }
+
     // задає легку складність
     private void setEasy() {
         ballRadius = 6;
@@ -461,7 +471,7 @@ public class Breakout extends GraphicsProgram {
         minVx = 3;
         minVy = 3;
 
-        maxBonusSpeed = 5;
+        maxBonusSpeed = 4;
         minBonusSpeed = 3;
 
         paddleWidth = 70;
@@ -478,6 +488,34 @@ public class Breakout extends GraphicsProgram {
 
         playerStarthp = 6;
         brickHealth = 2;
+    }
+
+    private void setGodMod() {
+        ballRadius = 8;
+
+        maxVx = 7;
+        maxVy = 7;
+        minVx = 5;
+        minVy = 5;
+
+        maxBonusSpeed = 5;
+        minBonusSpeed = 4;
+
+        paddleWidth = 600;
+        paddleHeight = 7;
+        paddleYOffset = 40;
+
+        chanceCreateBonus = 1;
+
+        expansionTimer = 0;
+        reductionTimer = 0;
+
+        paddleExpansion = 0;
+        paddleReduction = 0;
+
+        playerStarthp = 1;
+        brickHealth = 10;
+
     }
 
     /**
