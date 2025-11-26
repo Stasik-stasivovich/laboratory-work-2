@@ -35,6 +35,8 @@ public class Breakout extends GraphicsProgram {
     public int expansionTimer = 1000; // в кадрах
     public int reductionTimer = 1000; // в кадрах
 
+    public boolean isGodMod = false;
+
 
     public static double chanceCreateBonus = 0.3; // шанс спавна бонуса при руйнуванні цеглини
 
@@ -324,6 +326,9 @@ public class Breakout extends GraphicsProgram {
                     currentGameStatus = GameStatus.MUSICPLAYER_MENU;
                 }
                 else if (button.text.equals("Складність")){
+                    if (lastDifficultButton != null) {
+                        lastDifficultButton.setColor(Color.decode("#d99d1e"));
+                    }
                     setGodMod();
                     difficultSelect = true;
                 }
@@ -432,6 +437,7 @@ public class Breakout extends GraphicsProgram {
 
         playerStarthp = 2;
         brickHealth = 6;
+        isGodMod = false;
     }
 
     // задає середню складність
@@ -460,6 +466,7 @@ public class Breakout extends GraphicsProgram {
 
         playerStarthp = 4;
         brickHealth = 4;
+        isGodMod = false;
     }
 
     // задає легку складність
@@ -488,6 +495,7 @@ public class Breakout extends GraphicsProgram {
 
         playerStarthp = 6;
         brickHealth = 2;
+        isGodMod = false;
     }
 
     private void setGodMod() {
@@ -515,6 +523,8 @@ public class Breakout extends GraphicsProgram {
 
         playerStarthp = 1;
         brickHealth = 10;
+
+        isGodMod = true;
 
     }
 
